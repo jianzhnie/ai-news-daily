@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """AI 每日信息汇总 — 采集 RSS 源，用 Claude / ChatGPT 整理成中文日报。
 
-依赖: pip install anthropic feedparser httpx pyyaml
-      (OpenAI 模式额外需要: pip install openai)
+依赖: pip install -r requirements.txt
 
 用法:
-    # Claude 模式
+    # Claude 模式（默认）
     export ANTHROPIC_API_KEY=sk-ant-...
     python3 scripts/daily_digest.py                    # 处理最近 3 天
     python3 scripts/daily_digest.py --days 1           # 仅最近 24h
@@ -20,15 +19,19 @@
     python3 scripts/daily_digest.py --output -         # 日报输出到 stdout
 
 输出:
-    daily-reports/YYYY/MM/YYYY-MM-DD.md    # 日报 Markdown
+    daily-reports/YYYY/MM/YYYY-MM-DD.md     # Markdown 日报
+    daily-reports/YYYY/MM/YYYY-MM-DD.html   # HTML 日报
+    daily-reports/index.html                # 归档索引
 """
 
 from __future__ import annotations
 
 import argparse
+import html as html_module
 import os
 import re
 import sys
+import time
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from difflib import SequenceMatcher
@@ -38,10 +41,24 @@ import feedparser
 import httpx
 import yaml
 
+# Optional: LLM SDKs
+try:
+    import anthropic  # noqa: F401
+except ImportError:
+    anthropic = None  # type: ignore
+
+try:
+    from openai import OpenAI  # noqa: F401
+except ImportError:
+    OpenAI = None  # type: ignore
+
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 SOURCES_FILE = PROJECT_ROOT / "config" / "sources.yaml"
 OUTPUT_DIR = PROJECT_ROOT / "daily-reports"
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
+RETRY_MAX = 3
+RETRY_BACKOFF = 2  # seconds, exponential
+
 
 # ── Data classes ──
 
@@ -78,61 +95,77 @@ def load_sources(path: Path) -> list[dict]:
 
 
 def fetch_feed(source: dict, since: datetime) -> list[Article]:
-    """Fetch one RSS feed and extract articles newer than `since`."""
+    """Fetch one RSS feed with retry on transient errors."""
     articles: list[Article] = []
-    try:
-        # Use httpx with browser UA to bypass Cloudflare
-        resp = httpx.get(
-            source["rss"],
-            headers={"User-Agent": UA},
-            timeout=15,
-            follow_redirects=True,
-        )
-        if resp.status_code >= 400:
-            print(
-                f"  [WARN] {source['name']}: HTTP {resp.status_code}",
-                file=sys.stderr,
+
+    for attempt in range(1, RETRY_MAX + 1):
+        try:
+            resp = httpx.get(
+                source["rss"],
+                headers={"User-Agent": UA},
+                timeout=15,
+                follow_redirects=True,
             )
-            return articles
-        parsed = feedparser.parse(resp.text)
-        if parsed.bozo and not parsed.entries:
-            if resp.status_code == 200:
+            if resp.status_code >= 400:
                 print(
-                    f"  [WARN] {source['name']}: parse error ({parsed.bozo_exception})",
+                    f"  [WARN] {source['name']}: HTTP {resp.status_code}",
                     file=sys.stderr,
                 )
-            return articles
+                return articles  # don't retry client/server errors
 
-        for entry in parsed.entries:
-            pub = _extract_date(entry)
-            if pub and pub < since:
-                continue
-            if not pub:
-                pub = datetime.now(timezone.utc)
+            parsed = feedparser.parse(resp.text)
+            if parsed.bozo and not parsed.entries:
+                if resp.status_code == 200:
+                    print(
+                        f"  [WARN] {source['name']}: parse error ({parsed.bozo_exception})",
+                        file=sys.stderr,
+                    )
+                return articles
 
-            title = entry.get("title", "").strip()
-            link = entry.get("link", "").strip()
-            if not title or not link:
-                continue
+            for entry in parsed.entries:
+                pub = _extract_date(entry)
+                if pub and pub < since:
+                    continue
+                if not pub:
+                    pub = datetime.now(timezone.utc)
 
-            summary = ""
-            if entry.get("summary"):
-                summary = _strip_html(entry.summary)[:300]
-            elif entry.get("description"):
-                summary = _strip_html(entry.description)[:300]
+                title = entry.get("title", "").strip()
+                link = entry.get("link", "").strip()
+                if not title or not link:
+                    continue
 
-            articles.append(
-                Article(
-                    title=title,
-                    url=link,
-                    source_name=source["name"],
-                    published=pub,
-                    summary=summary,
-                    category=source["category"],
+                summary = ""
+                if entry.get("summary"):
+                    summary = _strip_html(entry.summary)[:300]
+                elif entry.get("description"):
+                    summary = _strip_html(entry.description)[:300]
+
+                articles.append(
+                    Article(
+                        title=title,
+                        url=link,
+                        source_name=source["name"],
+                        published=pub,
+                        summary=summary,
+                        category=source["category"],
+                    )
                 )
-            )
-    except Exception as e:
-        print(f"  [WARN] {source['name']}: {e}", file=sys.stderr)
+            return articles  # success
+
+        except (httpx.ConnectError, httpx.TimeoutException, httpx.RemoteProtocolError) as e:
+            if attempt < RETRY_MAX:
+                wait = RETRY_BACKOFF ** attempt
+                print(
+                    f"  [RETRY] {source['name']}: attempt {attempt}/{RETRY_MAX}, "
+                    f"waiting {wait}s ({e})",
+                    file=sys.stderr,
+                )
+                time.sleep(wait)
+            else:
+                print(f"  [WARN] {source['name']}: {e}", file=sys.stderr)
+        except Exception as e:
+            print(f"  [WARN] {source['name']}: {e}", file=sys.stderr)
+            return articles
 
     return articles
 
@@ -167,11 +200,11 @@ def deduplicate(articles: list[Article], threshold: float = 0.85) -> list[Articl
     return seen
 
 
-# ── Claude API ──
+# ── AI prompt ──
 
 
 def build_prompt(articles: list[Article], days: int) -> str:
-    """Build the Claude prompt with all articles to summarize."""
+    """Build the AI prompt with all articles to summarize."""
     lines = []
     for i, a in enumerate(articles, 1):
         pub_str = a.published.strftime("%Y-%m-%d") if a.published else "未知"
@@ -183,6 +216,7 @@ def build_prompt(articles: list[Article], days: int) -> str:
         lines.append("")
 
     article_list = "\n".join(lines)
+    today_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
     prompt = f"""你是一位资深的 AI 领域信息分析师。请对以下 {len(articles)} 篇 AI 领域文章进行整理和分类。
 
@@ -215,7 +249,7 @@ def build_prompt(articles: list[Article], days: int) -> str:
 请严格按以下 Markdown 格式输出：
 
 ```markdown
-# AI 日报 — {datetime.now(timezone.utc).strftime("%Y-%m-%d")}
+# AI 日报 — {today_str}
 
 ## 今日要闻
 
@@ -227,15 +261,9 @@ def build_prompt(articles: list[Article], days: int) -> str:
 
 | 标记 | 来源 | 标题 | 摘要 |
 |------|------|------|------|
-| ★★★ | OpenAI | GPT-5 发布 | 一句话中文摘要... |
+| ★★★ | OpenAI | GPT-5 发布 | 一句话中文摘要...
 
-### ⚡ 推理优化与部署
-
-（同上格式）
-
-### 🤖 AI Agent 与工具
-
-...（依此类推，无文章的类别可省略）
+（无文章的类别可省略）
 
 ## 统计
 
@@ -249,10 +277,15 @@ def build_prompt(articles: list[Article], days: int) -> str:
     return prompt
 
 
+# ── AI API ──
+
+
 def call_claude(prompt: str, api_key: str, model: str) -> str:
     """Call Claude API and return the response text."""
-    import anthropic
-
+    if anthropic is None:
+        raise ImportError(
+            "anthropic package not installed. Run: pip install anthropic"
+        )
     client = anthropic.Anthropic(api_key=api_key)
     message = client.messages.create(
         model=model,
@@ -260,7 +293,6 @@ def call_claude(prompt: str, api_key: str, model: str) -> str:
         system="你是一位专业的 AI 领域信息分析师，擅长整理和分类 AI 技术文章，输出格式化的中文 Markdown 报告。",
         messages=[{"role": "user", "content": prompt}],
     )
-    # Extract text from response
     result = ""
     for block in message.content:
         if hasattr(block, "text"):
@@ -270,8 +302,8 @@ def call_claude(prompt: str, api_key: str, model: str) -> str:
 
 def call_openai(prompt: str, api_key: str, model: str) -> str:
     """Call OpenAI API (ChatGPT) and return the response text."""
-    from openai import OpenAI
-
+    if OpenAI is None:
+        raise ImportError("openai package not installed. Run: pip install openai")
     client = OpenAI(api_key=api_key)
     response = client.chat.completions.create(
         model=model,
@@ -285,6 +317,180 @@ def call_openai(prompt: str, api_key: str, model: str) -> str:
         ],
     )
     return response.choices[0].message.content or ""
+
+
+# ── Output helpers ──
+
+
+def _html_page(title: str, body_html: str) -> str:
+    """Wrap body content in a minimal, readable HTML page."""
+    return f"""<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{html_module.escape(title)}</title>
+<style>
+  body {{
+    max-width: 800px; margin: 0 auto; padding: 2rem 1rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.7; color: #1a1a1a; background: #fff;
+  }}
+  h1 {{ font-size: 1.6rem; border-bottom: 2px solid #e5e5e5; padding-bottom: .5rem; }}
+  h2 {{ font-size: 1.25rem; margin-top: 2rem; }}
+  h3 {{ font-size: 1.05rem; margin-top: 1.5rem; }}
+  table {{ border-collapse: collapse; width: 100%; margin: .75rem 0; font-size: .9rem; }}
+  th, td {{ border: 1px solid #ddd; padding: .5rem .6rem; text-align: left; }}
+  th {{ background: #f5f5f5; font-weight: 600; }}
+  a {{ color: #2563eb; text-decoration: none; }}
+  a:hover {{ text-decoration: underline; }}
+  .back {{ margin-top: 2rem; font-size: .9rem; }}
+</style>
+</head>
+<body>
+{body_html}
+<p class="back"><a href="../../index.html">← 归档索引</a></p>
+</body>
+</html>"""
+
+
+def _md_to_html(md_text: str) -> str:
+    """Minimal Markdown-to-HTML converter for the daily digest format.
+
+    Handles the subset used in AI日报: headings, tables, bold, links, paragraphs.
+    """
+    lines = md_text.split("\n")
+    out: list[str] = []
+    in_table = False
+    in_thead = False
+
+    for line in lines:
+        stripped = line.strip()
+
+        # Table
+        if stripped.startswith("|") and stripped.endswith("|"):
+            cells = [c.strip() for c in stripped[1:-1].split("|")]
+            if all(c.startswith("---") or c.startswith(":--") for c in cells if c):
+                # separator row, skip
+                continue
+            if not in_table:
+                out.append("<table>")
+                in_table = True
+                in_thead = True
+
+            tag = "th" if in_thead else "td"
+            row = "".join(f"<{tag}>{html_module.escape(c)}</{tag}>" for c in cells)
+            out.append(f"<tr>{row}</tr>")
+
+            if in_thead:
+                in_thead = False
+            continue
+        elif in_table:
+            out.append("</table>")
+            in_table = False
+            in_thead = False
+
+        # Headings
+        if stripped.startswith("# ") and not stripped.startswith("## "):
+            out.append(f"<h1>{_inline_md(stripped[2:])}</h1>")
+        elif stripped.startswith("## "):
+            out.append(f"<h2>{_inline_md(stripped[3:])}</h2>")
+        elif stripped.startswith("### "):
+            out.append(f"<h3>{_inline_md(stripped[4:])}</h3>")
+        elif stripped == "":
+            continue
+        else:
+            out.append(f"<p>{_inline_md(stripped)}</p>")
+
+    if in_table:
+        out.append("</table>")
+
+    return "\n".join(out)
+
+
+def _inline_md(text: str) -> str:
+    """Convert inline markdown (bold, links) to HTML."""
+    # Bold: **text**
+    text = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", text)
+    # Link: [text](url)
+    text = re.sub(
+        r"\[([^\]]+)\]\(([^)]+)\)",
+        lambda m: f'<a href="{html_module.escape(m.group(2))}">{html_module.escape(m.group(1))}</a>',
+        text,
+    )
+    return text
+
+
+def write_output(markdown: str, out_path: Path) -> None:
+    """Write Markdown, HTML, and update the archive index."""
+    # 1. Markdown file
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(markdown, encoding="utf-8")
+    print(f"Markdown: {out_path}")
+
+    # 2. HTML file
+    html_path = out_path.with_suffix(".html")
+    today_str = out_path.stem  # YYYY-MM-DD
+    title = f"AI 日报 — {today_str}"
+    body = _md_to_html(markdown)
+    html_path.write_text(_html_page(title, body), encoding="utf-8")
+    print(f"HTML:     {html_path}")
+
+    # 3. Archive index
+    _update_index(OUTPUT_DIR)
+
+
+def _update_index(reports_dir: Path) -> None:
+    """Rebuild daily-reports/index.html listing all past digests."""
+    # Collect all report dirs (YYYY/MM/DD.md)
+    entries: list[tuple[str, str]] = []  # (date_str, rel_path)
+    for md_file in sorted(reports_dir.rglob("*.md"), reverse=True):
+        rel = md_file.relative_to(reports_dir)
+        date_str = md_file.stem  # YYYY-MM-DD
+        entries.append((date_str, str(rel)))
+
+    if not entries:
+        return
+
+    rows = ""
+    for date_str, rel_path in entries:
+        html_rel = rel_path.replace(".md", ".html")
+        rows += f"<tr><td>{date_str}</td><td><a href=\"{html_rel}\">HTML</a> · <a href=\"{rel_path}\">Markdown</a></td></tr>\n"
+
+    index_html = f"""<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 日报 归档</title>
+<style>
+  body {{
+    max-width: 800px; margin: 0 auto; padding: 2rem 1rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.7; color: #1a1a1a;
+  }}
+  h1 {{ font-size: 1.6rem; border-bottom: 2px solid #e5e5e5; padding-bottom: .5rem; }}
+  table {{ border-collapse: collapse; width: 100%; margin-top: 1rem; }}
+  th, td {{ border: 1px solid #ddd; padding: .5rem .8rem; text-align: left; }}
+  th {{ background: #f5f5f5; }}
+  a {{ color: #2563eb; text-decoration: none; }}
+  a:hover {{ text-decoration: underline; }}
+  .count {{ color: #666; font-size: .9rem; margin-bottom: 1rem; }}
+</style>
+</head>
+<body>
+<h1>AI 日报 归档</h1>
+<p class="count">共 {len(entries)} 期</p>
+<table>
+<tr><th>日期</th><th>链接</th></tr>
+{rows}
+</table>
+</body>
+</html>"""
+
+    index_path = reports_dir / "index.html"
+    index_path.write_text(index_html, encoding="utf-8")
+    print(f"Index:    {index_path}")
 
 
 # ── Main pipeline ──
@@ -334,12 +540,38 @@ def run(config: DigestConfig) -> str:
         )
 
     print(f"Calling AI API ({config.model})...")
-    if config.provider == "openai":
-        markdown = call_openai(prompt, config.api_key, config.model)
-    else:
-        markdown = call_claude(prompt, config.api_key, config.model)
+    try:
+        if config.provider == "openai":
+            markdown = call_openai(prompt, config.api_key, config.model)
+        else:
+            markdown = call_claude(prompt, config.api_key, config.model)
+    except Exception as e:
+        print(f"\n[ERROR] AI API call failed: {e}", file=sys.stderr)
+        print("Saving raw article list as fallback...", file=sys.stderr)
+        markdown = _fallback_digest(all_articles)
 
     return markdown
+
+
+def _fallback_digest(articles: list[Article]) -> str:
+    """Generate a simple digest when the AI API is unavailable."""
+    today_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    lines = [
+        f"# AI 日报 — {today_str}",
+        "",
+        "> AI 摘要暂不可用，以下是今日采集的文章列表。",
+        "",
+        "| 来源 | 标题 |",
+        "|------|------|",
+    ]
+    for a in articles:
+        lines.append(f"| {a.source_name} | [{a.title}]({a.url}) |")
+    lines.extend([
+        "",
+        f"---",
+        f"共 {len(articles)} 篇文章，来自 {len(set(a.source_name for a in articles))} 个来源。",
+    ])
+    return "\n".join(lines)
 
 
 def main() -> None:
@@ -354,7 +586,7 @@ def main() -> None:
     parser.add_argument(
         "--prompt-only",
         action="store_true",
-        help="Print Claude prompt and exit (pipe to any LLM)",
+        help="Print AI prompt and exit (pipe to any LLM)",
     )
     parser.add_argument("--output", default="", help="Output path (or - for stdout)")
     parser.add_argument("--max-articles", type=int, default=50)
@@ -403,13 +635,12 @@ def main() -> None:
         print(markdown)
         return
 
-    # Write to daily-reports/YYYY/MM/YYYY-MM-DD.md
+    # Write to daily-reports/YYYY/MM/YYYY-MM-DD.md (and .html, and update index)
     today = datetime.now(timezone.utc)
     out_dir = OUTPUT_DIR / str(today.year) / f"{today.month:02d}"
     out_dir.mkdir(parents=True, exist_ok=True)
     out_path = out_dir / f"{today.strftime('%Y-%m-%d')}.md"
-    out_path.write_text(markdown, encoding="utf-8")
-    print(f"\nDigest written to: {out_path}")
+    write_output(markdown, out_path)
 
 
 if __name__ == "__main__":
