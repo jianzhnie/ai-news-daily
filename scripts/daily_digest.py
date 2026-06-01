@@ -27,6 +27,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import re
 import sys
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
@@ -34,6 +35,7 @@ from difflib import SequenceMatcher
 from pathlib import Path
 
 import feedparser
+import httpx
 import yaml
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -60,7 +62,7 @@ class DigestConfig:
     dry_run: bool = False
     prompt_only: bool = False
     output: str = ""
-    model: str = "claude-sonnet-4-6"
+    model: str = ""
     max_articles: int = 50
     api_key: str = ""
     provider: str = "anthropic"
@@ -77,8 +79,6 @@ def load_sources(path: Path) -> list[dict]:
 
 def fetch_feed(source: dict, since: datetime) -> list[Article]:
     """Fetch one RSS feed and extract articles newer than `since`."""
-    import httpx
-
     articles: list[Article] = []
     try:
         # Use httpx with browser UA to bypass Cloudflare
@@ -149,8 +149,6 @@ def _extract_date(entry: dict) -> datetime | None:
 
 
 def _strip_html(text: str) -> str:
-    import re
-
     text = re.sub(r"<[^>]+>", "", text)
     text = re.sub(r"\s+", " ", text)
     return text.strip()
@@ -257,7 +255,7 @@ def call_claude(prompt: str, api_key: str, model: str) -> str:
 
     client = anthropic.Anthropic(api_key=api_key)
     message = client.messages.create(
-        model="claude-sonnet-4-6-20250514",
+        model=model,
         max_tokens=4096,
         system="你是一位专业的 AI 领域信息分析师，擅长整理和分类 AI 技术文章，输出格式化的中文 Markdown 报告。",
         messages=[{"role": "user", "content": prompt}],
@@ -276,7 +274,7 @@ def call_openai(prompt: str, api_key: str, model: str) -> str:
 
     client = OpenAI(api_key=api_key)
     response = client.chat.completions.create(
-        model="gpt-4.1",
+        model=model,
         max_tokens=4096,
         messages=[
             {
@@ -328,6 +326,13 @@ def run(config: DigestConfig) -> str:
         print(prompt)
         return ""
 
+    if not config.model:
+        config.model = (
+            "claude-sonnet-4-6-20250514"
+            if config.provider == "anthropic"
+            else "gpt-4.1"
+        )
+
     print(f"Calling AI API ({config.model})...")
     if config.provider == "openai":
         markdown = call_openai(prompt, config.api_key, config.model)
@@ -359,6 +364,11 @@ def main() -> None:
         choices=["anthropic", "openai"],
         help="LLM provider (default: anthropic)",
     )
+    parser.add_argument(
+        "--model",
+        default="",
+        help="Model name (default: provider-specific)",
+    )
     args = parser.parse_args()
 
     api_key = os.environ.get(
@@ -382,6 +392,7 @@ def main() -> None:
         max_articles=args.max_articles,
         api_key=api_key,
         provider=args.provider,
+        model=args.model,
     )
 
     markdown = run(config)

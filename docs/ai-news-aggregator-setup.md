@@ -57,9 +57,6 @@
 ## 架构设计
 
 ```
-                         prompt2.md
-                             │
-                             ▼
                     config/sources.yaml
                              │
               ┌──────────────┼──────────────┐
@@ -361,7 +358,7 @@ ai-news-aggregator/
 │   └── daily_digest.py           # AI 日报生成器（采集 + Claude/ChatGPT 整理）
 ├── docs/
 │   ├── ai-news-aggregator-setup.md   # 本文档
-│   └── ai-news-aggregator-design.md  # 早期方案设计（调研参考）
+│   └── ai-source.md                  # AI 信息源参考列表
 ├── RSSHub/                       # 本地 RSSHub 实例（git clone）
 ├── .rsshub.pid                   # RSSHub 进程 PID（自动生成）
 └── .rsshub.log                   # RSSHub 日志（自动生成）

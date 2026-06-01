@@ -45,9 +45,9 @@ ai-news-aggregator/
 │   ├── daily_digest.py       # AI 日报生成
 │   └── start-rsshub.sh       # RSSHub 启动
 ├── docs/
-│   └── ai-news-aggregator-setup.md
-└── prompts/
-    └── prompt2.md            # 原始信息源列表
+│   ├── ai-news-aggregator-setup.md
+│   └── ai-source.md
+└── RSSHub/                   # 本地 RSSHub 实例（git clone）
 ```
 
 ## 定时运行
