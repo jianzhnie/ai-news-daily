@@ -1,0 +1,146 @@
+# AI 信息源配置
+# 每行对应 prompt2.md 中的一个信息源
+# type: native (原生RSS) | rsshub (需要RSSHub路由) | none (暂无RSS)
+
+sources:
+  # ── AI 公司官方博客 ──
+  - name: OpenAI Blog
+    url: https://openai.com/blog/
+    rss: https://openai.com/news/rss.xml
+    type: native
+    category: ai-companies
+    note: 使用原生 RSS，无需 RSSHub
+
+  - name: Anthropic Blog
+    url: https://claude.com/blog
+    rss: http://localhost:1200/anthropic/news
+    type: rsshub
+    category: ai-companies
+
+  - name: DeepMind
+    url: https://www.deepmind.com/
+    rss: http://localhost:1200/deepmind/blog
+    type: rsshub
+    category: ai-companies
+
+  - name: HuggingFace Blog
+    url: https://huggingface.co/blog
+    rss: https://huggingface.co/blog/feed.xml
+    type: native
+    category: ai-companies
+
+  - name: Salesforce AI Research
+    url: https://blog.salesforceairesearch.com/
+    rss: null
+    type: none
+    category: ai-companies
+
+  - name: vLLM Blog
+    url: https://vllm.ai/blog
+    rss: null
+    type: none
+    category: ai-companies
+
+  - name: SGLang / LMSYS
+    url: https://lmsys.org/blog
+    rss: null
+    type: none
+    category: ai-companies
+
+  # ── AI News 聚合平台 ──
+  - name: MarkTechPost
+    url: https://www.marktechpost.com/
+    rss: https://www.marktechpost.com/feed/
+    type: native
+    category: news-aggregators
+
+  - name: MIT AI News
+    url: https://news.mit.edu/topic/artificial-intelligence2
+    rss: https://news.mit.edu/rss/topic/artificial-intelligence2
+    type: native
+    category: news-aggregators
+
+  - name: Towards Data Science
+    url: https://towardsdatascience.com/latest/
+    rss: https://towardsdatascience.com/feed
+    type: native
+    category: news-aggregators
+
+  - name: Analytics Vidhya
+    url: https://www.analyticsvidhya.com/blog-archive/
+    rss: https://www.analyticsvidhya.com/feed/
+    type: native
+    category: news-aggregators
+
+  - name: AI Parabellum
+    url: https://aiparabellum.com/category/blog/
+    rss: https://aiparabellum.com/feed/
+    type: native
+    category: news-aggregators
+
+  - name: Cameron Wolfe (Substack)
+    url: https://cameronrwolfe.substack.com/archive
+    rss: https://cameronrwolfe.substack.com/feed
+    type: native
+    category: news-aggregators
+
+  - name: Sebastian Raschka Magazine
+    url: https://magazine.sebastianraschka.com/archive
+    rss: https://magazine.sebastianraschka.com/feed
+    type: native
+    category: news-aggregators
+
+  - name: Interconnects
+    url: https://www.interconnects.ai/archive
+    rss: https://www.interconnects.ai/feed
+    type: native
+    category: news-aggregators
+
+  - name: Latent Space
+    url: https://www.latent.space/s/ainews
+    rss: https://www.latent.space/feed
+    type: native
+    category: news-aggregators
+
+  # ── 个人开发者 ──
+  - name: Sebastian Raschka
+    url: https://sebastianraschka.com/blog/
+    rss: https://sebastianraschka.com/rss_feed.xml
+    type: native
+    category: individual-devs
+
+  - name: Hamel Husain
+    url: https://hamel.dev/
+    rss: https://hamel.dev/index.xml
+    type: native
+    category: individual-devs
+
+  - name: Philipp Schmid
+    url: https://www.philschmid.de/
+    rss: null
+    type: none
+    category: individual-devs
+
+  - name: Gary Marcus
+    url: https://garymarcus.substack.com/archive
+    rss: https://garymarcus.substack.com/feed
+    type: native
+    category: individual-devs
+
+  - name: Gwern
+    url: https://gwern.net/blog/index
+    rss: https://gwern.substack.com/feed
+    type: native
+    category: individual-devs
+
+  - name: Max Woolf
+    url: https://minimaxir.com/post/
+    rss: https://minimaxir.com/index.xml
+    type: native
+    category: individual-devs
+
+# ── 分类显示名称 ──
+categories:
+  ai-companies: "AI 公司官方博客"
+  news-aggregators: "AI News 聚合平台"
+  individual-devs: "个人开发者"
