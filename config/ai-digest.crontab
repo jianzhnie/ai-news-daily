@@ -1,0 +1,15 @@
+# AI Digest crontab
+# Install: crontab /Users/jianzhengnie/work_dir/ai-news-aggregator/config/ai-digest.crontab
+#
+# ┌─ Minute (0-59)
+# │ ┌─ Hour (0-23)
+# │ │ ┌─ Day of Month (1-31)
+# │ │ │ ┌─ Month (1-12)
+# │ │ │ │ ┌─ Day of Week (0-7, 0=Sun)
+# │ │ │ │ │
+# │ │ │ │ │
+# Weekdays at 8:00 AM — AI digest with smart day selection
+0 8 * * 1-5 /bin/bash /Users/jianzhengnie/work_dir/ai-news-aggregator/scripts/auto-digest.sh
+
+# Weekend at 9:00 AM — wider window for lower volume days
+0 9 * * 6,7 /bin/bash /Users/jianzhengnie/work_dir/ai-news-aggregator/scripts/auto-digest.sh

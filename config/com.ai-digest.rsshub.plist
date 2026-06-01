@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.ai-digest.rsshub</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>/Users/jianzhengnie/work_dir/ai-news-aggregator/scripts/start-rsshub.sh</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>WorkingDirectory</key>
+    <string>/Users/jianzhengnie/work_dir/ai-news-aggregator</string>
+    <key>StandardOutPath</key>
+    <string>/Users/jianzhengnie/work_dir/ai-news-aggregator/.rsshub.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/jianzhengnie/work_dir/ai-news-aggregator/.rsshub.err</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>RSSHUB_PORT</key>
+        <string>1200</string>
+    </dict>
+</dict>
+</plist>

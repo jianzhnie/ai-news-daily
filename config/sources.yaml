@@ -1,15 +1,15 @@
-# AI 信息源配置
-# 每行对应 prompt2.md 中的一个信息源
+# AI 信息源配置（优化版）
 # type: native (原生RSS) | rsshub (需要RSSHub路由) | none (暂无RSS)
 
 sources:
-  # ── AI 公司官方博客 ──
+  # ═══════════════════════════════════════════════
+  # 1. AI 公司官方博客
+  # ═══════════════════════════════════════════════
   - name: OpenAI Blog
     url: https://openai.com/blog/
     rss: https://openai.com/news/rss.xml
     type: native
     category: ai-companies
-    note: 使用原生 RSS，无需 RSSHub
 
   - name: Anthropic Blog
     url: https://claude.com/blog
@@ -17,15 +17,87 @@ sources:
     type: rsshub
     category: ai-companies
 
-  - name: DeepMind
-    url: https://www.deepmind.com/
+  - name: Google DeepMind
+    url: https://deepmind.google/
     rss: http://localhost:1200/deepmind/blog
     type: rsshub
     category: ai-companies
 
+  - name: Google AI Blog
+    url: https://blog.google/technology/ai/
+    rss: https://blog.google/technology/ai/rss/
+    type: native
+    category: ai-companies
+
+  - name: Meta AI Blog
+    url: https://ai.meta.com/blog/
+    rss: null
+    type: none
+    category: ai-companies
+    note: LLaMA/PyTorch 官方博客，暂无公开 RSS
+
+  - name: NVIDIA Research
+    url: https://developer.nvidia.com/blog/
+    rss: https://developer.nvidia.com/blog/feed/
+    type: native
+    category: ai-companies
+
+  - name: Microsoft Research
+    url: https://www.microsoft.com/en-us/research/blog/
+    rss: https://www.microsoft.com/en-us/research/feed/
+    type: native
+    category: ai-companies
+
+  - name: Apple ML Research
+    url: https://machinelearning.apple.com/
+    rss: null
+    type: none
+    category: ai-companies
+    note: 设备端 ML 与隐私保护研究，暂无 RSS
+
   - name: HuggingFace Blog
     url: https://huggingface.co/blog
     rss: https://huggingface.co/blog/feed.xml
+    type: native
+    category: ai-companies
+
+  - name: Stability AI
+    url: https://stability.ai/news
+    rss: https://stability.ai/news?format=rss
+    type: native
+    category: ai-companies
+
+  - name: Cohere Blog
+    url: https://cohere.com/blog
+    rss: null
+    type: none
+    category: ai-companies
+    note: 企业级 LLM，暂无公开 RSS
+
+  - name: Mistral AI
+    url: https://mistral.ai/news/
+    rss: null
+    type: none
+    category: ai-companies
+    note: 暂无公开 RSS
+
+  - name: Groq Blog
+    url: https://groq.com/blog/
+    rss: null
+    type: none
+    category: ai-companies
+    note: LPU 推理芯片，暂无公开 RSS
+
+  - name: Replicate Blog
+    url: https://replicate.com/blog
+    rss: null
+    type: none
+    category: ai-companies
+    note: 模型托管平台，暂无公开 RSS
+
+  - name: AWS Machine Learning
+    url: https://aws.amazon.com/blogs/machine-learning/
+    rss: https://aws.amazon.com/blogs/machine-learning/feed/
     type: native
     category: ai-companies
 
@@ -47,100 +119,339 @@ sources:
     type: none
     category: ai-companies
 
-  # ── AI News 聚合平台 ──
+  # ── 中国 AI 公司 ──
+  - name: DeepSeek
+    url: https://www.deepseek.com/
+    rss: null
+    type: none
+    category: ai-companies
+    note: "无官方博客，关注 GitHub: github.com/deepseek-ai"
+
+  - name: Qwen (阿里通义)
+    url: https://qwenlm.github.io/blog/
+    rss: null
+    type: none
+    category: ai-companies
+    note: GitHub Pages 博客，暂无 RSS
+
+  - name: Kimi (月之暗面)
+    url: https://moonshot.cn/blog
+    rss: null
+    type: none
+    category: ai-companies
+    note: 暂无 RSS
+
+  # ═══════════════════════════════════════════════
+  # 2. AI 研究机构
+  # ═══════════════════════════════════════════════
+  - name: Stanford AI Lab (SAIL)
+    url: https://ai.stanford.edu/blog/
+    rss: http://ai.stanford.edu/blog/feed.xml
+    type: native
+    category: research-labs
+
+  - name: Berkeley AI Research (BAIR)
+    url: https://bair.berkeley.edu/blog/
+    rss: https://bair.berkeley.edu/blog/feed.xml
+    type: native
+    category: research-labs
+
+  - name: Stanford HAI
+    url: https://hai.stanford.edu/
+    rss: https://hai.stanford.edu/rss.xml
+    type: native
+    category: research-labs
+
+  - name: CMU ML Blog
+    url: https://blog.ml.cmu.edu/
+    rss: https://blog.ml.cmu.edu/feed/
+    type: native
+    category: research-labs
+
+  - name: MIT AI News
+    url: https://news.mit.edu/topic/artificial-intelligence2
+    rss: https://news.mit.edu/rss/topic/artificial-intelligence2
+    type: native
+    category: research-labs
+
+  - name: Amazon Science
+    url: https://www.amazon.science/
+    rss: https://www.amazon.science/feed/
+    type: native
+    category: research-labs
+
+  # ═══════════════════════════════════════════════
+  # 3. AI 深度专栏 / Newsletter
+  # ═══════════════════════════════════════════════
+  - name: Import AI (Jack Clark)
+    url: https://importai.net/
+    rss: https://importai.net/feed/
+    type: native
+    category: deep-dives
+    note: Anthropic 联合创始人撰写，AI 研究+政策深度解读
+
+  - name: The Batch (Andrew Ng)
+    url: https://www.deeplearning.ai/the-batch/
+    rss: null
+    type: none
+    category: deep-dives
+    note: DeepLearning.AI 周刊，暂无公开 RSS
+
+  - name: Latent Space
+    url: https://www.latent.space/
+    rss: https://www.latent.space/feed
+    type: native
+    category: deep-dives
+    note: Karpathy 推荐的 AI Engineering 一手信源
+
+  - name: Sebastian Raschka Magazine
+    url: https://magazine.sebastianraschka.com/
+    rss: https://magazine.sebastianraschka.com/feed
+    type: native
+    category: deep-dives
+
+  - name: Interconnects (Nathan Lambert)
+    url: https://www.interconnects.ai/
+    rss: https://www.interconnects.ai/feed
+    type: native
+    category: deep-dives
+
+  - name: Cameron Wolfe
+    url: https://cameronrwolfe.substack.com/
+    rss: https://cameronrwolfe.substack.com/feed
+    type: native
+    category: deep-dives
+
+  - name: Alpha Signal
+    url: https://www.alphasignal.ai/
+    rss: null
+    type: none
+    category: deep-dives
+    note: 20 万+ AI 工程师订阅，每日 5 分钟摘要，暂无公开 RSS
+
+  - name: Don't Worry About the Vase
+    url: https://thezvi.substack.com/
+    rss: https://thezvi.substack.com/feed
+    type: native
+    category: deep-dives
+
+  # ═══════════════════════════════════════════════
+  # 4. AI 资讯聚合
+  # ═══════════════════════════════════════════════
   - name: MarkTechPost
     url: https://www.marktechpost.com/
     rss: https://www.marktechpost.com/feed/
     type: native
     category: news-aggregators
 
-  - name: MIT AI News
-    url: https://news.mit.edu/topic/artificial-intelligence2
-    rss: https://news.mit.edu/rss/topic/artificial-intelligence2
-    type: native
-    category: news-aggregators
-
   - name: Towards Data Science
-    url: https://towardsdatascience.com/latest/
+    url: https://towardsdatascience.com/
     rss: https://towardsdatascience.com/feed
     type: native
     category: news-aggregators
 
-  - name: Analytics Vidhya
-    url: https://www.analyticsvidhya.com/blog-archive/
-    rss: https://www.analyticsvidhya.com/feed/
-    type: native
-    category: news-aggregators
-
   - name: AI Parabellum
-    url: https://aiparabellum.com/category/blog/
+    url: https://aiparabellum.com/
     rss: https://aiparabellum.com/feed/
     type: native
     category: news-aggregators
 
-  - name: Cameron Wolfe (Substack)
-    url: https://cameronrwolfe.substack.com/archive
-    rss: https://cameronrwolfe.substack.com/feed
+  - name: TLDR AI
+    url: https://tldr.tech/ai
+    rss: null
+    type: none
+    category: news-aggregators
+    note: 每日 AI 要闻摘要，暂无公开 RSS
+
+  - name: Last Week in AI
+    url: https://lastweekin.ai/
+    rss: https://lastweekin.ai/feed/
     type: native
     category: news-aggregators
 
-  - name: Sebastian Raschka Magazine
-    url: https://magazine.sebastianraschka.com/archive
-    rss: https://magazine.sebastianraschka.com/feed
-    type: native
-    category: news-aggregators
-
-  - name: Interconnects
-    url: https://www.interconnects.ai/archive
-    rss: https://www.interconnects.ai/feed
-    type: native
-    category: news-aggregators
-
-  - name: Latent Space
-    url: https://www.latent.space/s/ainews
-    rss: https://www.latent.space/feed
-    type: native
-    category: news-aggregators
-
-  # ── 个人开发者 ──
+  # ═══════════════════════════════════════════════
+  # 5. 独立研究者 / 开发者
+  # ═══════════════════════════════════════════════
   - name: Sebastian Raschka
     url: https://sebastianraschka.com/blog/
     rss: https://sebastianraschka.com/rss_feed.xml
     type: native
-    category: individual-devs
+    category: individual-researchers
+
+  - name: Lilian Weng (OpenAI)
+    url: https://lilianweng.github.io/
+    rss: https://lilianweng.github.io/index.xml
+    type: native
+    category: individual-researchers
+
+  - name: Chip Huyen
+    url: https://huyenchip.com/blog/
+    rss: https://huyenchip.com/feed.xml
+    type: native
+    category: individual-researchers
+
+  - name: Eugene Yan
+    url: https://eugeneyan.com/
+    rss: https://eugeneyan.com/feed.xml
+    type: native
+    category: individual-researchers
+
+  - name: Jay Alammar
+    url: https://jalammar.github.io/
+    rss: https://jalammar.github.io/feed.xml
+    type: native
+    category: individual-researchers
 
   - name: Hamel Husain
     url: https://hamel.dev/
     rss: https://hamel.dev/index.xml
     type: native
-    category: individual-devs
+    category: individual-researchers
 
   - name: Philipp Schmid
     url: https://www.philschmid.de/
     rss: null
     type: none
-    category: individual-devs
+    category: individual-researchers
 
   - name: Gary Marcus
-    url: https://garymarcus.substack.com/archive
+    url: https://garymarcus.substack.com/
     rss: https://garymarcus.substack.com/feed
     type: native
-    category: individual-devs
+    category: individual-researchers
 
   - name: Gwern
-    url: https://gwern.net/blog/index
+    url: https://gwern.net/
     rss: https://gwern.substack.com/feed
     type: native
-    category: individual-devs
+    category: individual-researchers
 
   - name: Max Woolf
-    url: https://minimaxir.com/post/
+    url: https://minimaxir.com/
     rss: https://minimaxir.com/index.xml
     type: native
-    category: individual-devs
+    category: individual-researchers
+
+  # ═══════════════════════════════════════════════
+  # 6. AI 社交媒体
+  # ═══════════════════════════════════════════════
+  - name: Twitter @Sam Altman
+    url: https://x.com/sama
+    rss: http://localhost:1200/twitter/user/sama
+    type: rsshub
+    category: social-media
+
+  - name: Twitter @Elon Musk
+    url: https://x.com/elonmusk
+    rss: http://localhost:1200/twitter/user/elonmusk
+    type: rsshub
+    category: social-media
+
+  - name: Twitter @OpenAI
+    url: https://x.com/OpenAI
+    rss: http://localhost:1200/twitter/user/OpenAI
+    type: rsshub
+    category: social-media
+
+  - name: Twitter @Anthropic
+    url: https://x.com/AnthropicAI
+    rss: http://localhost:1200/twitter/user/AnthropicAI
+    type: rsshub
+    category: social-media
+
+  - name: Twitter @Google AI
+    url: https://x.com/GoogleAI
+    rss: http://localhost:1200/twitter/user/GoogleAI
+    type: rsshub
+    category: social-media
+
+  - name: Twitter @Google Gemini
+    url: https://x.com/GeminiApp
+    rss: http://localhost:1200/twitter/user/GeminiApp
+    type: rsshub
+    category: social-media
+
+  - name: Twitter @Yann LeCun
+    url: https://x.com/ylecun
+    rss: http://localhost:1200/twitter/user/ylecun
+    type: rsshub
+    category: social-media
+
+  - name: Twitter @Andrew Ng
+    url: https://x.com/AndrewYNg
+    rss: http://localhost:1200/twitter/user/AndrewYNg
+    type: rsshub
+    category: social-media
+
+  - name: Twitter @Jim Fan
+    url: https://x.com/jimfan
+    rss: http://localhost:1200/twitter/user/jimfan
+    type: rsshub
+    category: social-media
+
+  - name: Twitter @Andrej Karpathy
+    url: https://x.com/kaboroev
+    rss: http://localhost:1200/twitter/user/kaboroev
+    type: rsshub
+    category: social-media
+
+  - name: Twitter @Mistral AI
+    url: https://x.com/MistralAI
+    rss: http://localhost:1200/twitter/user/MistralAI
+    type: rsshub
+    category: social-media
+
+  # ═══════════════════════════════════════════════
+  # 7. AI 视频频道
+  # ═══════════════════════════════════════════════
+  - name: Andrej Karpathy - YouTube
+    url: https://www.youtube.com/@AndrejKarpathy
+    rss: http://localhost:1200/youtube/user/@AndrejKarpathy
+    type: rsshub
+    category: ai-videos
+
+  - name: Anthropic - YouTube
+    url: https://www.youtube.com/@anthropic-ai
+    rss: http://localhost:1200/youtube/user/@anthropic-ai
+    type: rsshub
+    category: ai-videos
+
+  - name: Y Combinator - YouTube
+    url: https://www.youtube.com/@ycombinator
+    rss: http://localhost:1200/youtube/user/@ycombinator
+    type: rsshub
+    category: ai-videos
+
+  - name: Two Minute Papers - YouTube
+    url: https://www.youtube.com/@TwoMinutePapers
+    rss: http://localhost:1200/youtube/user/@TwoMinutePapers
+    type: rsshub
+    category: ai-videos
+
+  - name: AI Explained - YouTube
+    url: https://www.youtube.com/@aiexplained-official
+    rss: http://localhost:1200/youtube/user/@aiexplained-official
+    type: rsshub
+    category: ai-videos
+
+  - name: Lex Fridman - YouTube
+    url: https://www.youtube.com/@lexfridman
+    rss: http://localhost:1200/youtube/user/@lexfridman
+    type: rsshub
+    category: ai-videos
+
+  - name: Dwarkesh Patel - YouTube
+    url: https://www.youtube.com/@DwarkeshPatel
+    rss: http://localhost:1200/youtube/user/@DwarkeshPatel
+    type: rsshub
+    category: ai-videos
 
 # ── 分类显示名称 ──
 categories:
   ai-companies: "AI 公司官方博客"
-  news-aggregators: "AI News 聚合平台"
-  individual-devs: "个人开发者"
+  research-labs: "AI 研究机构"
+  deep-dives: "AI 深度专栏"
+  news-aggregators: "AI 资讯聚合"
+  individual-researchers: "独立研究者/开发者"
+  social-media: "AI 社交媒体"
+  ai-videos: "AI 视频频道"
