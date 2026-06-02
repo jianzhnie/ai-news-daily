@@ -43,6 +43,7 @@ config/sources.yaml  →  daily_digest.py   →  Claude/ChatGPT API    →  dail
 
 | File | Purpose |
 |------|---------|
+| `README.md` | 项目总览与快速开始 |
 | `config/sources.yaml` | 89 个 AI 信息源配置（11 个分类） |
 | `scripts/daily_digest.py` | 采集 + AI 整理 → 日报 |
 | `scripts/generate_opml.py` | 生成 Folo 可导入的 OPML |
