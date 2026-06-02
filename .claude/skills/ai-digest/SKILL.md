@@ -1,151 +1,146 @@
 ---
 name: ai-digest
-description: Use when the user asks for AI daily news (日报/digest/今天有什么AI新闻/AI日报), wants to run the AI digest script, or troubleshoot the AI news aggregator pipeline. Generates a categorized Chinese AI news digest from 62 RSS sources using Claude/ChatGPT.
+description: AI 日报/月报一键生成，零配置。触发词：AI日报、今天有什么AI新闻、AI早报、AI月报、AI周报、今日AI动态、AI digest。自动检查环境→启动RSSHub→采集文章→Claude直接整理输出。
 ---
 
-## Overview
+## 核心设计
 
-Generates a structured Chinese AI news digest from 62 RSS sources by:
-1. Fetching articles from all configured sources via HTTpx
-2. Deduplicating with 85% title similarity threshold
-3. Calling the Claude or ChatGPT API to categorize, summarize, and rate articles
-4. Saving the result as Markdown + HTML to `daily-reports/YYYY/MM/YYYY-MM-DD.{md,html}`
-
-## Pre-flight Checklist
-
-Before running the digest, verify these in order:
-
-### 1. Check RSSHub is running (only needed for rsshub-type sources)
-
-```bash
-curl -s -o /dev/null -w "%{http_code}" http://localhost:1200/openai/news 2>/dev/null || echo "RSSHub not running"
+```
+--dry-run 采集文章  →  Claude 直接整理  →  保存 Markdown 日报
+     ↑                      ↑                      ↑
+  不需要 API Key       当前对话即 AI          daily-reports/
 ```
 
-If HTTP code != 200, offer to start RSSHub: `bash scripts/start-rsshub.sh`
-Wait for the startup message "RSSHub is ready!" before proceeding.
+**不依赖外部 API Key**。Claude Code 本身就是 AI，采集后用当前对话生成日报。
 
-### 2. Check API key is set
+---
 
-```bash
-echo "${ANTHROPIC_API_KEY:0:15}..." 2>/dev/null || echo "ANTHROPIC_API_KEY not set"
-```
+## 一键执行流程
 
-If not set, tell the user to export it first. For OpenAI mode, check `OPENAI_API_KEY`.
-
-## Execution
-
-Run from the project root (`/Users/jianzhengnie/work_dir/ai-news-aggregator`):
-
-### Basic usage (smart defaults)
+### Phase 1: 环境自检（并行）
 
 ```bash
-python3 scripts/daily_digest.py
+# 1.1 Python 依赖
+python3 -c "import feedparser, httpx, yaml" 2>&1 || echo "MISSING_DEPS"
+
+# 1.2 RSSHub 状态
+curl -s -o /dev/null -w "%{http_code}" http://localhost:1200 2>/dev/null || echo "000"
 ```
 
-### Smart day selection
+- 若 `MISSING_DEPS` → `pip3 install feedparser httpx pyyaml`
+- 若 RSSHub 返回 `000` → 执行 Phase 1b
 
-The `--days` parameter controls how far back to look. Choose based on context:
-
-| Situation | `--days` |
-|---|---|
-| Monday (to cover weekend) | `3` |
-| Tuesday–Friday (workday) | `1` |
-| Saturday–Sunday (low volume) | `2` |
-| User explicitly requests N days | whatever user says |
-| User says "this week" | `7` |
-
-### Common variations
+### Phase 1b: 启动 RSSHub（如需要）
 
 ```bash
-# See what's available without calling AI (fast, free)
-python3 scripts/daily_digest.py --dry-run
+which pnpm 2>/dev/null || npm install -g pnpm
 
-# Use ChatGPT instead of Claude
-python3 scripts/daily_digest.py --provider openai
-
-# Specific model
-python3 scripts/daily_digest.py --provider anthropic --model claude-sonnet-4-6-20250514
-
-# Limit to 30 articles in the prompt (tighter report)
-python3 scripts/daily_digest.py --max-articles 30
-
-# Output to stdout instead of a file
-python3 scripts/daily_digest.py --output -
-
-# Just print the AI prompt (debugging, or pipe to another LLM)
-python3 scripts/daily_digest.py --prompt-only
+if [ ! -d "RSSHub" ]; then
+    bash scripts/start-rsshub.sh
+else
+    cd RSSHub && pnpm start --port 1200 >> ../.rsshub.log 2>&1 &
+fi
 ```
 
-### When user specifies parameters
+等待就绪（最多 60 秒）：
+```bash
+until curl -s --connect-timeout 1 http://localhost:1200 >/dev/null 2>&1; do sleep 2; done
+```
 
-Map user language to flags naturally:
+### Phase 2: 参数选择
 
-| User says | Use these flags |
-|---|---|
-| "只需要最近一天的" | `--days 1` |
-| "这周的AI新闻" | `--days 7` |
-| "先看看有多少文章" | `--dry-run` |
-| "用ChatGPT生成" | `--provider openai` |
-| "用GPT-5生成" | `--provider openai --model gpt-5` |
-| "输出到终端就行" | `--output -` |
-| "精简一点" | `--max-articles 20` |
+日报 or 月报由用户自然语言决定：
 
-## Post-run Actions
+| 用户说 | `--days` | `--max-articles` |
+|------|:---:|:---:|
+| "AI日报" / "今天有什么AI新闻" | 自动（周一3/工作日1/周末2） | 60 |
+| "AI周报" / "这周的AI新闻" | 7 | 100 |
+| "AI月报" / "这个月的AI新闻" | 30 | 200 |
+| "最近两天的" | 2 | 60 |
+| "精简一点" | 自动 | 20 |
 
-### On success
+### Phase 3: 采集文章（--dry-run，不需要 API Key）
 
-1. Report the output file path (e.g. `daily-reports/2026/06/01/2026-06-01.md`)
-2. Optionally read the report and summarize key headlines to the user (3-5 top stories with ★★★ ratings)
-3. Mention the HTML version for browser viewing
+```bash
+python3 scripts/daily_digest.py --dry-run --days <N> --max-articles <M> 2>&1
+```
 
-### On failure
+异常处理：
 
-Diagnose and report based on the error:
+| 现象 | 动作 |
+|------|------|
+| `0 articles fetched` | 扩大 `--days` 重试 |
+| RSSHub 个别源 503 | 忽略，42 个原生 RSS 源继续工作 |
+| 个别源超时/SSL 错误 | 脚本内置 3 次重试，最终跳过 |
 
-| Error pattern | Diagnosis | Fix |
-|---|---|---|
-| `Connection refused` / `Could not resolve host` on localhost:1200 | RSSHub not running | `bash scripts/start-rsshub.sh` |
-| `HTTP 403` / `HTTP 406` from a source | Anti-bot protection blocked this source | Skip this source; the script retries 3 times automatically |
-| `0 articles fetched` | Weekend + short `--days` | Increase `--days` to 3 |
-| `ANTHROPIC_API_KEY` / `OPENAI_API_KEY` error | API key missing | Tell user to export the key |
-| `API error` / `Rate limit` | API service issue | Wait and retry, or fall back to `--provider` switch |
-| YAML parse error in sources.yaml | Broken config | Check `config/sources.yaml` syntax |
+### Phase 4: Claude 生成报告
 
-### Fallback on AI API failure
+采集完成后，Claude 直接对文章列表进行分类、评级、摘要，生成 Markdown 日报：
 
-The script automatically generates a simple article list (no AI summaries) if the API call fails. Tell the user this happened and they can check the raw output.
+1. **分类**：按 LLM 模型、Agent/工程、AI 产业、安全对齐、开源工具、社区观点归类
+2. **评级**：★★★ 必读 / ★★☆ 推荐 / ★☆☆ 可选
+3. **摘要**：★★★ 和 ★★☆ 文章各配 20-40 字中文摘要
+4. **今日要闻**：100-150 字月度/每日概述
 
-## Output Format
+### Phase 5: 保存并展示
 
-The generated report uses this structure (Markdown):
+1. 保存至 `daily-reports/YYYY/MM/YYYY-MM-DD.md`（月报：`YYYY-MM-monthly.md`）
+2. 向用户展示：今日要闻段落 + 全部 ★★★ 必读文章 + 完整报告路径
+
+---
+
+## 日报 vs 月报 格式差异
+
+### 日报格式
 
 ```
 # AI 日报 — YYYY-MM-DD
 
-## 今日要闻
-(100-150 word overview)
+## 今日要闻 （100-150 字）
 
 ## 分类导读
-
 ### 🔥 LLM 训练与架构
-| ★★★ | Source | Title | Summary (Chinese) |
-
-### ⚡ 推理优化与部署
-...
+| ★★★ | 来源 | 标题 | 摘要 |
 
 ## 统计
-- Total: N articles
-- ★★★ Must read: N
-- ★★☆ Recommended: N
-- ★☆☆ Optional: N
+- 总计 N 篇 | ★★★ X 篇 | ★★☆ Y 篇
 ```
 
-## Project-specific Notes
+### 月报格式
 
-- **62 of 89 sources have RSS** — the script auto-filters to only those with non-null `rss` in `config/sources.yaml`
-- **20 RSSHub-dependent sources** (Anthropic, DeepMind, Twitter feeds, YouTube channels) go through local RSSHub at `localhost:1200`
-- **Reports saved to** `daily-reports/YYYY/MM/` with both `.md` and `.html` versions
-- **Archive index** at `daily-reports/index.html` is auto-regenerated on each run
-- **Deduplication uses 85% title similarity** via Python `SequenceMatcher`
-- **Retry logic**: 3 attempts with exponential backoff (2^1, 2^2, 2^3 seconds) per feed
-- **Browser UA spoofing**: Uses Chrome macOS UA to bypass basic Cloudflare protection
+```
+# AI 月报 — YYYY 年 M 月
+
+## 月度概述 （200-300 字）
+
+## 一、主题 A → 九、主题 I
+（按趋势聚合，每个主题含表格/要点/引用）
+
+## 值得关注的趋势信号
+### 正在发生 / 即将到来
+
+## 数据统计
+（来源分布、主题占比）
+```
+
+---
+
+## 已知限制
+
+- **Twitter / YouTube** 依赖 RSSHub，路由 503 时自动降级为 42 个原生 RSS 源
+- **OpenAI Blog** 有 brotli 解码警告（httpx 已知问题），实际不影响采集
+- **Anthropic** 通过 RSSHub 抓取，反爬严格时可能超时
+- 月报 `--days 30` 采集时间较长（约 3-5 分钟）
+
+---
+
+## 相关文件
+
+| 文件 | 用途 |
+|------|------|
+| `config/sources.yaml` | 89 源配置（62 RSS） |
+| `scripts/daily_digest.py` | 采集主脚本（仅用 --dry-run 模式） |
+| `scripts/start-rsshub.sh` | RSSHub 一键启动 |
+| `docs/deploy-guide.md` | 完整部署运维手册 |
+| `docs/ai-source.md` | 信息源参考手册 |
+| `daily-reports/` | 日报/月报存档目录 |

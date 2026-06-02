@@ -30,7 +30,7 @@ python3 scripts/generate_opml.py
 
 ## Skills
 
-- `/ai-digest` — AI 日报生成助手。自动检查 RSSHub 状态、选择参数、执行采集并展示结果。支持 `--dry-run` / `--provider openai` / `--days N` 等所有参数覆盖。
+- `/ai-digest` — AI 日报/月报一键生成（零配置，无需 API Key）。Claude 直接整理采集到的文章。支持日报/周报/月报，自动启停 RSSHub。
 
 ## Architecture
 
