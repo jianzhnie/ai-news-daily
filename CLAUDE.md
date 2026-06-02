@@ -31,12 +31,18 @@ python3 scripts/generate_opml.py
 ## Skills
 
 - `/ai-digest` — AI 日报/月报一键生成（零配置，无需 API Key）。Claude 直接整理采集到的文章。支持日报/周报/月报，自动启停 RSSHub。
+- `/github-trending` — GitHub Trending 中文解读。自动抓取 trending 页面→逐项目分析→输出深度解读报告。支持 daily/weekly/monthly 和按语言筛选。
 
 ## Architecture
 
 ```
-config/sources.yaml  →  generate_opml.py  →  config/ai-feeds.opml  →  Folo（RSS阅读器）
-config/sources.yaml  →  daily_digest.py   →  Claude/ChatGPT API    →  daily-reports/*.md
+config/sources.yaml  →  generate_opml.py  →  config/ai-feeds.opml  →  RSS 阅读器
+config/sources.yaml  →  daily_digest.py   →  --dry-run 采集       →  Claude 整理日报
+WebFetch github.com  →  Claude 分析       →  trending 解读报告
+
+Skills:
+  /ai-digest        →  RSS采集 + Claude整理 →  日报/周报/月报
+  /github-trending  →  WebFetch抓取 + Claude分析 →  trending解读
 ```
 
 ## Key Files

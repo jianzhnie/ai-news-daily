@@ -1,176 +1,196 @@
 ---
 name: ai-digest
-description: AI 日报/月报一键生成，零配置。触发词：AI日报、今天有什么AI新闻、AI早报、AI月报、AI周报、今日AI动态、AI digest。自动检查环境→启动RSSHub→采集文章→Claude直接整理输出。
+description: AI 日报/周报/月报一键生成，零配置。触发词：AI日报、今天有什么AI新闻、AI早报、AI月报、AI周报、本周AI新闻、本月AI总结、今日AI动态、AI digest。自动检查环境→启动RSSHub→采集文章→Claude整理→输出带链接的Markdown报告。
 ---
 
 ## 核心设计
 
 ```
---dry-run 采集文章  →  Claude 直接整理  →  保存 Markdown 日报
-     ↑                      ↑                      ↑
-  不需要 API Key       当前对话即 AI          daily-reports/
+--dry-run 采集  →  Claude 分类/评级/摘要  →  保存 daily-reports/
+     ↑                    ↑                        ↑
+ 不需要 API Key      当前对话即 AI           Markdown + 链接
 ```
-
-**不依赖外部 API Key**。Claude Code 本身就是 AI，采集后用当前对话生成日报。
 
 ---
 
-## 一键执行流程
+## 执行流程
 
-### Phase 1: 环境自检（并行）
+### Phase 1: 环境自检
 
 ```bash
-# 1.1 Python 依赖
+# 并行检查（从项目根目录执行）
 python3 -c "import feedparser, httpx, yaml" 2>&1 || echo "MISSING_DEPS"
-
-# 1.2 RSSHub 状态
 curl -s -o /dev/null -w "%{http_code}" http://localhost:1200 2>/dev/null || echo "000"
 ```
 
-- 若 `MISSING_DEPS` → `pip3 install feedparser httpx pyyaml`
-- 若 RSSHub 返回 `000` → 执行 Phase 1b
+| 检查结果 | 动作 |
+|------|------|
+| `MISSING_DEPS` | `pip3 install feedparser httpx pyyaml`，失败则提示用户手动安装 |
+| RSSHub `000` | 执行 Phase 1b |
+| RSSHub `200` | 跳过 Phase 1b |
 
-### Phase 1b: 启动 RSSHub（如需要）
+### Phase 1b: 启动 RSSHub
 
 ```bash
 which pnpm 2>/dev/null || npm install -g pnpm
 
 if [ ! -d "RSSHub" ]; then
-    bash scripts/start-rsshub.sh
+    bash scripts/start-rsshub.sh   # 自动 clone + install + build + start
 else
-    cd RSSHub && pnpm start --port 1200 >> ../.rsshub.log 2>&1 &
+    cd RSSHub && pnpm start --port 1200 >> ../.rsshub.log 2>&1 & cd ..
 fi
-```
 
-等待就绪（最多 60 秒）：
-```bash
+# 等待就绪（最多 60s）
 until curl -s --connect-timeout 1 http://localhost:1200 >/dev/null 2>&1; do sleep 2; done
 ```
 
+> 注意：`cd RSSHub` 后必须 `cd ..` 回到项目根目录。后续所有命令使用绝对路径执行。
+
 ### Phase 2: 参数选择
 
-日报 or 月报由用户自然语言决定：
+| 用户说 | 类型 | `--days` | `--max-articles` |
+|------|:---:|:---:|:---:|
+| "AI日报" / "今天有什么AI新闻" | 日报 | 周一3 / 工作日1 / 周末2 | 60 |
+| "AI周报" / "这周的AI新闻" / "本周AI总结" | 周报 | 7 | 100 |
+| "AI月报" / "这个月的AI新闻" / "本月AI总结" | 月报 | 30 | 200 |
+| "最近两天" / "昨天和今天" | 日报 | 2 | 60 |
+| "精简一点" / "只要重点" | 日报 | 自动 | 20 |
 
-| 用户说 | `--days` | `--max-articles` |
-|------|:---:|:---:|
-| "AI日报" / "今天有什么AI新闻" | 自动（周一3/工作日1/周末2） | 60 |
-| "AI周报" / "这周的AI新闻" | 7 | 100 |
-| "AI月报" / "这个月的AI新闻" | 30 | 200 |
-| "最近两天的" | 2 | 60 |
-| "精简一点" | 自动 | 20 |
-
-### Phase 3: 采集文章（--dry-run，不需要 API Key）
+### Phase 3: 采集文章
 
 ```bash
-python3 scripts/daily_digest.py --dry-run --days <N> --max-articles <M> 2>&1
+python3 /Users/robin/work_dir/AI-News-Daily/scripts/daily_digest.py --dry-run --days <N> --max-articles <M> 2>&1
 ```
 
-异常处理：
+> 始终使用绝对路径，避免 CWD 问题。
+
+**异常处理：**
 
 | 现象 | 动作 |
 |------|------|
-| `0 articles fetched` | 扩大 `--days` 重试 |
-| RSSHub 个别源 503 | 忽略，42 个原生 RSS 源继续工作 |
-| 个别源超时/SSL 错误 | 脚本内置 3 次重试，最终跳过 |
+| `0 articles fetched` | 扩大 `--days` 重试一次 |
+| RSSHub 源 503 | 忽略，42 个原生 RSS 源继续 |
+| 单源超时/SSL | 脚本内置 3 次指数退避重试，最终跳过 |
 
 ### Phase 4: Claude 生成报告
 
-采集完成后，Claude 直接对文章列表进行分类、评级、摘要，生成 Markdown 日报：
+采集完成后，Claude 对文章列表进行：
 
-1. **分类**：按 LLM 模型、Agent/工程、AI 产业、安全对齐、开源工具、社区观点归类
+1. **分类**：按实际内容归类，至少包含以下维度——
+   - LLM 模型与架构（新模型、训练技术、架构创新）
+   - Agent 与 AI Engineering（Agent 框架、MCP、RAG、AI Coding）
+   - AI 产业与商业（融资、IPO、产品发布、行业动态）
+   - AI 安全与对齐（安全漏洞、红队测试、政策监管）
+   - 开源与工具（开源项目、开发者工具、Infra）
+   - 多模态与机器人（视频/音频/图像、具身智能、物理 AI）
 2. **评级**：★★★ 必读 / ★★☆ 推荐 / ★☆☆ 可选
 3. **摘要**：★★★ 和 ★★☆ 文章各配 20-40 字中文摘要
-4. **链接**：**每篇文章标题必须是可点击的 Markdown 链接** `[标题](url)`，不可出现纯文本标题
-5. **今日要闻**：100-150 字概述，关键名词也必须带链接
+4. **链接**：**所有文章标题必须是可点击链接** `[标题](url)`，严禁纯文本标题
+5. **要闻**：日报 100-150 字 / 周报 150-200 字 / 月报 200-300 字概述，关键名词嵌入链接
 
 ### Phase 5: 保存并展示
 
-1. 保存至 `daily-reports/YYYY/MM/YYYY-MM-DD.md`（月报：`YYYY-MM-monthly.md`）
-2. 向用户展示：今日要闻段落 + 全部 ★★★ 必读文章 + 完整报告路径
+1. 保存至对应目录（日报/周报共享 `YYYY/MM/`，月报 `YYYY/MM/YYYY-MM-monthly.md`）
+2. 向用户展示：概览段落 + 全部 ★★★ 必读 + 完整路径
+3. 如有 `daily-reports/index.html` 归档逻辑，同步更新
 
 ---
 
-## 输出格式（强制）
+## 输出格式（强制标准）
 
-### 表格行格式
+### 1. 表格行
 
 ```
 | ★★★ | 来源名 | [文章标题](https://完整URL) | 20-40字中文摘要 |
 ```
 
-**禁止**出现不带链接的纯文本标题。每篇文章的标题列必须是 `[title](url)` 格式。
+**禁止**出现不带 `[text](url)` 的纯文本标题。这是硬性要求。
 
-### 今日要闻格式
+### 2. 要闻段落
 
-要闻段落中的关键事件也必须嵌入链接：
+关键事件嵌入链接：`[NVIDIA 发布 Cosmos 3](https://...) 世界模型，[Anthropic 提交 IPO](https://...)`
 
-```
-[NVIDIA 发布 Cosmos 3](https://...) 世界模型，[Anthropic 提交 IPO](https://...) ...
-```
+### 3. 页脚索引
 
-### 页脚格式
-
-日报末尾附上 ★☆☆ 文章的链接索引，方便查阅：
+日报末尾列出 ★☆☆ 文章链接，方便查阅：
 
 ```
 ---
-*[来源] [标题1](url1) · [来源] [标题2](url2) · ...*
+*[来源] [标题](url) · [来源] [标题](url) · ...*
 ```
 
----
+### 4. 日报模板
 
-## 日报 vs 月报 格式差异
-
-### 日报格式
-
-```
+```markdown
 # AI 日报 — YYYY-MM-DD
 
-## 今日要闻 （100-150 字）
+## 今日要闻
+（100-150 字，关键名词带链接）
 
 ## 分类导读
-### 🔥 LLM 训练与架构
-| ★★★ | 来源 | 标题 | 摘要 |
+### 🔥 主题一
+| ★★★ | 来源 | [标题](url) | 摘要 |
+### ⚡ 主题二
+...
 
 ## 统计
-- 总计 N 篇 | ★★★ X 篇 | ★★☆ Y 篇
+- 总计 N 篇 | ★★★ X 篇 | ★★☆ Y 篇 | ★☆☆ Z 篇
+- 来源：N 个 RSS 源
+
+---
+*[来源] [标题](url) · ...*
 ```
 
-### 月报格式
+### 5. 周报模板
 
+```markdown
+# AI 周报 — YYYY-MM-DD ~ YYYY-MM-DD
+
+## 本周要闻
+（150-200 字，关键名词带链接）
+
+## 分类导读
+（同日报表格格式）
+
+## 本周趋势
+- 趋势信号1
+- 趋势信号2
+
+## 统计
+（同日报）
 ```
+
+### 6. 月报模板
+
+```markdown
 # AI 月报 — YYYY 年 M 月
 
-## 月度概述 （200-300 字）
+> 统计周期 | 来源数 | 文章数
 
-## 一、主题 A → 九、主题 I
-（按趋势聚合，每个主题含表格/要点/引用）
+## 月度概述
+（200-300 字，关键名词带链接）
 
-## 值得关注的趋势信号
-### 正在发生 / 即将到来
+## 一、主题 A → N、主题 N
+（每主题含：概述段落 + 关键事件表格（含链接）+ 引用/数据点）
+
+## 趋势信号
+### 正在发生
+### 即将到来
 
 ## 数据统计
-（来源分布、主题占比）
+| 指标 | 数值 |
+| 来源 TOP5 | ... |
+| 主题分布 | ... |
+
+---
+> 下月重点关注：...
 ```
 
 ---
 
 ## 已知限制
 
-- **Twitter / YouTube** 依赖 RSSHub，路由 503 时自动降级为 42 个原生 RSS 源
-- **OpenAI Blog** 有 brotli 解码警告（httpx 已知问题），实际不影响采集
-- **Anthropic** 通过 RSSHub 抓取，反爬严格时可能超时
-- 月报 `--days 30` 采集时间较长（约 3-5 分钟）
-
----
-
-## 相关文件
-
-| 文件 | 用途 |
-|------|------|
-| `config/sources.yaml` | 89 源配置（62 RSS） |
-| `scripts/daily_digest.py` | 采集主脚本（仅用 --dry-run 模式） |
-| `scripts/start-rsshub.sh` | RSSHub 一键启动 |
-| `docs/deploy-guide.md` | 完整部署运维手册 |
-| `docs/ai-source.md` | 信息源参考手册 |
-| `daily-reports/` | 日报/月报存档目录 |
+- Twitter/YouTube 依赖 RSSHub，503 时自动降级
+- OpenAI Blog brotli 警告可忽略（httpx 已知问题）
+- Anthropic 通过 RSSHub 抓取，反爬严格时可能超时
+- 月报采集约 3-5 分钟，期间不要中断
