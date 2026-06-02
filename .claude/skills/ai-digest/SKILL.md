@@ -1,11 +1,11 @@
 ---
 name: ai-digest
-description: Use when the user asks for AI daily news (日报/digest/今天有什么AI新闻/AI日报), wants to run the AI digest script, or troubleshoot the AI news aggregator pipeline. Generates a categorized Chinese AI news digest from 52+ RSS sources using Claude/ChatGPT.
+description: Use when the user asks for AI daily news (日报/digest/今天有什么AI新闻/AI日报), wants to run the AI digest script, or troubleshoot the AI news aggregator pipeline. Generates a categorized Chinese AI news digest from 62 RSS sources using Claude/ChatGPT.
 ---
 
 ## Overview
 
-Generates a structured Chinese AI news digest from 52+ RSS sources by:
+Generates a structured Chinese AI news digest from 62 RSS sources by:
 1. Fetching articles from all configured sources via HTTpx
 2. Deduplicating with 85% title similarity threshold
 3. Calling the Claude or ChatGPT API to categorize, summarize, and rate articles
@@ -142,8 +142,8 @@ The generated report uses this structure (Markdown):
 
 ## Project-specific Notes
 
-- **52+ of 68 sources have RSS** — the script auto-filters to only those with non-null `rss` in `config/sources.yaml`
-- **3 native RSS sources** (OpenAI, Anthropic, DeepMind) go through local RSSHub at `localhost:1200`
+- **62 of 89 sources have RSS** — the script auto-filters to only those with non-null `rss` in `config/sources.yaml`
+- **20 RSSHub-dependent sources** (Anthropic, DeepMind, Twitter feeds, YouTube channels) go through local RSSHub at `localhost:1200`
 - **Reports saved to** `daily-reports/YYYY/MM/` with both `.md` and `.html` versions
 - **Archive index** at `daily-reports/index.html` is auto-regenerated on each run
 - **Deduplication uses 85% title similarity** via Python `SequenceMatcher`

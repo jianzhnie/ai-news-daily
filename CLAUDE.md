@@ -1,6 +1,6 @@
 # CLAUDE.md — AI News Aggregator
 
-AI 领域信息自动聚合系统。从 68 个 AI 信息源（52 个有 RSS）自动采集文章，通过 Claude/ChatGPT API 整理生成中文日报。
+AI 领域信息自动聚合系统。从 89 个 AI 信息源（62 个有 RSS）自动采集文章，通过 Claude/ChatGPT API 整理生成中文日报。
 
 ## Commands
 
@@ -43,7 +43,7 @@ config/sources.yaml  →  daily_digest.py   →  Claude/ChatGPT API    →  dail
 
 | File | Purpose |
 |------|---------|
-| `config/sources.yaml` | 68 个 AI 信息源配置（7 个分类） |
+| `config/sources.yaml` | 89 个 AI 信息源配置（11 个分类） |
 | `scripts/daily_digest.py` | 采集 + AI 整理 → 日报 |
 | `scripts/generate_opml.py` | 生成 Folo 可导入的 OPML |
 | `scripts/start-rsshub.sh` | 启动本地 RSSHub（端口 1200） |

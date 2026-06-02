@@ -1,4 +1,4 @@
-# AI 信息源配置（优化版）
+# AI 信息源配置
 # type: native (原生RSS) | rsshub (需要RSSHub路由) | none (暂无RSS)
 
 sources:
@@ -181,7 +181,72 @@ sources:
     category: research-labs
 
   # ═══════════════════════════════════════════════
-  # 3. AI 深度专栏 / Newsletter
+  # 3. AI Engineering / Agent / LLM 实战
+  # ═══════════════════════════════════════════════
+  - name: Latent Space
+    url: https://www.latent.space/
+    rss: https://www.latent.space/feed
+    type: native
+    category: ai-engineering
+    note: Karpathy 力荐，AI Engineering 圣经级媒体
+
+  - name: Simon Willison Blog
+    url: https://simonwillison.net/
+    rss: https://simonwillison.net/atom/everything/
+    type: native
+    category: ai-engineering
+    note: Agent / LLM / AI Coding 一手实践
+
+  - name: Interconnects (Nathan Lambert)
+    url: https://www.interconnects.ai/
+    rss: https://www.interconnects.ai/feed
+    type: native
+    category: ai-engineering
+
+  - name: LangChain Blog
+    url: https://blog.langchain.dev/
+    rss: null
+    type: none
+    category: ai-engineering
+    note: Agent 与 LLM App 开发，已迁移至 langchain.com/blog，暂无 RSS
+
+  - name: LlamaIndex Blog
+    url: https://www.llamaindex.ai/blog
+    rss: null
+    type: none
+    category: ai-engineering
+    note: RAG / Retrieval / Agent，暂无公开 RSS
+
+  - name: Weights & Biases Reports
+    url: https://wandb.ai/site/articles
+    rss: null
+    type: none
+    category: ai-engineering
+    note: LLM Training / Eval 实战，暂无公开 RSS
+
+  - name: The Sequence
+    url: https://thesequence.substack.com/
+    rss: https://thesequence.substack.com/feed
+    type: native
+    category: ai-engineering
+    note: AI Infra 与前沿趋势
+
+  - name: Chip Huyen
+    url: https://huyenchip.com/blog/
+    rss: https://huyenchip.com/feed.xml
+    type: native
+    category: ai-engineering
+    note: LLMOps / AI Systems / GPU 编程
+
+  - name: Eugene Yan
+    url: https://eugeneyan.com/
+    rss: https://eugeneyan.com/feed.xml
+    type: native
+    category: ai-engineering
+    note: 推荐系统 + LLM 应用落地实战
+
+  # ═══════════════════════════════════════════════
+  # 4. AI 深度专栏 / Newsletter
   # ═══════════════════════════════════════════════
   - name: Import AI (Jack Clark)
     url: https://importai.net/
@@ -190,29 +255,9 @@ sources:
     category: deep-dives
     note: Anthropic 联合创始人撰写，AI 研究+政策深度解读
 
-  - name: The Batch (Andrew Ng)
-    url: https://www.deeplearning.ai/the-batch/
-    rss: null
-    type: none
-    category: deep-dives
-    note: DeepLearning.AI 周刊，暂无公开 RSS
-
-  - name: Latent Space
-    url: https://www.latent.space/
-    rss: https://www.latent.space/feed
-    type: native
-    category: deep-dives
-    note: Karpathy 推荐的 AI Engineering 一手信源
-
   - name: Sebastian Raschka Magazine
     url: https://magazine.sebastianraschka.com/
     rss: https://magazine.sebastianraschka.com/feed
-    type: native
-    category: deep-dives
-
-  - name: Interconnects (Nathan Lambert)
-    url: https://www.interconnects.ai/
-    rss: https://www.interconnects.ai/feed
     type: native
     category: deep-dives
 
@@ -222,6 +267,26 @@ sources:
     type: native
     category: deep-dives
 
+  - name: Don't Worry About the Vase
+    url: https://thezvi.substack.com/
+    rss: https://thezvi.substack.com/feed
+    type: native
+    category: deep-dives
+
+  - name: AI Snake Oil
+    url: https://www.aisnakeoil.com/
+    rss: https://www.aisnakeoil.com/feed/
+    type: native
+    category: deep-dives
+    note: AI 批判与现实分析
+
+  - name: The Batch (Andrew Ng)
+    url: https://www.deeplearning.ai/the-batch/
+    rss: null
+    type: none
+    category: deep-dives
+    note: DeepLearning.AI 周刊，暂无公开 RSS
+
   - name: Alpha Signal
     url: https://www.alphasignal.ai/
     rss: null
@@ -229,14 +294,15 @@ sources:
     category: deep-dives
     note: 20 万+ AI 工程师订阅，每日 5 分钟摘要，暂无公开 RSS
 
-  - name: Don't Worry About the Vase
-    url: https://thezvi.substack.com/
-    rss: https://thezvi.substack.com/feed
-    type: native
+  - name: Ben's Bites
+    url: https://www.bensbites.com/
+    rss: null
+    type: none
     category: deep-dives
+    note: AI 工具圈信息流，邮件订阅，暂无公开 RSS
 
   # ═══════════════════════════════════════════════
-  # 4. AI 资讯聚合
+  # 5. AI 资讯聚合
   # ═══════════════════════════════════════════════
   - name: MarkTechPost
     url: https://www.marktechpost.com/
@@ -249,6 +315,47 @@ sources:
     rss: https://towardsdatascience.com/feed
     type: native
     category: news-aggregators
+
+  - name: VentureBeat AI
+    url: https://venturebeat.com/ai/
+    rss: https://venturebeat.com/feed/
+    type: native
+    category: news-aggregators
+    note: AI 商业与行业新闻
+
+  - name: The Decoder
+    url: https://the-decoder.com/
+    rss: https://the-decoder.com/feed/
+    type: native
+    category: news-aggregators
+    note: 欧洲 AI 新闻媒体
+
+  - name: Last Week in AI
+    url: https://lastweekin.ai/
+    rss: https://lastweekin.ai/feed/
+    type: native
+    category: news-aggregators
+
+  - name: AI Business
+    url: https://aibusiness.com/
+    rss: https://www.aibusiness.com/rss.xml
+    type: native
+    category: news-aggregators
+    note: 企业 AI 动态
+
+  - name: Analytics India Magazine
+    url: https://analyticsindiamag.com/
+    rss: https://analyticsindiamag.com/feed/
+    type: native
+    category: news-aggregators
+    note: AI 工程/产业新闻
+
+  - name: Artificial Intelligence News
+    url: https://www.artificialintelligence-news.com/
+    rss: null
+    type: none
+    category: news-aggregators
+    note: AI 行业资讯，暂无公开 RSS
 
   - name: AI Parabellum
     url: https://aiparabellum.com/
@@ -263,14 +370,8 @@ sources:
     category: news-aggregators
     note: 每日 AI 要闻摘要，暂无公开 RSS
 
-  - name: Last Week in AI
-    url: https://lastweekin.ai/
-    rss: https://lastweekin.ai/feed/
-    type: native
-    category: news-aggregators
-
   # ═══════════════════════════════════════════════
-  # 5. 独立研究者 / 开发者
+  # 6. 独立研究者 / 开发者
   # ═══════════════════════════════════════════════
   - name: Sebastian Raschka
     url: https://sebastianraschka.com/blog/
@@ -284,18 +385,6 @@ sources:
     type: native
     category: individual-researchers
 
-  - name: Chip Huyen
-    url: https://huyenchip.com/blog/
-    rss: https://huyenchip.com/feed.xml
-    type: native
-    category: individual-researchers
-
-  - name: Eugene Yan
-    url: https://eugeneyan.com/
-    rss: https://eugeneyan.com/feed.xml
-    type: native
-    category: individual-researchers
-
   - name: Jay Alammar
     url: https://jalammar.github.io/
     rss: https://jalammar.github.io/feed.xml
@@ -305,6 +394,12 @@ sources:
   - name: Hamel Husain
     url: https://hamel.dev/
     rss: https://hamel.dev/index.xml
+    type: native
+    category: individual-researchers
+
+  - name: Max Woolf
+    url: https://minimaxir.com/
+    rss: https://minimaxir.com/index.xml
     type: native
     category: individual-researchers
 
@@ -326,14 +421,80 @@ sources:
     type: native
     category: individual-researchers
 
-  - name: Max Woolf
-    url: https://minimaxir.com/
-    rss: https://minimaxir.com/index.xml
-    type: native
-    category: individual-researchers
+  # ═══════════════════════════════════════════════
+  # 7. 开源 AI / GitHub 趋势
+  # ═══════════════════════════════════════════════
+  - name: Papers with Code
+    url: https://paperswithcode.com/
+    rss: null
+    type: none
+    category: open-source
+    note: 已整合至 Hugging Face Papers，原 RSS 失效
+
+  - name: Ollama Blog
+    url: https://ollama.com/blog
+    rss: null
+    type: none
+    category: open-source
+    note: 本地 LLM 生态，暂无公开 RSS
 
   # ═══════════════════════════════════════════════
-  # 6. AI 社交媒体
+  # 8. 社区 / 实时信号源
+  # ═══════════════════════════════════════════════
+  - name: Lobsters
+    url: https://lobste.rs/
+    rss: https://lobste.rs/rss
+    type: native
+    category: community
+    note: 高质量程序员社区
+
+  - name: Dev.to AI
+    url: https://dev.to/t/ai
+    rss: https://dev.to/feed/tag/ai
+    type: native
+    category: community
+    note: 开发者 AI 实践
+
+  # ═══════════════════════════════════════════════
+  # 9. 中文 AI 信息源
+  # ═══════════════════════════════════════════════
+  - name: 机器之心
+    url: https://www.jiqizhixin.com/
+    rss: null
+    type: none
+    category: chinese-sources
+    note: AI 行业与研究深度报道，暂无 RSS
+
+  - name: 量子位
+    url: https://www.qbitai.com/
+    rss: null
+    type: none
+    category: chinese-sources
+    note: AI 新闻快讯，暂无 RSS
+
+  - name: 新智元
+    url: https://aiera.com.cn
+    rss: null
+    type: none
+    category: chinese-sources
+    note: LLM / Agent / 创业动态，暂无 RSS
+
+  - name: AI 科技评论 (雷锋网)
+    url: https://www.leiphone.com/category/ai
+    rss: null
+    type: none
+    category: chinese-sources
+    note: 雷锋网 AI 频道，暂无 RSS
+
+  - name: 少数派
+    url: https://sspai.com/
+    rss: https://sspai.com/feed
+    type: native
+    category: chinese-sources
+    note: AI 工具与效率
+
+  # ═══════════════════════════════════════════════
+  # 10. AI 社交媒体
   # ═══════════════════════════════════════════════
   - name: Twitter @Sam Altman
     url: https://x.com/sama
@@ -402,7 +563,7 @@ sources:
     category: social-media
 
   # ═══════════════════════════════════════════════
-  # 7. AI 视频频道
+  # 11. AI 视频频道
   # ═══════════════════════════════════════════════
   - name: Andrej Karpathy - YouTube
     url: https://www.youtube.com/@AndrejKarpathy
@@ -411,8 +572,8 @@ sources:
     category: ai-videos
 
   - name: Anthropic - YouTube
-    url: https://www.youtube.com/@anthropic-ai
-    rss: http://localhost:1200/youtube/user/@anthropic-ai
+    url: https://www.youtube.com/@AnthropicAI
+    rss: http://localhost:1200/youtube/user/@AnthropicAI
     type: rsshub
     category: ai-videos
 
@@ -450,8 +611,12 @@ sources:
 categories:
   ai-companies: "AI 公司官方博客"
   research-labs: "AI 研究机构"
-  deep-dives: "AI 深度专栏"
+  ai-engineering: "AI Engineering / Agent / LLM 实战"
+  deep-dives: "AI 深度专栏 / Newsletter"
   news-aggregators: "AI 资讯聚合"
-  individual-researchers: "独立研究者/开发者"
+  individual-researchers: "独立研究者 / 开发者"
+  open-source: "开源 AI / GitHub 趋势"
+  community: "社区 / 实时信号源"
+  chinese-sources: "中文 AI 信息源"
   social-media: "AI 社交媒体"
   ai-videos: "AI 视频频道"
