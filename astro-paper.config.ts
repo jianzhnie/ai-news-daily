@@ -2,7 +2,7 @@ import { defineAstroPaperConfig } from "./src/types/config";
 
 export default defineAstroPaperConfig({
   site: {
-    url: "https://jianzhnie.github.io/ai-news/",
+    url: "https://jianzhnie.github.io/AI-News-Daily-Skill/",
     title: "AI News Daily",
     description:
       "AI 领域每日信息聚合 — 日报、月报、GitHub Trending 中文解读",

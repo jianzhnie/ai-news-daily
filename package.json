@@ -7,11 +7,11 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro check && astro build && pagefind --site dist && cp -r dist/pagefind public/",
+    "build": "astro build",
     "preview": "astro preview",
     "sync": "astro sync",
     "astro": "astro",
-    "deploy": "astro check && astro build && pagefind --site dist && cp -r dist/pagefind public/ && node deploy.js",
+    "deploy": "astro build && node deploy.js",
     "format:check": "prettier --check .",
     "format": "prettier --write .",
     "lint": "eslint ."

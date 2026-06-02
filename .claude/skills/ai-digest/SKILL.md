@@ -87,12 +87,12 @@ python3 /Users/robin/work_dir/AI-News-Daily/scripts/daily_digest.py --dry-run --
 3. **摘要**：★★★ 和 ★★☆ 文章各配 20-40 字中文摘要
 4. **链接**：**所有文章标题必须是可点击链接** `[标题](url)`，严禁纯文本标题
 5. **要闻**：日报 100-150 字 / 周报 150-200 字 / 月报 200-300 字概述，关键名词嵌入链接
+6. **Frontmatter**：输出的 Markdown 文件**必须包含 YAML frontmatter**，格式参考下方模板
 
 ### Phase 5: 保存并展示
 
 1. 保存至对应目录（日报/周报共享 `YYYY/MM/`，月报 `YYYY/MM/YYYY-MM-monthly.md`）
 2. 向用户展示：概览段落 + 全部 ★★★ 必读 + 完整路径
-3. 如有 `daily-reports/index.html` 归档逻辑，同步更新
 
 ---
 
@@ -122,6 +122,15 @@ python3 /Users/robin/work_dir/AI-News-Daily/scripts/daily_digest.py --dry-run --
 ### 4. 日报模板
 
 ```markdown
+---
+title: "AI 日报 — YYYY-MM-DD"
+pubDatetime: YYYY-MM-DD
+modDatetime: YYYY-MM-DD
+tags: [daily, AI日报, <2-3个核心主题标签>]
+description: "<一句话描述今日要闻>"
+type: daily
+---
+
 # AI 日报 — YYYY-MM-DD
 
 ## 今日要闻
@@ -144,6 +153,15 @@ python3 /Users/robin/work_dir/AI-News-Daily/scripts/daily_digest.py --dry-run --
 ### 5. 周报模板
 
 ```markdown
+---
+title: "AI 周报 — YYYY-MM-DD ~ YYYY-MM-DD"
+pubDatetime: YYYY-MM-DD
+modDatetime: YYYY-MM-DD
+tags: [weekly, AI周报, <2-3个核心主题标签>]
+description: "<一句话描述本周要闻>"
+type: daily
+---
+
 # AI 周报 — YYYY-MM-DD ~ YYYY-MM-DD
 
 ## 本周要闻
@@ -163,6 +181,15 @@ python3 /Users/robin/work_dir/AI-News-Daily/scripts/daily_digest.py --dry-run --
 ### 6. 月报模板
 
 ```markdown
+---
+title: "AI 月报 — YYYY 年 M 月"
+pubDatetime: YYYY-MM-DD
+modDatetime: YYYY-MM-DD
+tags: [monthly, AI月报, <3-5个核心主题标签>]
+description: "<一句话描述本月主题>"
+type: monthly
+---
+
 # AI 月报 — YYYY 年 M 月
 
 > 统计周期 | 来源数 | 文章数

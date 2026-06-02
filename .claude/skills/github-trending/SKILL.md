@@ -80,6 +80,15 @@ daily-reports/trending/YYYY-MM-DD-github-trending-monthly.md # 本月
 ### 2. 日报模板
 
 ```markdown
+---
+title: "GitHub Trending 中文解读 — YYYY-MM-DD"
+pubDatetime: YYYY-MM-DD
+modDatetime: YYYY-MM-DD
+tags: [trending, GitHub, <2-3个核心趋势标签>]
+description: "<一句话描述今日趋势>"
+type: trending
+---
+
 # GitHub Trending 中文解读 — YYYY-MM-DD
 
 > N 个项目 | 语言范围 | 时间范围
