@@ -48,3 +48,4 @@ config/sources.yaml  →  daily_digest.py   →  Claude/ChatGPT API    →  dail
 | `scripts/generate_opml.py` | 生成 Folo 可导入的 OPML |
 | `scripts/start-rsshub.sh` | 启动本地 RSSHub（端口 1200） |
 | `docs/ai-source.md` | 信息源参考手册 |
+| `docs/deploy-guide.md` | 部署与运维手册 |

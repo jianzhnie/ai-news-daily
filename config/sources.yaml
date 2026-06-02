@@ -176,7 +176,7 @@ sources:
 
   - name: Amazon Science
     url: https://www.amazon.science/
-    rss: https://www.amazon.science/feed/
+    rss: https://www.amazon.science/index.rss
     type: native
     category: research-labs
 
@@ -240,7 +240,7 @@ sources:
 
   - name: Eugene Yan
     url: https://eugeneyan.com/
-    rss: https://eugeneyan.com/feed.xml
+    rss: https://eugeneyan.com/rss/
     type: native
     category: ai-engineering
     note: 推荐系统 + LLM 应用落地实战
