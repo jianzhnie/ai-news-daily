@@ -1,0 +1,95 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+
+const allDaily = await getCollection("daily");
+const allMonthly = await getCollection("monthly");
+const allTrending = await getCollection("trending");
+
+const latestDaily = allDaily
+  .sort((a, b) => b.data.pubDatetime.getTime() - a.data.pubDatetime.getTime())
+  .slice(0, 3);
+
+const latestMonthly = allMonthly
+  .sort((a, b) => b.data.pubDatetime.getTime() - a.data.pubDatetime.getTime())
+  .slice(0, 2);
+
+const latestTrending = allTrending
+  .sort((a, b) => b.data.pubDatetime.getTime() - a.data.pubDatetime.getTime())
+  .slice(0, 2);
+---
+
+<Layout>
+  <section class="mb-10">
+    <h2 class="text-accent mb-2 text-lg font-semibold">AI News Daily</h2>
+    <p class="text-muted-foreground leading-relaxed">
+      AI 领域信息自动聚合。从 89 个信息源采集，AI 整理生成日报/月报/GitHub Trending 解读。
+    </p>
+  </section>
+
+  <!-- Latest Daily Reports -->
+  <section class="mb-8">
+    <div class="mb-4 flex items-center justify-between">
+      <h3 class="text-accent font-semibold">最新日报</h3>
+      <a href="/daily/" class="text-muted-foreground hover:text-accent text-sm">全部 →</a>
+    </div>
+    {
+      latestDaily.map(entry => (
+        <a
+          href={`/daily/${entry.id}/`}
+          class="border-border hover:border-accent mb-3 block rounded-lg border p-4 transition-colors"
+        >
+          <div class="text-accent font-medium">{entry.data.title}</div>
+          <div class="text-muted-foreground mt-1 text-sm">
+            {entry.data.pubDatetime.toLocaleDateString("zh-CN")}
+            {entry.data.description && ` — ${entry.data.description}`}
+          </div>
+        </a>
+      ))
+    }
+  </section>
+
+  <!-- Latest Monthly Reports -->
+  <section class="mb-8">
+    <div class="mb-4 flex items-center justify-between">
+      <h3 class="text-accent font-semibold">最新月报</h3>
+      <a href="/monthly/" class="text-muted-foreground hover:text-accent text-sm">全部 →</a>
+    </div>
+    {
+      latestMonthly.map(entry => (
+        <a
+          href={`/monthly/${entry.id}/`}
+          class="border-border hover:border-accent mb-3 block rounded-lg border p-4 transition-colors"
+        >
+          <div class="text-accent font-medium">{entry.data.title}</div>
+          <div class="text-muted-foreground mt-1 text-sm">
+            {entry.data.pubDatetime.toLocaleDateString("zh-CN")}
+            {entry.data.description && ` — ${entry.data.description}`}
+          </div>
+        </a>
+      ))
+    }
+  </section>
+
+  <!-- Latest Trending -->
+  <section>
+    <div class="mb-4 flex items-center justify-between">
+      <h3 class="text-accent font-semibold">最新 GitHub Trending</h3>
+      <a href="/trending/" class="text-muted-foreground hover:text-accent text-sm">全部 →</a>
+    </div>
+    {
+      latestTrending.map(entry => (
+        <a
+          href={`/trending/${entry.id}/`}
+          class="border-border hover:border-accent mb-3 block rounded-lg border p-4 transition-colors"
+        >
+          <div class="text-accent font-medium">{entry.data.title}</div>
+          <div class="text-muted-foreground mt-1 text-sm">
+            {entry.data.pubDatetime.toLocaleDateString("zh-CN")}
+            {entry.data.description && ` — ${entry.data.description}`}
+          </div>
+        </a>
+      ))
+    }
+  </section>
+</Layout>

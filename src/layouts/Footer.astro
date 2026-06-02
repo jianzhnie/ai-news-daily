@@ -1,0 +1,15 @@
+---
+import config from "@/config";
+
+const { site } = config;
+---
+
+<footer class="border-border text-muted-foreground mt-12 border-t pt-6 text-center text-sm">
+  <p>
+    &copy; {new Date().getFullYear()} {site.title} &mdash;
+    由 <a href="https://github.com/jianzhnie/AI-News-Daily" class="text-accent hover:underline">AI-News-Daily</a> 驱动
+  </p>
+  <p class="mt-1">
+    <a href="/rss.xml" class="text-accent hover:underline">RSS 订阅</a>
+  </p>
+</footer>

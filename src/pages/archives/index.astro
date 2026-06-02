@@ -1,0 +1,46 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+
+const daily = await getCollection("daily");
+const monthly = await getCollection("monthly");
+const trending = await getCollection("trending");
+
+const allEntries = [...daily, ...monthly, ...trending].sort(
+  (a, b) => b.data.pubDatetime.getTime() - a.data.pubDatetime.getTime()
+);
+
+const typeLabel = (id: string) => {
+  if (id.includes("monthly")) return "月报";
+  if (id.includes("trending")) return "Trending";
+  return "日报";
+};
+
+const typePath = (id: string) => {
+  if (id.includes("monthly")) return "monthly";
+  if (id.includes("trending")) return "trending";
+  return "daily";
+};
+---
+
+<Layout title="归档 - AI News Daily">
+  <h2 class="text-accent mb-6 text-xl font-bold">全部报告</h2>
+  <div class="space-y-3">
+    {allEntries.map(entry => (
+      <a
+        href={`/${typePath(entry.id)}/${entry.id}/`}
+        class="border-border hover:border-accent flex items-center justify-between rounded-lg border p-3 transition-colors"
+      >
+        <div>
+          <span class="bg-muted text-muted-foreground mr-2 rounded px-1.5 py-0.5 text-xs font-mono">
+            {typeLabel(entry.id)}
+          </span>
+          <span class="text-accent text-sm font-medium">{entry.data.title}</span>
+        </div>
+        <time class="text-muted-foreground shrink-0 text-xs">
+          {entry.data.pubDatetime.toLocaleDateString("zh-CN")}
+        </time>
+      </a>
+    ))}
+  </div>
+</Layout>

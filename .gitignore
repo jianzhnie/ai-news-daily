@@ -1,25 +1,36 @@
-# Python
-__pycache__/
-*.py[cod]
-.venv/
-venv/
-env/
-*.egg-info/
+# build output
+dist/
 
-# RSSHub (local instance)
-RSSHub/
-.rsshub.pid
-.rsshub.log
+# generated types
+.astro/
 
-# Generated output
-daily-reports/
+# dependencies
+node_modules/
 
-# Secrets
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# environment variables
 .env
+.env.production
 
-# macOS
+# macOS-specific files
 .DS_Store
 
-# IDE
+# jetbrains setting folder
 .idea/
-.vscode/
+
+# pagefind
+public/pagefind
+
+# pnpm
+.pnpm-store
+
+# docker compose
+compose.override.yaml
+
+.rsshub.log
+.rsshub.pid

@@ -1,0 +1,177 @@
+@plugin "@tailwindcss/typography";
+
+@layer base {
+  .app-prose {
+    @apply prose max-w-none;
+
+    /* ── Headings ── */
+    h1, h2, h3, h4, th {
+      @apply text-foreground mb-3 scroll-mt-24;
+    }
+
+    h2 {
+      @apply mt-10 border-b border-border/50 pb-2 text-2xl font-semibold;
+    }
+
+    h3 {
+      @apply text-xl font-medium italic;
+    }
+
+    /* Heading anchor links */
+    h2, h3, h4, h5, h6 {
+      .heading-link {
+        @apply ms-2 no-underline opacity-0 transition-opacity duration-200;
+      }
+      &:hover .heading-link,
+      .heading-link:focus {
+        @apply opacity-75;
+      }
+    }
+
+    /* ── Body text ── */
+    p, strong, ol, ul, figcaption, table, code {
+      @apply text-foreground;
+    }
+
+    p {
+      @apply leading-7;
+    }
+
+    a {
+      @apply text-accent font-medium no-underline focus-visible:no-underline;
+      background: linear-gradient(to right, var(--accent), var(--accent)) no-repeat left bottom;
+      background-size: 0 1.5px;
+      transition: background-size 0.25s ease, color 0.2s ease;
+      padding-bottom: 2px;
+      &:hover {
+        background-size: 100% 1.5px;
+      }
+      strong {
+        @apply text-accent;
+      }
+    }
+
+    /* External link indicator */
+    a[href^="http"]:not([href*="jianzhnie.github.io"]):not(.no-external-icon)::after {
+      content: " ↗";
+      font-size: 0.75em;
+      opacity: 0.5;
+      white-space: nowrap;
+    }
+
+    /* ── Lists ── */
+    ul {
+      @apply overflow-x-clip;
+    }
+
+    li {
+      @apply marker:text-accent;
+    }
+
+    li > p {
+      @apply my-1;
+    }
+
+    /* ── Horizontal rule ── */
+    hr {
+      @apply border-border my-10;
+    }
+
+    /* ── Images ── */
+    img {
+      @apply border-border rounded-(--radius-lg) mx-auto border shadow-sm;
+      max-width: 100%;
+    }
+
+    figcaption {
+      @apply text-muted-foreground text-sm text-center mt-2;
+    }
+
+    /* ── Tables ── */
+    table {
+      @apply w-full overflow-hidden rounded-(--radius-md);
+      th, td {
+        @apply border-border border p-3 text-sm;
+      }
+      th {
+        @apply bg-muted py-2 font-semibold;
+      }
+      tbody tr {
+        @apply even:bg-muted/50;
+      }
+    }
+
+    /* ── Inline code ── */
+    :not(pre) > code {
+      @apply bg-muted text-foreground rounded-(--radius-sm) px-1.5 py-0.5 text-[0.875em] font-normal;
+    }
+
+    .astro-code code {
+      @apply flex-[1_0_100%] bg-inherit p-0;
+    }
+
+    /* ── Blockquotes ── */
+    blockquote {
+      @apply border-s-4 border-accent/60 bg-muted/50 rounded-(--radius-md) my-6 px-5 py-3;
+      p:first-of-type {
+        @apply mt-0;
+      }
+      p:last-of-type {
+        @apply mb-0;
+      }
+    }
+
+    /* ── Details / summary ── */
+    details {
+      @apply text-foreground inline-block cursor-pointer select-none [&_p]:hidden [&_ul]:my-0!;
+    }
+
+    summary {
+      @apply text-accent focus-visible:outline-accent focus-visible:no-underline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-dashed;
+    }
+
+    /* ── Pre / code blocks ── */
+    pre {
+      @apply rounded-(--radius-lg) border border-border my-6 overflow-x-auto;
+      @apply focus-visible:outline-accent focus-visible:border-accent focus-visible:outline-2 focus-visible:outline-dashed;
+    }
+  }
+
+  /* ── Code Blocks & Syntax Highlighting ── */
+  .astro-code {
+    @apply border-0 bg-(--shiki-light-bg) text-(--shiki-light) rounded-(--radius-lg) [&_span]:text-(--shiki-light);
+    font-size: 0.875em;
+    line-height: 1.7;
+  }
+
+  html[data-theme="dark"] .astro-code {
+    @apply bg-(--shiki-dark-bg) text-(--shiki-dark) [&_span]:text-(--shiki-dark);
+  }
+
+  /* Code block file name badge */
+  .astro-code > span:first-child:has(+ code) {
+    @apply text-xs font-medium;
+  }
+
+  /* Shiki transformer styles */
+  .astro-code {
+    .line.diff.add {
+      @apply relative inline-block w-full bg-green-400/20 before:absolute before:-left-3 before:text-green-500 before:content-['+'];
+    }
+    .line.diff.remove {
+      @apply relative inline-block w-full bg-red-500/20 before:absolute before:-left-3 before:text-red-500 before:content-['-'];
+    }
+    .line.highlighted {
+      @apply inline-block w-full bg-slate-400/20;
+    }
+    .highlighted-word {
+      @apply border-border rounded-sm border px-0.5 py-px;
+    }
+  }
+
+  /* Copy button styling */
+  .copy-code {
+    @apply bg-card border-border rounded-(--radius-sm) text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors;
+    backdrop-filter: blur(4px);
+  }
+}

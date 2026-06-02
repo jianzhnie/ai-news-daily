@@ -1,0 +1,46 @@
+---
+import config from "@/config";
+
+const { site, socials } = config;
+
+interface Props {
+  currentPage: string;
+}
+
+const { currentPage } = Astro.props;
+
+const navLinks = [
+  { href: "/", label: "首页" },
+  { href: "/daily/", label: "日报" },
+  { href: "/monthly/", label: "月报" },
+  { href: "/trending/", label: "Trending" },
+  { href: "/archives/", label: "归档" },
+];
+---
+
+<header class="border-border flex items-center justify-between border-b pb-4">
+  <a href="/" class="text-accent text-xl font-bold no-underline">
+    {site.title}
+  </a>
+  <nav class="flex items-center gap-4 text-sm">
+    {
+      navLinks.map(link => (
+        <a
+          href={link.href}
+          class={`hover:text-accent transition-colors ${
+            currentPage === link.href ? "text-accent font-semibold" : "text-muted-foreground"
+          }`}
+        >
+          {link.label}
+        </a>
+      ))
+    }
+    <button
+      id="theme-toggle"
+      class="text-muted-foreground hover:text-accent cursor-pointer text-sm"
+      aria-label="切换主题"
+    >
+      🌓
+    </button>
+  </nav>
+</header>
