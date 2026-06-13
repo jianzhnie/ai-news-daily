@@ -1,0 +1,108 @@
+<!DOCTYPE html><html lang="zh" data-theme="light"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>持久化执行 — AI News Daily</title><meta name="description" content="AI 领域每日信息聚合 — 日报、月报、GitHub Trending 中文解读"><meta name="generator" content="Astro v6.4.2"><!-- Open Graph --><meta property="og:title" content="持久化执行 — AI News Daily"><meta property="og:description" content="AI 领域每日信息聚合 — 日报、月报、GitHub Trending 中文解读"><meta property="og:type" content="website"><meta property="og:url" content="https://jianzhnie.github.io/ai-news-daily/wiki/concepts/durable-execution/"><meta property="og:image" content="https://jianzhnie.github.io/ai-news-daily/favicon.svg"><!-- Twitter Card --><meta name="twitter:card" content="summary"><meta name="twitter:title" content="持久化执行 — AI News Daily"><meta name="twitter:description" content="AI 领域每日信息聚合 — 日报、月报、GitHub Trending 中文解读"><link rel="canonical" href="https://jianzhnie.github.io/ai-news-daily/wiki/concepts/durable-execution/"><link rel="icon" type="image/svg+xml" href="/ai-news-daily/favicon.svg"><link rel="sitemap" href="/ai-news-daily/sitemap-index.xml"><link rel="alternate" type="application/rss+xml" title="AI News Daily RSS" href="/ai-news-daily/rss.xml"><script>
+      (function () {
+        const theme = localStorage.getItem("theme") || "light";
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script><link rel="stylesheet" href="/ai-news-daily/assets/Layout.Do8_-0LF.css">
+<style>[data-language=mermaid]{background:transparent!important}[data-language=mermaid] svg{max-width:100%;height:auto}[data-language=mermaid].astro-code{background-color:transparent!important}
+</style></head> <body class="bg-background text-foreground mx-auto min-h-screen max-w-3xl px-4 py-8 antialiased"> <header class="border-border flex flex-wrap items-center justify-between gap-y-3 border-b pb-4"> <a href="/ai-news-daily/" class="text-accent text-xl font-bold no-underline shrink-0"> AI News Daily </a> <div class="flex items-center gap-3"> <nav class="hidden md:flex items-center gap-3 text-sm"> <a href="/ai-news-daily/ai-trending/" class="hover:text-accent transition-colors text-muted-foreground"> AI-Trending </a><a href="/ai-news-daily/github-trending/" class="hover:text-accent transition-colors text-muted-foreground"> Github-Trending </a><a href="/ai-news-daily/arxiv-papers/" class="hover:text-accent transition-colors text-muted-foreground"> ArXiv </a><a href="/ai-news-daily/deepresearch/" class="hover:text-accent transition-colors text-muted-foreground"> DeepResearch </a><a href="/ai-news-daily/wiki/" class="hover:text-accent transition-colors text-accent font-semibold"> Wiki </a><a href="/ai-news-daily/tags/" class="hover:text-accent transition-colors text-muted-foreground"> Tags </a><a href="/ai-news-daily/archives/" class="hover:text-accent transition-colors text-muted-foreground"> Archives </a> </nav> <a href="/ai-news-daily/search/" class="text-muted-foreground hover:text-accent text-sm" title="搜索"> <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="5"></circle><path d="M11 11l3 3"></path></svg> </a> <button id="theme-toggle" class="text-muted-foreground hover:text-accent cursor-pointer text-sm" aria-label="切换主题">🌓</button> </div> <!-- Mobile nav --> <nav class="md:hidden flex flex-wrap gap-x-3 gap-y-1 text-sm w-full"> <a href="/ai-news-daily/ai-trending/" class="hover:text-accent transition-colors text-muted-foreground"> AI-Trending </a><a href="/ai-news-daily/github-trending/" class="hover:text-accent transition-colors text-muted-foreground"> Github-Trending </a><a href="/ai-news-daily/arxiv-papers/" class="hover:text-accent transition-colors text-muted-foreground"> ArXiv </a><a href="/ai-news-daily/deepresearch/" class="hover:text-accent transition-colors text-muted-foreground"> DeepResearch </a><a href="/ai-news-daily/wiki/" class="hover:text-accent transition-colors text-accent font-semibold"> Wiki </a><a href="/ai-news-daily/tags/" class="hover:text-accent transition-colors text-muted-foreground"> Tags </a><a href="/ai-news-daily/archives/" class="hover:text-accent transition-colors text-muted-foreground"> Archives </a> </nav> </header> <main class="mt-8">  <article class="app-prose mx-auto max-w-none"> <header class="border-border mb-8 border-b pb-6"> <div class="flex items-center gap-2 mb-2"> <a href="/ai-news-daily/wiki/" class="text-muted-foreground hover:text-accent text-sm transition-colors no-underline">← Wiki</a> <span class="text-muted-foreground text-sm">/</span> <span class="text-muted-foreground text-sm">概念</span> </div> <h1 class="text-accent text-2xl font-bold leading-tight">持久化执行</h1> <div class="text-muted-foreground mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm"> <time datetime="2026-06-08T00:00:00.000Z">
+更新于 2026年6月8日 </time> <span class="bg-muted px-2 py-0.5 rounded text-xs">草稿</span> <span>约 4 分钟阅读</span> </div> <div class="mt-3 flex flex-wrap gap-1.5"> <a href="/ai-news-daily/tags/Architecture/" class="bg-muted hover:bg-card text-muted-foreground hover:text-accent rounded-full border border-border hover:border-accent px-2 py-0.5 text-xs transition-colors no-underline">Architecture</a><a href="/ai-news-daily/tags/Agent/" class="bg-muted hover:bg-card text-muted-foreground hover:text-accent rounded-full border border-border hover:border-accent px-2 py-0.5 text-xs transition-colors no-underline">Agent</a><a href="/ai-news-daily/tags/Framework/" class="bg-muted hover:bg-card text-muted-foreground hover:text-accent rounded-full border border-border hover:border-accent px-2 py-0.5 text-xs transition-colors no-underline">Framework</a> </div> </header> <h1 id="持久化执行">持久化执行</h1>
+<h2 id="概述">概述</h2>
+<p>持久化执行（Durable Execution）是一种保证长时运行任务在失败后可恢复的执行模式。其核心思想是将任务的状态和进度持久化存储，在进程崩溃、机器宕机或网络中断后能够从断点继续执行，而非从头开始。这一技术对 AI 工作流（长时运行、易失败）具有重大意义。</p>
+<h2 id="工作原理">工作原理</h2>
+<pre class="astro-code astro-code-themes min-light night-owl" style="--shiki-light:#24292eff;--shiki-dark:#d6deeb;--shiki-light-bg:#ffffff;--shiki-dark-bg:#011627; overflow-x: auto;" tabindex="0" data-language="mermaid"><code><span class="line"><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">flowchart TB</span></span>
+<span class="line"><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">    Start[任务开始] --> Checkpoint[创建 Checkpoint]</span></span>
+<span class="line"><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">    Checkpoint --> Execute[执行任务步骤]</span></span>
+<span class="line"><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">    Execute --> Success{成功?}</span></span>
+<span class="line"><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">    Success -->|是| Next{还有更多步骤?}</span></span>
+<span class="line"><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">    Success -->|否| Recover[从 Checkpoint 恢复]</span></span>
+<span class="line"><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">    Recover --> Execute</span></span>
+<span class="line"><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">    Next -->|是| Checkpoint</span></span>
+<span class="line"><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">    Next -->|否| Complete[任务完成]</span></span></code></pre>
+<p>关键机制：</p>
+<ol>
+<li><strong>Checkpoint（检查点）</strong> — 定期将任务状态（局部变量、调用栈、待处理事件）序列化到持久存储</li>
+<li><strong>重放（Replay）</strong> — 恢复时从最近的 Checkpoint 重建执行上下文</li>
+<li><strong>幂等性保证</strong> — 外部调用的副作用通过去重机制保证只执行一次</li>
+</ol>
+<h2 id="关键变体">关键变体</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>变体</th><th>年份</th><th>代表项目</th><th>核心特点</th></tr></thead><tbody><tr><td>Temporal</td><td>2019</td><td>temporalio/temporal</td><td>独立的持久化执行工作流引擎，支持多种语言 SDK</td></tr><tr><td>Durable Functions</td><td>2017</td><td>Azure Functions</td><td>微软将持久化执行集成到无服务器函数中</td></tr><tr><td>pg_durable</td><td>2026</td><td>[[pg-durable</td><td>microsoft/pg_durable]]</td></tr></tbody></table>
+<h2 id="最新进展">最新进展</h2>
+<ul>
+<li><strong>2026-06-08</strong> | 微软开源 pg-durable|pg_durable，将持久化执行引擎植入 PostgreSQL，标志着 AI 工作流所需的”可恢复执行”正从应用层下沉到数据库层 | 来源: <a href="../../reports/github-trending/2026/06/2026-06-08-github-trending.md">GitHub Trending</a></li>
+</ul>
+<h2 id="相关概念">相关概念</h2>
+<ul>
+<li><a href="/ai-news-daily/wiki/concepts/agent-frameworks/">agent-frameworks</a> — AI Agent 的长时运行任务是持久化执行的核心应用场景</li>
+</ul>
+<h2 id="相关实体">相关实体</h2>
+<ul>
+<li><a href="/ai-news-daily/wiki/entities/microsoft/">microsoft</a> — pg_durable 的发布方</li>
+<li><a href="/ai-news-daily/wiki/entities/pg-durable/">pg-durable</a> — 微软开源的 PostgreSQL 持久化执行扩展</li>
+</ul>
+<h2 id="来源引用">来源引用</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>日期</th><th>报告</th><th>关键发现</th></tr></thead><tbody><tr><td>2026-06-08</td><td><a href="../../reports/github-trending/2026/06/2026-06-08-github-trending.md">GitHub Trending</a></td><td>微软 pg_durable 开源，持久化执行下沉到数据库层</td></tr></tbody></table> <script type="module" src="/ai-news-daily/assets/Mermaid.astro_astro_type_script_index_0_lang.CvRcCFO7.js"></script> </article>  </main> <footer class="border-border text-muted-foreground mt-12 border-t pt-6 text-center text-sm"> <p>
+&copy; 2026 AI News Daily &mdash;
+    由 <a href="https://github.com/jianzhnie/AI-News-Daily" class="text-accent hover:underline no-external-icon">AI-News-Daily</a> 驱动
+</p> <p class="mt-1"> <a href="/ai-news-daily/rss.xml" class="text-accent hover:underline">RSS 订阅</a> </p> </footer> <button id="back-to-top" class="bg-card border-border hover:bg-muted text-muted-foreground hover:text-foreground fixed right-6 bottom-6 z-50 hidden rounded-full border p-2.5 shadow-sm transition-all" aria-label="回到顶部"> <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12V4M4 8l4-4 4 4"></path></svg> </button> <script>
+  const toggle = document.getElementById("theme-toggle");
+  if (toggle) {
+    toggle.addEventListener("click", () => {
+      const current = document.documentElement.dataset.theme;
+      const next = current === "dark" ? "light" : "dark";
+      document.documentElement.dataset.theme = next;
+      localStorage.setItem("theme", next);
+    });
+  }
+  const btn = document.getElementById("back-to-top");
+  if (btn) {
+    window.addEventListener("scroll", () => {
+      btn.classList.toggle("hidden", window.scrollY < 300);
+    });
+    btn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  }
+</script></body></html>

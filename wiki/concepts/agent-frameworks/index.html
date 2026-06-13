@@ -1,0 +1,176 @@
+<!DOCTYPE html><html lang="zh" data-theme="light"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Agent Frameworks / AI Agent 基础设施 — AI News Daily</title><meta name="description" content="AI 领域每日信息聚合 — 日报、月报、GitHub Trending 中文解读"><meta name="generator" content="Astro v6.4.2"><!-- Open Graph --><meta property="og:title" content="Agent Frameworks / AI Agent 基础设施 — AI News Daily"><meta property="og:description" content="AI 领域每日信息聚合 — 日报、月报、GitHub Trending 中文解读"><meta property="og:type" content="website"><meta property="og:url" content="https://jianzhnie.github.io/ai-news-daily/wiki/concepts/agent-frameworks/"><meta property="og:image" content="https://jianzhnie.github.io/ai-news-daily/favicon.svg"><!-- Twitter Card --><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Agent Frameworks / AI Agent 基础设施 — AI News Daily"><meta name="twitter:description" content="AI 领域每日信息聚合 — 日报、月报、GitHub Trending 中文解读"><link rel="canonical" href="https://jianzhnie.github.io/ai-news-daily/wiki/concepts/agent-frameworks/"><link rel="icon" type="image/svg+xml" href="/ai-news-daily/favicon.svg"><link rel="sitemap" href="/ai-news-daily/sitemap-index.xml"><link rel="alternate" type="application/rss+xml" title="AI News Daily RSS" href="/ai-news-daily/rss.xml"><script>
+      (function () {
+        const theme = localStorage.getItem("theme") || "light";
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script><link rel="stylesheet" href="/ai-news-daily/assets/Layout.Do8_-0LF.css">
+<style>[data-language=mermaid]{background:transparent!important}[data-language=mermaid] svg{max-width:100%;height:auto}[data-language=mermaid].astro-code{background-color:transparent!important}
+</style></head> <body class="bg-background text-foreground mx-auto min-h-screen max-w-3xl px-4 py-8 antialiased"> <header class="border-border flex flex-wrap items-center justify-between gap-y-3 border-b pb-4"> <a href="/ai-news-daily/" class="text-accent text-xl font-bold no-underline shrink-0"> AI News Daily </a> <div class="flex items-center gap-3"> <nav class="hidden md:flex items-center gap-3 text-sm"> <a href="/ai-news-daily/ai-trending/" class="hover:text-accent transition-colors text-muted-foreground"> AI-Trending </a><a href="/ai-news-daily/github-trending/" class="hover:text-accent transition-colors text-muted-foreground"> Github-Trending </a><a href="/ai-news-daily/arxiv-papers/" class="hover:text-accent transition-colors text-muted-foreground"> ArXiv </a><a href="/ai-news-daily/deepresearch/" class="hover:text-accent transition-colors text-muted-foreground"> DeepResearch </a><a href="/ai-news-daily/wiki/" class="hover:text-accent transition-colors text-accent font-semibold"> Wiki </a><a href="/ai-news-daily/tags/" class="hover:text-accent transition-colors text-muted-foreground"> Tags </a><a href="/ai-news-daily/archives/" class="hover:text-accent transition-colors text-muted-foreground"> Archives </a> </nav> <a href="/ai-news-daily/search/" class="text-muted-foreground hover:text-accent text-sm" title="搜索"> <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="5"></circle><path d="M11 11l3 3"></path></svg> </a> <button id="theme-toggle" class="text-muted-foreground hover:text-accent cursor-pointer text-sm" aria-label="切换主题">🌓</button> </div> <!-- Mobile nav --> <nav class="md:hidden flex flex-wrap gap-x-3 gap-y-1 text-sm w-full"> <a href="/ai-news-daily/ai-trending/" class="hover:text-accent transition-colors text-muted-foreground"> AI-Trending </a><a href="/ai-news-daily/github-trending/" class="hover:text-accent transition-colors text-muted-foreground"> Github-Trending </a><a href="/ai-news-daily/arxiv-papers/" class="hover:text-accent transition-colors text-muted-foreground"> ArXiv </a><a href="/ai-news-daily/deepresearch/" class="hover:text-accent transition-colors text-muted-foreground"> DeepResearch </a><a href="/ai-news-daily/wiki/" class="hover:text-accent transition-colors text-accent font-semibold"> Wiki </a><a href="/ai-news-daily/tags/" class="hover:text-accent transition-colors text-muted-foreground"> Tags </a><a href="/ai-news-daily/archives/" class="hover:text-accent transition-colors text-muted-foreground"> Archives </a> </nav> </header> <main class="mt-8">  <article class="app-prose mx-auto max-w-none"> <header class="border-border mb-8 border-b pb-6"> <div class="flex items-center gap-2 mb-2"> <a href="/ai-news-daily/wiki/" class="text-muted-foreground hover:text-accent text-sm transition-colors no-underline">← Wiki</a> <span class="text-muted-foreground text-sm">/</span> <span class="text-muted-foreground text-sm">概念</span> </div> <h1 class="text-accent text-2xl font-bold leading-tight">Agent Frameworks / AI Agent 基础设施</h1> <div class="text-muted-foreground mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm"> <time datetime="2026-06-09T00:00:00.000Z">
+更新于 2026年6月9日 </time> <span class="bg-muted px-2 py-0.5 rounded text-xs">草稿</span> <span>约 10 分钟阅读</span> </div> <div class="mt-3 flex flex-wrap gap-1.5"> <a href="/ai-news-daily/tags/Agent/" class="bg-muted hover:bg-card text-muted-foreground hover:text-accent rounded-full border border-border hover:border-accent px-2 py-0.5 text-xs transition-colors no-underline">Agent</a><a href="/ai-news-daily/tags/LLM/" class="bg-muted hover:bg-card text-muted-foreground hover:text-accent rounded-full border border-border hover:border-accent px-2 py-0.5 text-xs transition-colors no-underline">LLM</a><a href="/ai-news-daily/tags/Framework/" class="bg-muted hover:bg-card text-muted-foreground hover:text-accent rounded-full border border-border hover:border-accent px-2 py-0.5 text-xs transition-colors no-underline">Framework</a> </div> </header> <h1 id="agent-frameworks--ai-agent-基础设施">Agent Frameworks / AI Agent 基础设施</h1>
+<h2 id="概述">概述</h2>
+<p>AI Agent 基础设施是为构建自主 AI 智能体提供标准化能力层的工具和框架的统称。2026 年中，Agent 生态正在从”手搓脚本”阶段进入<strong>标准化基础设施</strong>阶段——从前端 UI、技能编排、记忆系统到互联网感知，每一层都有专门的项目涌现。核心目标是让开发者像搭积木一样组装 Agent，而非每次从零开始。</p>
+<h2 id="工作原理">工作原理</h2>
+<pre class="astro-code astro-code-themes min-light night-owl" style="--shiki-light:#24292eff;--shiki-dark:#d6deeb;--shiki-light-bg:#ffffff;--shiki-dark-bg:#011627; overflow-x: auto;" tabindex="0" data-language="mermaid"><code><span class="line"><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">flowchart TB</span></span>
+<span class="line"><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">    User[用户] --> Frontend[前端交互层]</span></span>
+<span class="line"><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">    Frontend --> Orchestration[技能编排层]</span></span>
+<span class="line"><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">    Orchestration --> Skills[技能模块]</span></span>
+<span class="line"><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">    Skills --> Memory[记忆层]</span></span>
+<span class="line"><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">    Skills --> Perception[感知层]</span></span>
+<span class="line"><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">    Skills --> Tools[工具调用]</span></span>
+<span class="line"><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">    Memory --> LLM[LLM 推理]</span></span>
+<span class="line"><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">    Perception --> LLM</span></span>
+<span class="line"><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">    Tools --> LLM</span></span>
+<span class="line"><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">    LLM --> Frontend</span></span></code></pre>
+<p>Agent 基础设施分为四层：</p>
+<ol>
+<li><strong>前端交互层</strong> — Agent 与用户的 UI 界面（CopilotKit）</li>
+<li><strong>技能编排层</strong> — 定义和组合 Agent 能力的元框架（superpowers）</li>
+<li><strong>能力层</strong> — 具体的能力模块：记忆（MemPalace）、互联网感知（Agent-Reach）、工具调用（MCP）</li>
+<li><strong>推理层</strong> — LLM 本身</li>
+</ol>
+<h2 id="关键变体--项目">关键变体 / 项目</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>项目</th><th>层级</th><th>核心功能</th><th align="center">Star（2026.06）</th></tr></thead><tbody><tr><td><a href="/ai-news-daily/wiki/entities/hermes-agent/">hermes-agent</a></td><td>框架层</td><td>NousResearch 出品，186K+ star 的 Agent 基础设施</td><td align="center">186k</td></tr><tr><td><a href="/ai-news-daily/wiki/entities/superpowers/">superpowers</a></td><td>技能编排</td><td>可组合的 Agentic 技能框架 + 开发方法论</td><td align="center">220k</td></tr><tr><td><a href="/ai-news-daily/wiki/entities/goose/">goose</a></td><td>框架层</td><td>Block 出品，超越 Copilot 的 AI Coding Agent</td><td align="center">47k</td></tr><tr><td><a href="/ai-news-daily/wiki/entities/copilotkit/">copilotkit</a></td><td>前端交互</td><td>Generative UI、多端 Agent 界面框架</td><td align="center">33k</td></tr><tr><td><a href="/ai-news-daily/wiki/entities/agent-reach/">agent-reach</a></td><td>感知层</td><td>给 Agent 装上”互联网之眼”，读取 7+ 平台</td><td align="center">22k</td></tr><tr><td><a href="/ai-news-daily/wiki/entities/mempalace/">mempalace</a></td><td>记忆层</td><td>评测最佳的开源 AI 记忆系统</td><td align="center">54k</td></tr><tr><td><a href="/ai-news-daily/wiki/entities/last30days-skill/">last30days-skill</a></td><td>技能模块</td><td>跨平台 AI 研究 Agent Skill，31K+ star</td><td align="center">31k</td></tr><tr><td><a href="/ai-news-daily/wiki/entities/taste-skill/">taste-skill</a></td><td>技能模块</td><td>阻止 AI 生成同质化低质量内容的品味 Skill</td><td align="center">37k</td></tr><tr><td><a href="/ai-news-daily/wiki/entities/open-notebook/">open-notebook</a></td><td>应用层</td><td>开源版 NotebookLM，RAG 知识助手</td><td align="center">27k</td></tr></tbody></table>
+<h2 id="最新进展">最新进展</h2>
+<ul>
+<li><strong>2026-06-09</strong> | Agent 能力边界持续扩展：从纯代码（goose MCP 架构）到跨平台研究（last30days-skill）再到网络浏览（Agent-Reach），Agent 正在接管越来越复杂的认知任务 | 来源: <a href="../../reports/github-trending/2026/06/2026-06-09-github-trending.md">GitHub Trending</a></li>
+<li><strong>2026-06-09</strong> | AI Coding Agent 生态分化：Claude Code 路线和开源替代方案（goose MCP 架构）并行，工具链成熟度快速提升。Google 推出官方 skills 集合，标志大厂加速 Agent 产品化 | 来源: <a href="../../reports/github-trending/2026/06/2026-06-09-github-trending.md">GitHub Trending</a></li>
+<li><strong>2026-06-08</strong> | Agent Skill 化趋势明显：last30days-skill 和 taste-skill 均单日破千 star，Agent 能力正从框架级向可插拔 Skill 演进 | 来源: <a href="../../reports/github-trending/2026/06/2026-06-08-github-trending.md">GitHub Trending</a></li>
+<li><strong>2026-06-08</strong> | Hermes Agent 单日 +1,112 star，总 star 达 186,208，开源 Agent 进入基础设施级竞争 | 来源: <a href="../../reports/github-trending/2026/06/2026-06-08-github-trending.md">GitHub Trending</a></li>
+<li><strong>2026-06-08</strong> | Goose 单日 +322 star，Block 出品的 Rust Agent 框架持续获关注 | 来源: <a href="../../reports/github-trending/2026/06/2026-06-08-github-trending.md">GitHub Trending</a></li>
+<li><strong>2026-06-07</strong> | Agent 基础设施全面爆发：GitHub Trending 10+ 个 Agent 相关项目，superpowers 突破 22 万 star | 来源: <a href="../../reports/github-trending/2026/06/2026-06-07-github-trending.md">GitHub Trending</a></li>
+<li><strong>2026-06-07</strong> | CopilotKit +631 star，前端开发者正大规模涌入 Agent 赛道 | 来源: <a href="../../reports/github-trending/2026/06/2026-06-07-github-trending.md">GitHub Trending</a></li>
+<li><strong>2026-06-07</strong> | Agent-Reach +683 star，解决 Agent”互联网感知”短板，中国团队出品 | 来源: <a href="../../reports/github-trending/2026/06/2026-06-07-github-trending.md">GitHub Trending</a></li>
+</ul>
+<h2 id="相关概念">相关概念</h2>
+<ul>
+<li>rag — RAG 是 Agent 知识检索的核心技术，NotebookLM / open-notebook 的基础</li>
+<li><a href="/ai-news-daily/wiki/concepts/vector-index/">vector-index</a> — 向量索引是 Agent 知识检索的底层基础设施</li>
+<li><a href="/ai-news-daily/wiki/concepts/distributed-training/">distributed-training</a> — 大模型训练基础设施，Agent 的底层推理能力来源</li>
+<li><a href="/ai-news-daily/wiki/concepts/durable-execution/">durable-execution</a> — 持久化执行保证 Agent 长时任务的可靠性</li>
+</ul>
+<h2 id="相关实体">相关实体</h2>
+<ul>
+<li><a href="/ai-news-daily/wiki/entities/hermes-agent/">hermes-agent</a></li>
+<li><a href="/ai-news-daily/wiki/entities/superpowers/">superpowers</a></li>
+<li><a href="/ai-news-daily/wiki/entities/goose/">goose</a></li>
+<li><a href="/ai-news-daily/wiki/entities/copilotkit/">copilotkit</a></li>
+<li><a href="/ai-news-daily/wiki/entities/agent-reach/">agent-reach</a></li>
+<li><a href="/ai-news-daily/wiki/entities/mempalace/">mempalace</a></li>
+<li><a href="/ai-news-daily/wiki/entities/last30days-skill/">last30days-skill</a></li>
+<li><a href="/ai-news-daily/wiki/entities/taste-skill/">taste-skill</a></li>
+<li><a href="/ai-news-daily/wiki/entities/open-notebook/">open-notebook</a></li>
+<li><a href="/ai-news-daily/wiki/entities/openai/">openai</a> — Agent 工具调用协议（plugins）的定义者</li>
+<li><a href="/ai-news-daily/wiki/entities/microsoft/">microsoft</a> — VibeVoice 语音 Agent 能力，pg_durable 持久化执行</li>
+</ul>
+<h2 id="来源引用">来源引用</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>日期</th><th>报告</th><th>关键发现</th></tr></thead><tbody><tr><td>2026-06-09</td><td><a href="../../reports/github-trending/2026/06/2026-06-09-github-trending.md">GitHub Trending</a></td><td>Agent 能力边界扩展：代码→研究→浏览，大厂加速产品化</td></tr><tr><td>2026-06-08</td><td><a href="../../reports/github-trending/2026/06/2026-06-08-github-trending.md">GitHub Trending</a></td><td>Agent Skill 化趋势：last30days + taste 单日破千</td></tr><tr><td>2026-06-07</td><td><a href="../../reports/github-trending/2026/06/2026-06-07-github-trending.md">GitHub Trending</a></td><td>Agent 基础设施四层架构全面爆发</td></tr></tbody></table> <script type="module" src="/ai-news-daily/assets/Mermaid.astro_astro_type_script_index_0_lang.CvRcCFO7.js"></script> </article>  </main> <footer class="border-border text-muted-foreground mt-12 border-t pt-6 text-center text-sm"> <p>
+&copy; 2026 AI News Daily &mdash;
+    由 <a href="https://github.com/jianzhnie/AI-News-Daily" class="text-accent hover:underline no-external-icon">AI-News-Daily</a> 驱动
+</p> <p class="mt-1"> <a href="/ai-news-daily/rss.xml" class="text-accent hover:underline">RSS 订阅</a> </p> </footer> <button id="back-to-top" class="bg-card border-border hover:bg-muted text-muted-foreground hover:text-foreground fixed right-6 bottom-6 z-50 hidden rounded-full border p-2.5 shadow-sm transition-all" aria-label="回到顶部"> <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12V4M4 8l4-4 4 4"></path></svg> </button> <script>
+  const toggle = document.getElementById("theme-toggle");
+  if (toggle) {
+    toggle.addEventListener("click", () => {
+      const current = document.documentElement.dataset.theme;
+      const next = current === "dark" ? "light" : "dark";
+      document.documentElement.dataset.theme = next;
+      localStorage.setItem("theme", next);
+    });
+  }
+  const btn = document.getElementById("back-to-top");
+  if (btn) {
+    window.addEventListener("scroll", () => {
+      btn.classList.toggle("hidden", window.scrollY < 300);
+    });
+    btn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  }
+</script></body></html>

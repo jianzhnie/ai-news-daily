@@ -1,0 +1,96 @@
+<!DOCTYPE html><html lang="zh" data-theme="light"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>搜索 - AI News Daily — AI News Daily</title><meta name="description" content="AI 领域每日信息聚合 — 日报、月报、GitHub Trending 中文解读"><meta name="generator" content="Astro v6.4.2"><!-- Open Graph --><meta property="og:title" content="搜索 - AI News Daily — AI News Daily"><meta property="og:description" content="AI 领域每日信息聚合 — 日报、月报、GitHub Trending 中文解读"><meta property="og:type" content="website"><meta property="og:url" content="https://jianzhnie.github.io/ai-news-daily/search/"><meta property="og:image" content="https://jianzhnie.github.io/ai-news-daily/favicon.svg"><!-- Twitter Card --><meta name="twitter:card" content="summary"><meta name="twitter:title" content="搜索 - AI News Daily — AI News Daily"><meta name="twitter:description" content="AI 领域每日信息聚合 — 日报、月报、GitHub Trending 中文解读"><link rel="canonical" href="https://jianzhnie.github.io/ai-news-daily/search/"><link rel="icon" type="image/svg+xml" href="/ai-news-daily/favicon.svg"><link rel="sitemap" href="/ai-news-daily/sitemap-index.xml"><link rel="alternate" type="application/rss+xml" title="AI News Daily RSS" href="/ai-news-daily/rss.xml"><script>
+      (function () {
+        const theme = localStorage.getItem("theme") || "light";
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script><link rel="stylesheet" href="/ai-news-daily/assets/Layout.Do8_-0LF.css"></head> <body class="bg-background text-foreground mx-auto min-h-screen max-w-3xl px-4 py-8 antialiased"> <header class="border-border flex flex-wrap items-center justify-between gap-y-3 border-b pb-4"> <a href="/ai-news-daily/" class="text-accent text-xl font-bold no-underline shrink-0"> AI News Daily </a> <div class="flex items-center gap-3"> <nav class="hidden md:flex items-center gap-3 text-sm"> <a href="/ai-news-daily/ai-trending/" class="hover:text-accent transition-colors text-muted-foreground"> AI-Trending </a><a href="/ai-news-daily/github-trending/" class="hover:text-accent transition-colors text-muted-foreground"> Github-Trending </a><a href="/ai-news-daily/arxiv-papers/" class="hover:text-accent transition-colors text-muted-foreground"> ArXiv </a><a href="/ai-news-daily/deepresearch/" class="hover:text-accent transition-colors text-muted-foreground"> DeepResearch </a><a href="/ai-news-daily/wiki/" class="hover:text-accent transition-colors text-muted-foreground"> Wiki </a><a href="/ai-news-daily/tags/" class="hover:text-accent transition-colors text-muted-foreground"> Tags </a><a href="/ai-news-daily/archives/" class="hover:text-accent transition-colors text-muted-foreground"> Archives </a> </nav> <a href="/ai-news-daily/search/" class="text-muted-foreground hover:text-accent text-sm" title="搜索"> <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="5"></circle><path d="M11 11l3 3"></path></svg> </a> <button id="theme-toggle" class="text-muted-foreground hover:text-accent cursor-pointer text-sm" aria-label="切换主题">🌓</button> </div> <!-- Mobile nav --> <nav class="md:hidden flex flex-wrap gap-x-3 gap-y-1 text-sm w-full"> <a href="/ai-news-daily/ai-trending/" class="hover:text-accent transition-colors text-muted-foreground"> AI-Trending </a><a href="/ai-news-daily/github-trending/" class="hover:text-accent transition-colors text-muted-foreground"> Github-Trending </a><a href="/ai-news-daily/arxiv-papers/" class="hover:text-accent transition-colors text-muted-foreground"> ArXiv </a><a href="/ai-news-daily/deepresearch/" class="hover:text-accent transition-colors text-muted-foreground"> DeepResearch </a><a href="/ai-news-daily/wiki/" class="hover:text-accent transition-colors text-muted-foreground"> Wiki </a><a href="/ai-news-daily/tags/" class="hover:text-accent transition-colors text-muted-foreground"> Tags </a><a href="/ai-news-daily/archives/" class="hover:text-accent transition-colors text-muted-foreground"> Archives </a> </nav> </header> <main class="mt-8">  <div class="mb-6"> <input id="search-input" type="search" placeholder="搜索标题、标签、关键词...（支持多词组合）" class="border-border bg-card text-foreground focus:border-accent w-full rounded-lg border px-4 py-3 text-sm outline-none transition-colors" autofocus> <div id="search-meta" class="text-muted-foreground mt-2 text-xs"></div> </div> <div id="search-results" class="space-y-3"> <p class="text-muted-foreground text-sm">输入关键词开始搜索</p> </div>  </main> <footer class="border-border text-muted-foreground mt-12 border-t pt-6 text-center text-sm"> <p>
+&copy; 2026 AI News Daily &mdash;
+    由 <a href="https://github.com/jianzhnie/AI-News-Daily" class="text-accent hover:underline no-external-icon">AI-News-Daily</a> 驱动
+</p> <p class="mt-1"> <a href="/ai-news-daily/rss.xml" class="text-accent hover:underline">RSS 订阅</a> </p> </footer> <button id="back-to-top" class="bg-card border-border hover:bg-muted text-muted-foreground hover:text-foreground fixed right-6 bottom-6 z-50 hidden rounded-full border p-2.5 shadow-sm transition-all" aria-label="回到顶部"> <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12V4M4 8l4-4 4 4"></path></svg> </button> <script>
+  const toggle = document.getElementById("theme-toggle");
+  if (toggle) {
+    toggle.addEventListener("click", () => {
+      const current = document.documentElement.dataset.theme;
+      const next = current === "dark" ? "light" : "dark";
+      document.documentElement.dataset.theme = next;
+      localStorage.setItem("theme", next);
+    });
+  }
+  const btn = document.getElementById("back-to-top");
+  if (btn) {
+    window.addEventListener("scroll", () => {
+      btn.classList.toggle("hidden", window.scrollY < 300);
+    });
+    btn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  }
+</script></body></html> <script>(function(){const searchData = "[{\"title\":\"AI 日报 — 2026-06-13\",\"description\":\"美国政府下令 Anthropic 全球禁用 Claude Fable 5 / Mythos 5；同时 Claude Fable 5 在 FrontierMath 上大幅超越 GPT-5.5，Moonshot 开源 Kimi K2.7 Code，Agent 安全与工程化成为今日焦点。\",\"tags\":[\"Claude Fable 5\",\"Agent 安全\",\"开源模型\"],\"date\":\"2026/6/13\",\"type\":\"日报\",\"url\":\"/ai-news-daily/ai-trending/2026-06-13-ai-trending/\"},{\"title\":\"GitHub Trending 中文解读 — 2026-06-13\",\"description\":\"今日 GitHub Trending 被 AI Agent Skills 生态主导：从工程方法论、生产级技能库到安全扫描器，Agent 基础设施进入深水区；Apple、NVIDIA、Microsoft 等巨头项目同日上榜，显示大厂正加速布局下一代开发者体验。\",\"tags\":[\"AI Agent Skills\",\"AI 安全\",\"开发者工具\"],\"date\":\"2026/6/13\",\"type\":\"Trending\",\"url\":\"/ai-news-daily/github-trending/2026-06-13-github-trending/\"},{\"title\":\"GitHub Trending 中文解读 — 2026-06-12\",\"description\":\"Agent 技能标准化全面爆发：agent-skills 日增 3,278，Apple 容器工具持续火热\",\"tags\":[\"ai-agent\",\"ai-coding\",\"open-source\"],\"date\":\"2026/6/12\",\"type\":\"Trending\",\"url\":\"/ai-news-daily/github-trending/2026-06-12-github-trending/\"},{\"title\":\"AI 日报 — 2026-06-11\",\"description\":\"AWS 前沿团队 AI 原生开发 4.5x 生产力提升；AI Agent 在 Linux 系统失控引发安全讨论；OpenAI IPO 前降价迎战 Anthropic\",\"tags\":[\"agent\",\"safety\",\"ai-coding\"],\"date\":\"2026/6/11\",\"type\":\"日报\",\"url\":\"/ai-news-daily/ai-trending/2026-06-11-ai-trending/\"},{\"title\":\"GitHub Trending 中文解读 — 2026-06-11\",\"description\":\"巨型 Agent 框架 superpowers 回归 trending，连续上榜项目增速全面加速，Apple 官方容器工具上榜\",\"tags\":[\"ai-agent\",\"ai-coding\",\"open-source\"],\"date\":\"2026/6/11\",\"type\":\"Trending\",\"url\":\"/ai-news-daily/github-trending/2026-06-11-github-trending/\"},{\"title\":\"GitHub Trending 中文解读 — 2026-06-10\",\"description\":\"连续上榜项目增速全面加速：last30days-skill 和 turbovec 持续领跑，PM/求职垂直场景 Agent 爆发\",\"tags\":[\"ai-agent\",\"rag\",\"ai-coding\"],\"date\":\"2026/6/10\",\"type\":\"Trending\",\"url\":\"/ai-news-daily/github-trending/2026-06-10-github-trending/\"},{\"title\":\"AI 日报 — 2026-06-09\",\"description\":\"苹果渐进式 AI 战略获认可；Claude Opus 4 对抗性测试领先；llama.cpp WebGPU 性能提升 2-3.7 倍\",\"tags\":[\"llm\",\"open-source\",\"agent\"],\"date\":\"2026/6/9\",\"type\":\"日报\",\"url\":\"/ai-news-daily/ai-trending/2026-06-09-ai-trending/\"},{\"title\":\"GitHub Trending 中文解读 — 2026-06-09\",\"description\":\"AI Agent 能力边界持续扩展：跨平台研究、网络浏览、AI Coding 工具全面爆发\",\"tags\":[\"ai-agent\",\"rag\",\"ai-coding\"],\"date\":\"2026/6/9\",\"type\":\"Trending\",\"url\":\"/ai-news-daily/github-trending/2026-06-09-github-trending/\"},{\"title\":\"AI 日报 — 2026-06-08\",\"description\":\"Haiku 4.5 生成的调试代码泄露 API Key 引安全意识讨论，VentureBeat 深度报道 Claude 模型变更如何影响生产系统，Ideogram 4 + 本地 LLM 的 JSON 提示工作流持续发酵。\",\"tags\":[\"AI安全\",\"Agent\",\"端侧推理\",\"Claude Code\"],\"date\":\"2026/6/8\",\"type\":\"日报\",\"url\":\"/ai-news-daily/ai-trending/2026-06-08-ai-trending/\"},{\"title\":\"GitHub Trending 中文解读 — 2026-06-08\",\"description\":\"今日 GitHub Trending 被 AI Agent 概念全面主导，4 个 ★★★ 项目中有 3 个与 Agent 直接相关，另有向量数据库新贵 turbovec 以日增 1500+ star 的爆发力异军突起。\",\"tags\":[\"AI Agent\",\"向量索引\",\"持久化执行\"],\"date\":\"2026/6/8\",\"type\":\"Trending\",\"url\":\"/ai-news-daily/github-trending/2026-06-08-github-trending/\"},{\"title\":\"AI 日报 — 2026-06-07\",\"description\":\"周末 AI 动态：RAG 上下文判定、AI 技能成全球最难招聘岗位、Ideogram 4 漫画生成\",\"tags\":[\"Agent\",\"RAG\",\"AI-Coding\"],\"date\":\"2026/6/7\",\"type\":\"日报\",\"url\":\"/ai-news-daily/ai-trending/2026-06-07-ai-trending/\"},{\"title\":\"GitHub Trending 中文解读 — 2026-06-07\",\"description\":\"Agent 基础设施全面爆发：开源 NotebookLM、Agent 技能框架、Web 访问能力成为今日三大主线\",\"tags\":[\"Agent\",\"AI-Coding\",\"开源\"],\"date\":\"2026/6/7\",\"type\":\"Trending\",\"url\":\"/ai-news-daily/github-trending/2026-06-07-github-trending/\"},{\"title\":\"AI 日报 — 2026-06-06\",\"description\":\"Anthropic 发布递归自我改进研究并呼吁全球 AI 暂停，Alphabet 创纪录 850 亿美元融资，微软宣布脱离 OpenAI 独立追求超级智能。\",\"tags\":[\"AI安全\",\"Anthropic暂停呼吁\",\"超级智能\",\"Alphabet融资\"],\"date\":\"2026/6/6\",\"type\":\"日报\",\"url\":\"/ai-news-daily/ai-trending/2026-06-06-ai-trending/\"},{\"title\":\"GitHub Trending 中文解读 — 2026-06-06\",\"description\":\"今日 GitHub 热榜被「配置即产品」浪潮席卷——近半数上榜项目不是可执行软件，而是教 AI 如何思考、写作、编程的 Skill 文件。\",\"tags\":[\"Skills 配置化\",\"AI Agent 生态\",\"反订阅运动\",\"知识图谱\"],\"date\":\"2026/6/6\",\"type\":\"Trending\",\"url\":\"/ai-news-daily/github-trending/2026-06-06-github-trending/\"},{\"title\":\"AI 日报 — 2026-06-05\",\"description\":\"Anthropic 呼吁全球 AI 暂停研发并筹备万亿 IPO 引发争议，CMA 下令 Google AI 搜索为出版商提供退出机制，Gemma 4 12B 成为本地推理新宠，AI Agent 工程化讨论升温。\",\"tags\":[\"AI监管\",\"开源模型\",\"AI Agent\",\"推理优化\"],\"date\":\"2026/6/5\",\"type\":\"日报\",\"url\":\"/ai-news-daily/ai-trending/2026-06-05-ai-trending/\"},{\"title\":\"AI 月报 — 2026 年 5 月\",\"description\":\"2026年5月AI行业关键词：Anthropic万亿IPO与AI暂停争议、NVIDIA Nemotron 3 Ultra开源、端侧模型爆发、AI监管首次落地、企业AI ROI危机浮现。\",\"tags\":[\"Anthropic IPO\",\"开源模型\",\"AI监管\",\"Agent\",\"AI Coding\"],\"date\":\"2026/6/5\",\"type\":\"月报\",\"url\":\"/ai-news-daily/ai-trending/2026-05-ai-trending-monthly/\"},{\"title\":\"GitHub Trending 中文解读 — 2026-06-05\",\"description\":\"headroom 登顶解决 LLM token 压缩痛点；Hermes Agent 与 ECC 双框架上榜；GitHub 官方推出 spec-kit 和 copilot-sdk\",\"tags\":[\"LLM\",\"Agent\",\"AI-Coding\"],\"date\":\"2026/6/5\",\"type\":\"Trending\",\"url\":\"/ai-news-daily/github-trending/2026-06-05-github-trending/\"},{\"title\":\"AI 日报 — 2026-06-04\",\"description\":\"Google Gemma 4 12B 开启笔记本多模态时代，Ideogram 4.0 开源，Trump 签令要求 AI 安全审查\",\"tags\":[\"Agent\",\"开源\",\"AI治理\"],\"date\":\"2026/6/4\",\"type\":\"日报\",\"url\":\"/ai-news-daily/ai-trending/2026-06-04-ai-trending/\"},{\"title\":\"GitHub Trending 中文解读 — 2026-06-04\",\"description\":\"Agent 基础设施爆发：headroom 压缩 LLM 上下文 60-95%，ECC 成为 Agent harness 性能优化标杆\",\"tags\":[\"Agent\",\"LLM\",\"AI-Coding\"],\"date\":\"2026/6/4\",\"type\":\"Trending\",\"url\":\"/ai-news-daily/github-trending/2026-06-04-github-trending/\"},{\"title\":\"AI 日报 — 2026-06-03\",\"description\":\"微软 MAI 模型与 Agent OS 战略发布、阿里 Qwen3.7-Plus 多模态入局、OpenAI Codex 插件生态开放、Anthropic Glasswing 全球扩张\",\"tags\":[\"Agent\",\"LLM\",\"AI-Coding\"],\"date\":\"2026/6/3\",\"type\":\"日报\",\"url\":\"/ai-news-daily/ai-trending/2026-06-03-ai-trending/\"},{\"title\":\"AI 2026 H1 半年报\",\"description\":\"2026 上半年 AI 行业回顾：Anthropic IPO、NVIDIA 物理 AI 全栈、微软 Agent 战略、AI Coding 白热化、Agent 安全实战化\",\"tags\":[\"Agent\",\"LLM\",\"Anthropic\",\"NVIDIA\"],\"date\":\"2026/6/3\",\"type\":\"月报\",\"url\":\"/ai-news-daily/ai-trending/2026-06-ai-trending-monthly/\"},{\"title\":\"GitHub Trending 中文解读 — 2026-06-03\",\"description\":\"Token 压缩工具登顶、微软 markitdown 持续爆发、Agent 性能优化系统 ECC 20 万 star\",\"tags\":[\"Agent\",\"LLM\",\"RAG\",\"TTS\",\"安全\"],\"date\":\"2026/6/3\",\"type\":\"Trending\",\"url\":\"/ai-news-daily/github-trending/2026-06-03-github-trending/\"},{\"title\":\"AI 日报 — 2026-06-02\",\"description\":\"Anthropic 提交 IPO、MiniMax M3 发布、NVIDIA Computex 密集发布、AWS Bedrock AgentCore 全栈上线\",\"tags\":[\"Agent\",\"LLM\"],\"date\":\"2026/6/2\",\"type\":\"日报\",\"url\":\"/ai-news-daily/ai-trending/2026-06-02-ai-trending/\"},{\"title\":\"GitHub Trending 中文解读 — 2026-06-02\",\"description\":\"Agent 工具链爆发、LLM 训练平民化、文件→Markdown 成为 AI 基础设施\",\"tags\":[\"开源\",\"Agent\",\"LLM\",\"TTS\"],\"date\":\"2026/6/2\",\"type\":\"Trending\",\"url\":\"/ai-news-daily/github-trending/2026-06-02-github-trending/\"},{\"title\":\"GitHub Trending 月报 — 2026 年 5 月\",\"description\":\"5 月 GitHub 月榜：AI Coding 工具链全面爆发，Agent 记忆/知识图谱成新基础设施\",\"tags\":[\"Agent\",\"AI-Coding\",\"开源\"],\"date\":\"2026/5/31\",\"type\":\"Trending\",\"url\":\"/ai-news-daily/github-trending/2026-05-github-trending-monthly/\"}]";
+
+  (function() {
+    const data = JSON.parse(searchData);
+    const input = document.getElementById("search-input");
+    const results = document.getElementById("search-results");
+    const meta = document.getElementById("search-meta");
+    if (!input || !results) return;
+
+    function tokenize(q) { return q.split(/\s+/).filter(Boolean); }
+
+    function score(item, tokens) {
+      let s = 0;
+      const tl = item.title.toLowerCase();
+      const dl = item.description.toLowerCase();
+      for (const t of tokens) {
+        if (tl.includes(t)) s += 10;         // title match: high weight
+        else if (tl.includes(t.toLowerCase())) s += 10;
+        if (dl.includes(t)) s += 3;           // description match: medium weight
+        if (item.tags.some(tag => tag.toLowerCase().includes(t))) s += 5; // tag match
+        // Bonus for exact match
+        if (tl === t || item.tags.some(tag => tag.toLowerCase() === t)) s += 15;
+      }
+      return s;
+    }
+
+    function highlight(text, tokens) {
+      if (!tokens.length) return text;
+      const escaped = tokens.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+      const re = new RegExp(`(${escaped.join('|')})`, 'gi');
+      return text.replace(re, '<mark class="bg-accent/20 text-accent rounded-sm px-0.5">$1</mark>');
+    }
+
+    let timer;
+    input.addEventListener("input", () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        const q = input.value.trim();
+        if (!q) {
+          results.innerHTML = '<p class="text-muted-foreground text-sm">输入关键词开始搜索</p>';
+          meta.textContent = '';
+          return;
+        }
+        const tokens = tokenize(q.toLowerCase());
+        const scored = data
+          .map(item => ({ item, score: score(item, tokens) }))
+          .filter(r => r.score > 0)
+          .sort((a, b) => b.score - a.score || b.item.date.localeCompare(a.item.date));
+
+        meta.textContent = scored.length ? `找到 ${scored.length} 条结果` : '未找到匹配结果';
+
+        if (!scored.length) {
+          results.innerHTML = '<p class="text-muted-foreground text-sm">未找到匹配结果，尝试其他关键词</p>';
+          return;
+        }
+        results.innerHTML = scored.map(({ item, score }) => {
+          const tagStr = item.tags.slice(0, 4).map(t => '<span class="bg-muted text-muted-foreground rounded-full px-1.5 py-0.5 text-[10px]">' + t + '</span>').join('');
+          return '<a href="' + item.url + '" class="border-border hover:border-accent block rounded-lg border p-4 transition-colors">' +
+            '<div class="flex items-center gap-2">' +
+            '<span class="bg-muted text-muted-foreground shrink-0 rounded px-1.5 py-0.5 text-xs font-mono">' + item.type + '</span>' +
+            '<span class="text-accent font-medium text-sm">' + highlight(item.title, tokens) + '</span>' +
+            '</div>' +
+            '<div class="text-muted-foreground mt-1.5 text-xs">' + item.date +
+            (item.description ? ' — ' + highlight(item.description, tokens).slice(0, 120) : '') + '</div>' +
+            (item.tags.length ? '<div class="mt-2 flex flex-wrap gap-1">' + tagStr + '</div>' : '') +
+            '</a>';
+        }).join("");
+      }, 200); // 200ms debounce
+    });
+  })();
+})();</script>

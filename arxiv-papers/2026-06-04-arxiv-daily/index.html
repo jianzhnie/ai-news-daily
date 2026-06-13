@@ -1,0 +1,353 @@
+<!DOCTYPE html><html lang="zh" data-theme="light"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>ArXiv Daily — 2026-06-04 — AI News Daily</title><meta name="description" content="Agentic AI 论文大爆发：MIRAGE 隐式推理世界模型、AutoLab 长期任务基准、UltraEP 机架级 MoE 训练"><meta name="generator" content="Astro v6.4.2"><!-- Open Graph --><meta property="og:title" content="ArXiv Daily — 2026-06-04 — AI News Daily"><meta property="og:description" content="Agentic AI 论文大爆发：MIRAGE 隐式推理世界模型、AutoLab 长期任务基准、UltraEP 机架级 MoE 训练"><meta property="og:type" content="website"><meta property="og:url" content="https://jianzhnie.github.io/ai-news-daily/arxiv-papers/2026-06-04-arxiv-daily/"><meta property="og:image" content="https://jianzhnie.github.io/ai-news-daily/favicon.svg"><!-- Twitter Card --><meta name="twitter:card" content="summary"><meta name="twitter:title" content="ArXiv Daily — 2026-06-04 — AI News Daily"><meta name="twitter:description" content="Agentic AI 论文大爆发：MIRAGE 隐式推理世界模型、AutoLab 长期任务基准、UltraEP 机架级 MoE 训练"><link rel="canonical" href="https://jianzhnie.github.io/ai-news-daily/arxiv-papers/2026-06-04-arxiv-daily/"><link rel="icon" type="image/svg+xml" href="/ai-news-daily/favicon.svg"><link rel="sitemap" href="/ai-news-daily/sitemap-index.xml"><link rel="alternate" type="application/rss+xml" title="AI News Daily RSS" href="/ai-news-daily/rss.xml"><script>
+      (function () {
+        const theme = localStorage.getItem("theme") || "light";
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script><link rel="stylesheet" href="/ai-news-daily/assets/Layout.Do8_-0LF.css"></head> <body class="bg-background text-foreground mx-auto min-h-screen max-w-3xl px-4 py-8 antialiased"> <header class="border-border flex flex-wrap items-center justify-between gap-y-3 border-b pb-4"> <a href="/ai-news-daily/" class="text-accent text-xl font-bold no-underline shrink-0"> AI News Daily </a> <div class="flex items-center gap-3"> <nav class="hidden md:flex items-center gap-3 text-sm"> <a href="/ai-news-daily/ai-trending/" class="hover:text-accent transition-colors text-muted-foreground"> AI-Trending </a><a href="/ai-news-daily/github-trending/" class="hover:text-accent transition-colors text-muted-foreground"> Github-Trending </a><a href="/ai-news-daily/arxiv-papers/" class="hover:text-accent transition-colors text-accent font-semibold"> ArXiv </a><a href="/ai-news-daily/deepresearch/" class="hover:text-accent transition-colors text-muted-foreground"> DeepResearch </a><a href="/ai-news-daily/wiki/" class="hover:text-accent transition-colors text-muted-foreground"> Wiki </a><a href="/ai-news-daily/tags/" class="hover:text-accent transition-colors text-muted-foreground"> Tags </a><a href="/ai-news-daily/archives/" class="hover:text-accent transition-colors text-muted-foreground"> Archives </a> </nav> <a href="/ai-news-daily/search/" class="text-muted-foreground hover:text-accent text-sm" title="搜索"> <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="5"></circle><path d="M11 11l3 3"></path></svg> </a> <button id="theme-toggle" class="text-muted-foreground hover:text-accent cursor-pointer text-sm" aria-label="切换主题">🌓</button> </div> <!-- Mobile nav --> <nav class="md:hidden flex flex-wrap gap-x-3 gap-y-1 text-sm w-full"> <a href="/ai-news-daily/ai-trending/" class="hover:text-accent transition-colors text-muted-foreground"> AI-Trending </a><a href="/ai-news-daily/github-trending/" class="hover:text-accent transition-colors text-muted-foreground"> Github-Trending </a><a href="/ai-news-daily/arxiv-papers/" class="hover:text-accent transition-colors text-accent font-semibold"> ArXiv </a><a href="/ai-news-daily/deepresearch/" class="hover:text-accent transition-colors text-muted-foreground"> DeepResearch </a><a href="/ai-news-daily/wiki/" class="hover:text-accent transition-colors text-muted-foreground"> Wiki </a><a href="/ai-news-daily/tags/" class="hover:text-accent transition-colors text-muted-foreground"> Tags </a><a href="/ai-news-daily/archives/" class="hover:text-accent transition-colors text-muted-foreground"> Archives </a> </nav> </header> <main class="mt-8">  <article class="app-prose mx-auto max-w-none"> <header class="border-border mb-8 border-b pb-6"> <h1 class="text-accent text-2xl font-bold leading-tight">ArXiv Daily — 2026-06-04</h1> <div class="text-muted-foreground mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm"> <time datetime="2026-06-04T00:00:00.000Z"> 2026年6月4日 </time> <span>约 24 分钟阅读</span> </div> <div class="mt-3 flex flex-wrap gap-1.5"> <a href="/ai-news-daily/tags/Agent/" class="bg-muted hover:bg-card text-muted-foreground hover:text-accent rounded-full border border-border hover:border-accent px-2 py-0.5 text-xs transition-colors no-underline">Agent</a><a href="/ai-news-daily/tags/LLM/" class="bg-muted hover:bg-card text-muted-foreground hover:text-accent rounded-full border border-border hover:border-accent px-2 py-0.5 text-xs transition-colors no-underline">LLM</a><a href="/ai-news-daily/tags/MoE/" class="bg-muted hover:bg-card text-muted-foreground hover:text-accent rounded-full border border-border hover:border-accent px-2 py-0.5 text-xs transition-colors no-underline">MoE</a><a href="/ai-news-daily/tags/Quantization/" class="bg-muted hover:bg-card text-muted-foreground hover:text-accent rounded-full border border-border hover:border-accent px-2 py-0.5 text-xs transition-colors no-underline">Quantization</a><a href="/ai-news-daily/tags/RAG/" class="bg-muted hover:bg-card text-muted-foreground hover:text-accent rounded-full border border-border hover:border-accent px-2 py-0.5 text-xs transition-colors no-underline">RAG</a> </div> </header> <h1 id="arxiv-daily--2026-06-04">ArXiv Daily — 2026-06-04</h1>
+<blockquote>
+<p>40 篇论文 | cs.AI / cs.LG / cs.CL / cs.CV / cs.DC</p>
+</blockquote>
+<h2 id="今日概览">今日概览</h2>
+<p>今日 ArXiv 呈现 <strong>Agentic AI 全面爆发</strong>的态势。cs.AI 单分类即涌现十余篇 Agent 相关研究，涵盖隐式推理世界模型 (<a href="https://arxiv.org/abs/2606.04627">MIRAGE</a>)、自进化参数化记忆 (<a href="https://arxiv.org/abs/2606.04536">TMEM</a>)、长期自主研究基准 (<a href="https://arxiv.org/abs/2606.05080">AutoLab</a>)、MCP-native 生物医学代理 (<a href="https://arxiv.org/abs/2606.04494">BioManus</a>) 等。与此同时，<strong>推理效率</strong>仍是高频主题：投机解码 (<a href="https://arxiv.org/abs/2606.04446">D^2SD</a>)、稀疏注意力 (<a href="https://arxiv.org/abs/2606.04511">SparDA</a>)、连续比特宽度量化 (<a href="https://arxiv.org/abs/2606.04050">LiftQuant</a>) 三管齐下。系统层面，<a href="https://arxiv.org/abs/2606.04101">UltraEP</a> 首次实现机架级 MoE 近最优负载均衡，将专家并行推向新高度。</p>
+<hr>
+<h2 id="-必读论文">★★★ 必读论文</h2>
+<h3 id="ultraep-unleash-moe-training-and-inference-on-rack-scale-nodes-with-near-optimal-load-balancing"><a href="https://arxiv.org/abs/2606.04101">UltraEP: Unleash MoE Training and Inference on Rack-Scale Nodes with Near-Optimal Load Balancing</a></h3>
+<ul>
+<li><strong>摘要</strong>: 提出机架级专家并行系统，通过近最优负载均衡解决 MoE 训练中的设备级负载不均、计算拖尾和 All-to-All 通信瓶颈。</li>
+<li><strong>核心创新</strong>: 现有专家并行 (EP) 在机架级扩展时，设备级专家负载不均会放大为计算拖尾、token All-to-All 瓶颈和激活内存尖峰。UltraEP 设计了接近理论最优的负载均衡策略，在机架规模节点上实现 MoE 训练和推理的高效扩展，为前沿 MoE 模型的大规模部署提供关键基础设施。</li>
+<li><strong>开源</strong>: 未提及</li>
+</ul>
+<h3 id="mirage-mobile-agents-with-implicit-reasoning-and-generative-world-models"><a href="https://arxiv.org/abs/2606.04627">MIRAGE: Mobile Agents with Implicit Reasoning and Generative World Models</a></h3>
+<ul>
+<li><strong>摘要</strong>: 将显式链式思考转化为紧凑隐式状态，让移动 Agent 在不解码长推理过程的情况下进行内部推理，并引入生成式世界模型对齐潜在推理与未来屏幕状态。</li>
+<li><strong>核心创新</strong>: 现有移动 Agent 依赖显式 CoT 进行推理，导致大量 token 开销。MIRAGE 将显式推理转化为紧凑隐式状态，使 Agent 能够内部推理而无需解码长推理链。同时引入生成式世界模型目标，将潜在推理与未来屏幕状态对齐。在 AndroidWorld 上匹配显式 CoT 性能的同时，解码 token 预算降低 3-5 倍；在 AndroidControl 上，动作定位准确率提升的同时 token 减少 75% 以上。</li>
+<li><strong>开源</strong>: 未提及</li>
+</ul>
+<h3 id="autolab-can-frontier-models-solve-long-horizon-auto-research-and-engineering-tasks"><a href="https://arxiv.org/abs/2606.05080">AutoLab: Can Frontier Models Solve Long-Horizon Auto Research and Engineering Tasks?</a></h3>
+<ul>
+<li><strong>摘要</strong>: 构建 36 个真实长期研究工程任务基准，发现前沿 Agent 的成功率关键不在于初始尝试质量，而在于持续迭代优化和整合实证反馈的 persistence。</li>
+<li><strong>核心创新</strong>: 现有 Agent 基准多为短期任务，无法反映真实研究工程的长期复杂性。AutoLab 构建 36 个跨越系统优化、谜题挑战、模型开发和 CUDA 内核优化的真实任务。关键发现：成功的首要预测因子不是 Agent 初始尝试的质量，而是其在反复基准测试、编辑和整合实证反馈中的 persistence。揭示了当前前沿模型在长期自主研究工程方面的能力与差距。</li>
+<li><strong>开源</strong>: 未提及</li>
+</ul>
+<hr>
+<h2 id="分类速览">分类速览</h2>
+<h3 id="️-模型架构">🏗️ 模型架构</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>评级</th><th>论文</th><th>一句话总结</th><th align="center">代码</th></tr></thead><tbody><tr><td>★★☆</td><td><a href="https://arxiv.org/abs/2606.04032">Do Transformers Need Three Projections? Systematic Study of QKV Variants</a></td><td>系统评估 QKV 投影共享约束：Q-K=V、Q=K-V、Q=K=V 三种变体，探索 Transformer 架构简化空间</td><td align="center">-</td></tr><tr><td>★★☆</td><td><a href="https://arxiv.org/abs/2606.04048">Unlocking Feature Learning in Gated Delta Networks at Scale</a></td><td>推导出 Gated Delta Network 的 scaling rules，实验确认配置可实现稳定学习率迁移</td><td align="center">-</td></tr><tr><td>★★☆</td><td><a href="https://arxiv.org/abs/2606.04058">Spectral Scaling Laws of Muon</a></td><td>追踪 77M 到 2.8B 参数模型的动量缓冲奇异值分位数，揭示 Muon 优化器的一致频谱 scaling 规律</td><td align="center">-</td></tr><tr><td>★★☆</td><td><a href="https://arxiv.org/abs/2606.04719">Query-based Cross-Modal Projector Bolstering Mamba Multimodal LLM</a></td><td>用查询式跨模态投影器增强 Mamba 多模态 LLM，缓解 Transformer 二次复杂度问题</td><td align="center">-</td></tr><tr><td>★☆☆</td><td><a href="https://arxiv.org/abs/2606.04180">KODA: Contrastive Representation Comparison and Alignment for Vision-Language Foundation Models</a></td><td>基于核优化的差异分析框架，用于视觉-语言基础模型的对比表示对齐</td><td align="center">-</td></tr></tbody></table>
+<h3 id="-训练与系统">🚀 训练与系统</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>评级</th><th>论文</th><th>一句话总结</th><th align="center">代码</th></tr></thead><tbody><tr><td>★★☆</td><td><a href="https://arxiv.org/abs/2606.04415">FlexNPU: Transparent NPU Virtualization for Dynamic LLM Prefill-Decode Co-location</a></td><td>透明 NPU 虚拟化技术，实现 LLM 预填充与解码的动态共置，提升 AI 服务基础设施效率</td><td align="center">-</td></tr><tr><td>★★☆</td><td><a href="https://arxiv.org/abs/2606.01143">Schedule-Level Shared-Prefix Reuse for LLM RL Training</a></td><td>GRPO 后训练中同 prompt 多轨迹采样的共享前缀调度级复用，提升 RL 训练效率</td><td align="center">-</td></tr><tr><td>★★☆</td><td><a href="https://arxiv.org/abs/2604.17709">DeInfer: Efficient Parallel Inferencing for Decomposed Large Language Models</a></td><td>分解式 LLM 的高效并行推理，解决现有分解工作主要关注下游任务性能而非推理效率的问题</td><td align="center">-</td></tr><tr><td>★★☆</td><td><a href="https://arxiv.org/abs/2606.04594">Ekka: Automated Diagnosis of Silent Errors in LLM Inference</a></td><td>自动化诊断 LLM 推理中的静默错误，应对快速演进的复杂软件栈和大量优化</td><td align="center">-</td></tr><tr><td>★☆☆</td><td><a href="https://arxiv.org/abs/2512.10236">Design Space Exploration of DMA based Finer-Grain Compute Communication Overlap</a></td><td>基于 DMA 的细粒度计算通信重叠设计空间探索，面向现代 ML 工作负载多 GPU 分布需求</td><td align="center">-</td></tr></tbody></table>
+<h3 id="-推理与效率">⚡ 推理与效率</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>评级</th><th>论文</th><th>一句话总结</th><th align="center">代码</th></tr></thead><tbody><tr><td>★★☆</td><td><a href="https://arxiv.org/abs/2606.04446">D^2SD: Accelerating Speculative Decoding with Dual Diffusion Draft Models</a></td><td>双扩散草稿模型加速投机解码，通过双草稿模型并行生成候选 token 提升验证效率</td><td align="center">-</td></tr><tr><td>★★☆</td><td><a href="https://arxiv.org/abs/2606.04511">SparDA: Sparse Decoupled Attention for Efficient Long-Context LLM Inference</a></td><td>稀疏解耦注意力，降低长上下文 LLM 推理的计算和内存带宽开销</td><td align="center">-</td></tr><tr><td>★★☆</td><td><a href="https://arxiv.org/abs/2606.04050">LiftQuant: Continuous Bit-Width LLM via Dimensional Lifting and Projection</a></td><td>通过维度提升和投影实现连续比特宽度控制，获得真正的帕累托最优部署</td><td align="center">-</td></tr><tr><td>★★☆</td><td><a href="https://arxiv.org/abs/2606.04349">MorphoQuant: Modality-Aware Quantization for Omni-modal Large Language Models</a></td><td>模态感知量化，解决 4-bit 全模态 LLM 因跨模态分布异质性和异常值模式差异导致的 PTQ 困难</td><td align="center">-</td></tr><tr><td>★★☆</td><td><a href="https://arxiv.org/abs/2606.04581">Multi-SPIN: Multi-Access Speculative Inference for Cooperative Token Generation at the Edge</a></td><td>边缘场景多接入投机推理，多设备协作生成 token 加速 LLM 推理</td><td align="center">-</td></tr><tr><td>★★☆</td><td><a href="https://arxiv.org/abs/2606.04238">Recover-LoRA for Aggressive Quantization: Reclaiming Accuracy in 2-Bit Language Models via Low-Rank Adaptation with Knowledge Distillation on Synthetic Data</a></td><td>2-bit 激进量化 + LoRA 知识蒸馏恢复精度，仅对 MLP 门控和上投影层量化到 2-bit</td><td align="center">-</td></tr><tr><td>★★☆</td><td><a href="https://arxiv.org/abs/2605.01910">Stochastic Sparse Attention for Memory-Bound Inference</a></td><td>随机稀疏注意力，缓解长上下文自回归解码的 KV Cache 带宽瓶颈</td><td align="center">-</td></tr><tr><td>★☆☆</td><td><a href="https://arxiv.org/abs/2606.04115">dMX: Differentiable Mixed-Precision Assignment for Low-Precision Floating-Point Formats</a></td><td>可微混合精度分配，为低精度浮点格式学习可变的比特宽度</td><td align="center">-</td></tr><tr><td>★☆☆</td><td><a href="https://arxiv.org/abs/2606.04063">LLM Compression with Jointly Optimizing Architectural and Quantization choices</a></td><td>可微 NAS 框架联合优化架构配置和混合精度量化</td><td align="center">-</td></tr></tbody></table>
+<h3 id="-agent-与应用">🤖 Agent 与应用</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>评级</th><th>论文</th><th>一句话总结</th><th align="center">代码</th></tr></thead><tbody><tr><td>★★☆</td><td><a href="https://arxiv.org/abs/2606.04536">Scaling Self-Evolving Agents via Parametric Memory</a></td><td>TMEM 自进化参数化记忆，Agent 通过轻量级在线更新将监督信号吸收到快速 LoRA 权重中，单集内真正改变未来行为</td><td align="center">-</td></tr><tr><td>★★☆</td><td><a href="https://arxiv.org/abs/2606.04455">The Meta-Agent Challenge: Are Current Agents Capable of Autonomous Agent Development?</a></td><td>测试前沿模型能否自主开发 Agent 系统，发现 Meta-Agent 很少达到人工基线，高优化压力会诱发对抗行为</td><td align="center">-</td></tr><tr><td>★★☆</td><td><a href="https://arxiv.org/abs/2606.04494">Beyond Prompt-Based Planning: MCP-Native Graph Planning-based Biomedical Agent System</a></td><td>BioManus，MCP-native 生物医学代理，BioinfoMCP 编译器将异质生物信息软件转为标准化 MCP 服务器，上下文压缩比 Θ(N/(h·m̄))</td><td align="center">-</td></tr><tr><td>★★☆</td><td><a href="https://arxiv.org/abs/2606.04513">MapAgent: An Industrial-Grade Agentic Framework for City-scale Lane-level Map Generation</a></td><td>Baidu Maps 工业级 Agent 框架，Judge-Planner-Worker 循环下确定性地图编辑，支持 360+ 城市、95%+ 生产自动化</td><td align="center">-</td></tr><tr><td>★★☆</td><td><a href="https://arxiv.org/abs/2606.04120">SaliMory: Orchestrating Cognitive Memory for Conversational Agents</a></td><td>对话 Agent 的认知记忆编排系统，维护跨所有交互的持久记忆</td><td align="center">-</td></tr><tr><td>★★☆</td><td><a href="https://arxiv.org/abs/2606.04315">Exploring Cross-Scenario Generality of Agentic Memory Systems: Diagnostics and a Strong Baseline</a></td><td>重新审视 8 个记忆系统跨 5 个场景，发现 Agent 主动控制存储检索的记忆性能最佳，提出 AutoMEM</td><td align="center">-</td></tr><tr><td>★★☆</td><td><a href="https://arxiv.org/abs/2606.04484">AgentJet: A Flexible Swarm Training Framework for Agentic Reinforcement Learning</a></td><td>解耦多节点集群训练框架，支持异构多模型 RL、多任务鸡尾酒训练、容错执行，1.5-10x 训练加速</td><td align="center">-</td></tr><tr><td>★★☆</td><td><a href="https://arxiv.org/abs/2606.04391">Online Skill Learning for Web Agents via State-Grounded Dynamic Retrieval</a></td><td>状态感知动态检索实现 Web Agent 逐步技能复用，GPT-4.1 在 WebArena 上达 37.5% 成功率</td><td align="center">-</td></tr><tr><td>★★☆</td><td><a href="https://arxiv.org/abs/2606.04579">SCI-PRM: A Tool Aware Process Reward Model for Scientific Reasoning Verification</a></td><td>构建 SCIPRM70K 数据集，Chain-of-Tool 轨迹交错推理与科学工具执行，提供细粒度工具选择、执行准确性监督</td><td align="center">-</td></tr><tr><td>★★☆</td><td><a href="https://arxiv.org/abs/2606.04435">Cascading Hallucination in Agentic RAG: The CHARM Framework for Detection and Mitigation</a></td><td>形式化 Agentic RAG 中的级联幻觉，CHARM 实现 89.4% 级联检测率和 82.1% 错误传播降低</td><td align="center">-</td></tr><tr><td>★★☆</td><td><a href="https://arxiv.org/abs/2606.04302">LazyAttention: Efficient Retrieval-Augmented Generation with Deferred Positional Encoding</a></td><td>延迟位置编码的高效 RAG，通过推迟 KV cache 的位置编码降低推理开销</td><td align="center">-</td></tr><tr><td>★☆☆</td><td><a href="https://arxiv.org/abs/2606.04465">SePO: Self-Evolving Prompt Agent for System Prompt Optimization</a></td><td>自进化提示代理优化系统提示，无需修改底层模型</td><td align="center">-</td></tr><tr><td>★☆☆</td><td><a href="https://arxiv.org/abs/2606.04193">Notarized Agents: Receiver-Attested Confidential Receipts for AI Agent Actions</a></td><td>接收方验证的保密收据，解决 AI Agent 可观察性中活动日志生产者与被记录实体相同的结构性问题</td><td align="center">-</td></tr><tr><td>★☆☆</td><td><a href="https://arxiv.org/abs/2606.01138">memorywire: A Vendor-Neutral Wire Format for Agent Memory Operations</a></td><td>Agent 内存操作的无厂商中性线格式，统一 mem0、Letta/MemGPT、Cognee 等异构内存框架</td><td align="center">-</td></tr></tbody></table>
+<h3 id="️-安全与对齐">🛡️ 安全与对齐</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>评级</th><th>论文</th><th>一句话总结</th><th align="center">代码</th></tr></thead><tbody><tr><td>★★☆</td><td><a href="https://arxiv.org/abs/2606.04168">When Autoregressive Consistency Hurts Safety Alignment</a></td><td>揭示自回归一致性会破坏安全对齐：下一 token 预测倾向于保留和延伸当前响应轨迹，导致有害内容持续生成</td><td align="center">-</td></tr><tr><td>★★☆</td><td><a href="https://arxiv.org/abs/2606.04807">BiasGRPO: Stabilizing Bias Mitigation in High-Variance Reward Landscapes via Group-Relative Policy Optimization</a></td><td>GRPO 稳定化偏见缓解，跨多个基准优于 DPO 和 PPO</td><td align="center">-</td></tr><tr><td>★★☆</td><td><a href="https://arxiv.org/abs/2606.04160">Expert-Aware Refusal Steering</a></td><td>专家感知拒绝引导，提升指令微调 LLM 对有害请求的可靠拒绝能力</td><td align="center">-</td></tr><tr><td>★☆☆</td><td><a href="https://arxiv.org/abs/2606.04778">Inference-Time Vulnerability Beyond Shallow Safety: Alignment Along Generation Trajectories</a></td><td>揭示浅层安全只是更广泛的推理时漏洞特例，短 token 注入可在任意生成步骤改变后续安全行为</td><td align="center">-</td></tr><tr><td>★☆☆</td><td><a href="https://arxiv.org/abs/2606.04051">RUBAS: Rubric-Based Reinforcement Learning for Agent Safety</a></td><td>基于量规的强化学习 Agent 安全，将 Agent 行为分解为工具使用安全、参数安全、响应安全和有用性四个维度</td><td align="center">-</td></tr></tbody></table>
+<hr>
+<h2 id="统计">统计</h2>
+<ul>
+<li>总计 <strong>40 篇</strong> | ★★★ <strong>3 篇</strong> | ★★☆ <strong>24 篇</strong> | ★☆☆ <strong>13 篇</strong></li>
+<li>来源：cs.AI / cs.LG / cs.CL / cs.CV / cs.DC</li>
+<li>今日标签：<code>Agentic-AI</code>, <code>Inference-Efficiency</code>, <code>MoE-Scaling</code>, <code>Agent-Memory</code>, <code>Quantization</code></li>
+</ul> </article>  </main> <footer class="border-border text-muted-foreground mt-12 border-t pt-6 text-center text-sm"> <p>
+&copy; 2026 AI News Daily &mdash;
+    由 <a href="https://github.com/jianzhnie/AI-News-Daily" class="text-accent hover:underline no-external-icon">AI-News-Daily</a> 驱动
+</p> <p class="mt-1"> <a href="/ai-news-daily/rss.xml" class="text-accent hover:underline">RSS 订阅</a> </p> </footer> <button id="back-to-top" class="bg-card border-border hover:bg-muted text-muted-foreground hover:text-foreground fixed right-6 bottom-6 z-50 hidden rounded-full border p-2.5 shadow-sm transition-all" aria-label="回到顶部"> <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12V4M4 8l4-4 4 4"></path></svg> </button> <script>
+  const toggle = document.getElementById("theme-toggle");
+  if (toggle) {
+    toggle.addEventListener("click", () => {
+      const current = document.documentElement.dataset.theme;
+      const next = current === "dark" ? "light" : "dark";
+      document.documentElement.dataset.theme = next;
+      localStorage.setItem("theme", next);
+    });
+  }
+  const btn = document.getElementById("back-to-top");
+  if (btn) {
+    window.addEventListener("scroll", () => {
+      btn.classList.toggle("hidden", window.scrollY < 300);
+    });
+    btn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  }
+</script></body></html>

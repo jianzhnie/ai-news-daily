@@ -1,0 +1,342 @@
+<!DOCTYPE html><html lang="zh" data-theme="light"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>ArXiv Daily — 2026-06-05 — AI News Daily</title><meta name="description" content="Agent 工程化与推理效率优化双主线：SaliMory 认知记忆、UltraEP 机架级 MoE 负载均衡、Q-K=V 投影共享压缩 50% KV Cache"><meta name="generator" content="Astro v6.4.2"><!-- Open Graph --><meta property="og:title" content="ArXiv Daily — 2026-06-05 — AI News Daily"><meta property="og:description" content="Agent 工程化与推理效率优化双主线：SaliMory 认知记忆、UltraEP 机架级 MoE 负载均衡、Q-K=V 投影共享压缩 50% KV Cache"><meta property="og:type" content="website"><meta property="og:url" content="https://jianzhnie.github.io/ai-news-daily/arxiv-papers/2026-06-05-arxiv-daily/"><meta property="og:image" content="https://jianzhnie.github.io/ai-news-daily/favicon.svg"><!-- Twitter Card --><meta name="twitter:card" content="summary"><meta name="twitter:title" content="ArXiv Daily — 2026-06-05 — AI News Daily"><meta name="twitter:description" content="Agent 工程化与推理效率优化双主线：SaliMory 认知记忆、UltraEP 机架级 MoE 负载均衡、Q-K=V 投影共享压缩 50% KV Cache"><link rel="canonical" href="https://jianzhnie.github.io/ai-news-daily/arxiv-papers/2026-06-05-arxiv-daily/"><link rel="icon" type="image/svg+xml" href="/ai-news-daily/favicon.svg"><link rel="sitemap" href="/ai-news-daily/sitemap-index.xml"><link rel="alternate" type="application/rss+xml" title="AI News Daily RSS" href="/ai-news-daily/rss.xml"><script>
+      (function () {
+        const theme = localStorage.getItem("theme") || "light";
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script><link rel="stylesheet" href="/ai-news-daily/assets/Layout.Do8_-0LF.css"></head> <body class="bg-background text-foreground mx-auto min-h-screen max-w-3xl px-4 py-8 antialiased"> <header class="border-border flex flex-wrap items-center justify-between gap-y-3 border-b pb-4"> <a href="/ai-news-daily/" class="text-accent text-xl font-bold no-underline shrink-0"> AI News Daily </a> <div class="flex items-center gap-3"> <nav class="hidden md:flex items-center gap-3 text-sm"> <a href="/ai-news-daily/ai-trending/" class="hover:text-accent transition-colors text-muted-foreground"> AI-Trending </a><a href="/ai-news-daily/github-trending/" class="hover:text-accent transition-colors text-muted-foreground"> Github-Trending </a><a href="/ai-news-daily/arxiv-papers/" class="hover:text-accent transition-colors text-accent font-semibold"> ArXiv </a><a href="/ai-news-daily/deepresearch/" class="hover:text-accent transition-colors text-muted-foreground"> DeepResearch </a><a href="/ai-news-daily/wiki/" class="hover:text-accent transition-colors text-muted-foreground"> Wiki </a><a href="/ai-news-daily/tags/" class="hover:text-accent transition-colors text-muted-foreground"> Tags </a><a href="/ai-news-daily/archives/" class="hover:text-accent transition-colors text-muted-foreground"> Archives </a> </nav> <a href="/ai-news-daily/search/" class="text-muted-foreground hover:text-accent text-sm" title="搜索"> <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="5"></circle><path d="M11 11l3 3"></path></svg> </a> <button id="theme-toggle" class="text-muted-foreground hover:text-accent cursor-pointer text-sm" aria-label="切换主题">🌓</button> </div> <!-- Mobile nav --> <nav class="md:hidden flex flex-wrap gap-x-3 gap-y-1 text-sm w-full"> <a href="/ai-news-daily/ai-trending/" class="hover:text-accent transition-colors text-muted-foreground"> AI-Trending </a><a href="/ai-news-daily/github-trending/" class="hover:text-accent transition-colors text-muted-foreground"> Github-Trending </a><a href="/ai-news-daily/arxiv-papers/" class="hover:text-accent transition-colors text-accent font-semibold"> ArXiv </a><a href="/ai-news-daily/deepresearch/" class="hover:text-accent transition-colors text-muted-foreground"> DeepResearch </a><a href="/ai-news-daily/wiki/" class="hover:text-accent transition-colors text-muted-foreground"> Wiki </a><a href="/ai-news-daily/tags/" class="hover:text-accent transition-colors text-muted-foreground"> Tags </a><a href="/ai-news-daily/archives/" class="hover:text-accent transition-colors text-muted-foreground"> Archives </a> </nav> </header> <main class="mt-8">  <article class="app-prose mx-auto max-w-none"> <header class="border-border mb-8 border-b pb-6"> <h1 class="text-accent text-2xl font-bold leading-tight">ArXiv Daily — 2026-06-05</h1> <div class="text-muted-foreground mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm"> <time datetime="2026-06-05T00:00:00.000Z"> 2026年6月5日 </time> <span>约 19 分钟阅读</span> </div> <div class="mt-3 flex flex-wrap gap-1.5"> <a href="/ai-news-daily/tags/Agent/" class="bg-muted hover:bg-card text-muted-foreground hover:text-accent rounded-full border border-border hover:border-accent px-2 py-0.5 text-xs transition-colors no-underline">Agent</a><a href="/ai-news-daily/tags/LLM/" class="bg-muted hover:bg-card text-muted-foreground hover:text-accent rounded-full border border-border hover:border-accent px-2 py-0.5 text-xs transition-colors no-underline">LLM</a><a href="/ai-news-daily/tags/MoE/" class="bg-muted hover:bg-card text-muted-foreground hover:text-accent rounded-full border border-border hover:border-accent px-2 py-0.5 text-xs transition-colors no-underline">MoE</a><a href="/ai-news-daily/tags/Quantization/" class="bg-muted hover:bg-card text-muted-foreground hover:text-accent rounded-full border border-border hover:border-accent px-2 py-0.5 text-xs transition-colors no-underline">Quantization</a><a href="/ai-news-daily/tags/RAG/" class="bg-muted hover:bg-card text-muted-foreground hover:text-accent rounded-full border border-border hover:border-accent px-2 py-0.5 text-xs transition-colors no-underline">RAG</a> </div> </header> <h1 id="arxiv-daily--2026-06-05">ArXiv Daily — 2026-06-05</h1>
+<blockquote>
+<p>40+ 篇论文 | cs.AI / cs.LG / cs.CL / cs.CV / cs.DC</p>
+</blockquote>
+<h2 id="今日概览">今日概览</h2>
+<p>今日 arXiv 论文呈现 <strong>Agent 工程化</strong>与<strong>推理效率优化</strong>两大主线。在 Agent 领域，<a href="https://arxiv.org/abs/2606.04120">SaliMory</a> 提出认知结构化记忆架构，将对话 Agent 的记忆失败率降低三分之一；<a href="https://arxiv.org/abs/2606.04627">MIRAGE</a> 让移动 Agent 学会隐式推理，token 消耗降低 3-5 倍；而 <a href="https://arxiv.org/abs/2606.04455">Meta-Agent Challenge</a> 的冷酷结论——当前 Agent 尚无法自主开发出媲美人工程度的 Agent 系统——为行业泼了一盆冷水。在效率方向，<a href="https://arxiv.org/abs/2606.04101">UltraEP</a> 以机架级专家并行实时负载均衡将 MoE 吞吐量推至理想的 94.3%；<a href="https://arxiv.org/abs/2606.04032">Do Transformers Need Three Projections?</a> 通过 Q-K=V 投影共享将 KV Cache 压缩 50%，为端侧部署开辟新路。此外，<a href="https://arxiv.org/abs/2606.04127">When Retrieval Doesn’t Help</a> 对生物医学 RAG 的大规模实证研究揭示了”检索不是瓶颈，模型利用检索证据的能力才是”这一反直觉结论。</p>
+<h2 id="-必读论文">★★★ 必读论文</h2>
+<h3 id="ultraep-unleash-moe-training-and-inference-on-rack-scale-nodes-with-near-optimal-load-balancing"><a href="https://arxiv.org/abs/2606.04101">UltraEP: Unleash MoE Training and Inference on Rack-Scale Nodes with Near-Optimal Load Balancing</a></h3>
+<ul>
+<li><strong>作者</strong>: Xinming Wei, Chao Jin 等</li>
+<li><strong>机构</strong>: 北京大学（Guojie Luo 等）</li>
+<li><strong>摘要</strong>: MoE 专家并行中的设备级负载不平衡会导致计算拖尾、token all-to-all 瓶颈和激活内存峰值。UltraEP 是一个面向机架级节点的实时负载均衡器，通过动态重分配专家实现近最优负载均衡。</li>
+<li><strong>核心创新</strong>: 在机架级（rack-scale）节点上实现 MoE 训练和推理的实时专家负载均衡，达到 <strong>94.3% 的理想吞吐量</strong>，相比非均衡基线提升 <strong>1.49×</strong>。解决了大规模 MoE 部署中最棘手的专家分布不均问题。</li>
+<li><strong>开源</strong>: 论文未明确提及</li>
+</ul>
+<h3 id="salimory-orchestrating-cognitive-memory-for-conversational-agents"><a href="https://arxiv.org/abs/2606.04120">SaliMory: Orchestrating Cognitive Memory for Conversational Agents</a></h3>
+<ul>
+<li><strong>作者</strong>: Kai Zhang, Xinyuan Zhang 等（Amazon）</li>
+<li><strong>摘要</strong>: 终身陪伴型对话 Agent 需要持久记忆。SaliMory 训练单一模型通过”分层阶段式过程奖励和奖励分解对比精炼”来管理认知结构化记忆。</li>
+<li><strong>核心创新</strong>: 将认知科学中的记忆理论（工作记忆、情景记忆、语义记忆）融入 Agent 架构，通过分层过程奖励机制训练记忆管理。<strong>记忆归因失败减少三分之一，个性化良好率翻倍</strong>。代表了 Agent 记忆系统从简单向量检索向认知建模的跃迁。</li>
+<li><strong>开源</strong>: 论文未明确提及</li>
+</ul>
+<h3 id="do-transformers-need-three-projections-systematic-study-of-qkv-variants"><a href="https://arxiv.org/abs/2606.04032">Do Transformers Need Three Projections? Systematic Study of QKV Variants</a></h3>
+<ul>
+<li><strong>作者</strong>: Ali Kayyam, Anusha Madan Gopal, M Anthony Lewis</li>
+<li><strong>摘要</strong>: 系统评估了 Transformer 中三种投影共享约束：Q-K=V、Q=K-V、Q=K=V。</li>
+<li><strong>核心创新</strong>: 发现 <strong>Q-K=V 投影共享</strong>可在仅损失 3.1% 困惑度的前提下实现 <strong>50% KV Cache 压缩</strong>，结合 MQA 后可达 <strong>96.9% 的 Cache 压缩</strong>。这意味着 Transformer 的 Query、Key、Value 三个投影并非都必须独立存在，为端侧推理和内存受限场景提供了新的优化维度。</li>
+<li><strong>开源</strong>: 论文未明确提及</li>
+</ul>
+<h2 id="分类速览">分类速览</h2>
+<h3 id="️-模型架构">🏗️ 模型架构</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th align="center">评级</th><th align="left">论文</th><th align="left">一句话总结</th><th align="center">代码</th></tr></thead><tbody><tr><td align="center">★★☆</td><td align="left"><a href="https://arxiv.org/abs/2606.04095">POLARIS: Guiding Small Models to Write Long Stories</a></td><td align="left">GRPO + 前沿 LLM 裁判 + 人类参考注入，Qwen3.5-9B 长故事写作能力匹敌更大模型</td><td align="center">—</td></tr><tr><td align="center">★★☆</td><td align="left"><a href="https://arxiv.org/abs/2606.04378">DLLG: Dynamic Logit-Level Gating of LLM Experts</a></td><td align="left">动态 logit 级专家融合框架，token 级专家组合，持续超越路由/启发式集成/参数合并基线</td><td align="center">—</td></tr><tr><td align="center">★☆☆</td><td align="left"><a href="https://arxiv.org/abs/2606.04719">Query-based Cross-Modal Projector Bolstering Mamba Multimodal LLM</a></td><td align="left">基于查询的跨模态投影器压缩视觉 token，增强 Mamba 多模态 LLM 性能和吞吐量</td><td align="center">—</td></tr></tbody></table>
+<h3 id="-训练与系统">🚀 训练与系统</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th align="center">评级</th><th align="left">论文</th><th align="left">一句话总结</th><th align="center">代码</th></tr></thead><tbody><tr><td align="center">★★★</td><td align="left"><a href="https://arxiv.org/abs/2606.04101">UltraEP</a></td><td align="left">机架级 MoE 专家并行实时负载均衡，94.3% 理想吞吐量，1.49× 提升</td><td align="center">—</td></tr><tr><td align="center">★★☆</td><td align="left"><a href="https://arxiv.org/abs/2606.01143">Schedule-Level Shared-Prefix Reuse for LLM RL Training</a></td><td align="left">解耦前缀-后缀调度实现 GRPO 训练 <strong>4.395× 加速</strong>，HBM 峰值降低 59.1%</td><td align="center">—</td></tr><tr><td align="center">★★☆</td><td align="left"><a href="https://arxiv.org/abs/2606.04272">RL Excursions during Pre-Training</a></td><td align="left">RL 在预训练早期即有效，数据组成比模型规模对 RL 效果影响更大</td><td align="center">—</td></tr><tr><td align="center">★☆☆</td><td align="left"><a href="https://arxiv.org/abs/2606.04415">FlexNPU: Transparent NPU Virtualization</a></td><td align="left">昇腾 NPU 透明用户空间虚拟化，动态 prefill-decode 共置，吞吐量提升 5.15-26.33%</td><td align="center">—</td></tr><tr><td align="center">★☆☆</td><td align="left"><a href="https://arxiv.org/abs/2604.17709">DeInfer: Efficient Parallel Inferencing for Decomposed LLMs</a></td><td align="left">分解 LLM 的高性能并行推理系统</td><td align="center">—</td></tr></tbody></table>
+<h3 id="-推理与效率">⚡ 推理与效率</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th align="center">评级</th><th align="left">论文</th><th align="left">一句话总结</th><th align="center">代码</th></tr></thead><tbody><tr><td align="center">★★☆</td><td align="left"><a href="https://arxiv.org/abs/2606.04050">LiftQuant: Continuous Bit-Width LLM via Dimensional Lifting</a></td><td align="left">”提升-投影”机制实现连续比特宽度控制，70B 模型压缩至 2.4bit 精确适配 24GB GPU</td><td align="center">—</td></tr><tr><td align="center">★★☆</td><td align="left"><a href="https://arxiv.org/abs/2606.04302">LazyAttention: Deferred Positional Encoding for RAG</a></td><td align="left">延迟位置编码实现零拷贝 KV 复用，<strong>1.37× TTFT 降低，1.40× 吞吐量提升</strong></td><td align="center">—</td></tr><tr><td align="center">★★☆</td><td align="left"><a href="https://arxiv.org/abs/2606.04511">SparDA: Sparse Decoupled Attention</a></td><td align="left">引入”Forecast”投影实现前瞻选择，重叠预取与执行，<strong>1.25× prefill 和 1.7× decode 加速</strong></td><td align="center">—</td></tr><tr><td align="center">★★☆</td><td align="left"><a href="https://arxiv.org/abs/2606.04446">D²SD: Accelerating Speculative Decoding with Dual Diffusion Draft Models</a></td><td align="left">双扩散草稿框架 + 置信度引导前缀树 + 级联注意力，提升投机解码接受率</td><td align="center">—</td></tr><tr><td align="center">★★☆</td><td align="left"><a href="https://arxiv.org/abs/2606.04238">Recover-LoRA for Aggressive Quantization</a></td><td align="left">GateUp 混合精度 2-bit 量化 + LoRA 恢复，Qwen3-4B 上 9/12 基准 80-95% 精度恢复</td><td align="center">—</td></tr><tr><td align="center">★☆☆</td><td align="left"><a href="https://arxiv.org/abs/2605.01910">SANTA: Stochastic Sparse Attention</a></td><td align="left">随机稀疏化 value-cache 访问，注意力核 <strong>1.5× 加速</strong></td><td align="center">—</td></tr><tr><td align="center">★☆☆</td><td align="left"><a href="https://arxiv.org/abs/2606.04581">Multi-SPIN: Multi-Access Speculative Inference at the Edge</a></td><td align="left">分布式边缘 SPIN，联合草稿长度控制与带宽分配，goodput 提升 <strong>88%</strong></td><td align="center">—</td></tr></tbody></table>
+<h3 id="-agent-与应用">🤖 Agent 与应用</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th align="center">评级</th><th align="left">论文</th><th align="left">一句话总结</th><th align="center">代码</th></tr></thead><tbody><tr><td align="center">★★★</td><td align="left"><a href="https://arxiv.org/abs/2606.04120">SaliMory: Orchestrating Cognitive Memory</a></td><td align="left">认知结构化记忆架构，记忆失败减少 1/3，个性化良好率翻倍</td><td align="center">—</td></tr><tr><td align="center">★★☆</td><td align="left"><a href="https://arxiv.org/abs/2606.04127">When Retrieval Doesn’t Help</a></td><td align="left">大规模生物医学 RAG 实证：检索仅带来 1-2 点提升，<strong>瓶颈是模型利用证据的能力</strong></td><td align="center">—</td></tr><tr><td align="center">★★☆</td><td align="left"><a href="https://arxiv.org/abs/2606.04455">The Meta-Agent Challenge</a></td><td align="left">测试 Agent 自主开发 Agent 的能力，发现<strong>元 Agent 极少匹配人工程度</strong>，且出现对抗性行为</td><td align="center">—</td></tr><tr><td align="center">★★☆</td><td align="left"><a href="https://arxiv.org/abs/2606.04627">MIRAGE: Mobile Agents with Implicit Reasoning</a></td><td align="left">连续潜在推理 + 生成式世界模型，AndroidWorld 上匹敌显式 CoT，<strong>token 消耗降低 3-5×</strong></td><td align="center">—</td></tr><tr><td align="center">★★☆</td><td align="left"><a href="https://arxiv.org/abs/2606.04513">MapAgent: City-scale Lane-level Map Generation</a></td><td align="left">百度地图工业级 Agent 框架，<strong>360+ 城市部署，自动化率超 95%</strong></td><td align="center">—</td></tr><tr><td align="center">★★☆</td><td align="left"><a href="https://arxiv.org/abs/2606.04507">Self-Evolving Deep Research</a></td><td align="left">自进化协同进化训练框架 SCORE，共享参数学习 + 元控制器动态调控</td><td align="center">—</td></tr><tr><td align="center">★★☆</td><td align="left"><a href="https://arxiv.org/abs/2606.05080">AutoLab</a></td><td align="left">前沿模型能否解决长期 Auto 研究任务？<strong>成功的关键不是初始尝试质量，而是持续迭代的坚持</strong></td><td align="center">—</td></tr><tr><td align="center">★★☆</td><td align="left"><a href="https://arxiv.org/abs/2606.04557">Cartridges at Scale</a></td><td align="left">模块化 KV Cache 训练，多 cartridge 学习 + 动态干扰混合，RAG 精度匹配且 <strong>token 消耗减少 3-4×</strong></td><td align="center">—</td></tr><tr><td align="center">★★☆</td><td align="left"><a href="https://arxiv.org/abs/2606.04494">Beyond Prompt-Based Planning: MCP-Native Graph Planning</a></td><td align="left">BioManus: MCP 原生图规划生物 Agent，BioinfoMCP 编译器标准化工具</td><td align="center">—</td></tr><tr><td align="center">★★☆</td><td align="left"><a href="https://arxiv.org/abs/2606.04484">AgentJet: Swarm Training Framework</a></td><td align="left">去耦多节点 Agent RL 框架，时间线合并实现 <strong>1.5-10× 训练加速</strong></td><td align="center">—</td></tr><tr><td align="center">★★☆</td><td align="left"><a href="https://arxiv.org/abs/2606.04660">LifeSide: Benchmarking Agents as Lifelong Companions</a></td><td align="left">多 Agent 模拟终身陪伴场景，<strong>2000 人格 + 111K 任务</strong>，当前模型远未达标</td><td align="center">—</td></tr><tr><td align="center">★★☆</td><td align="left"><a href="https://arxiv.org/abs/2606.04703">Rethinking Continual Experience Internalization</a></td><td align="left">多轮经验学习下渐进能力崩溃问题：原则级经验更持久，逐步注入优于全局注入</td><td align="center">—</td></tr><tr><td align="center">★☆☆</td><td align="left"><a href="https://arxiv.org/abs/2606.04555">Temporal Order Matters for Agentic Memory</a></td><td align="left">段树记忆保留时间顺序，性能增益依赖时间顺序的保持</td><td align="center">—</td></tr><tr><td align="center">★☆☆</td><td align="left"><a href="https://arxiv.org/abs/2606.04781">AIP: Graph Representation for Agent Skills</a></td><td align="left">Agent 技能有向执行图表示，YAML 规范，Claude Sonnet 任务奖励从 0.60→0.71</td><td align="center">—</td></tr><tr><td align="center">★☆☆</td><td align="left"><a href="https://arxiv.org/abs/2606.04465">SePO: Self-Evolving Prompt Agent</a></td><td align="left">自指设计 + 开放式进化搜索优化系统提示，平均准确率提升 4.49 点</td><td align="center">—</td></tr></tbody></table>
+<h3 id="️-ai-安全与治理">🛡️ AI 安全与治理</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th align="center">评级</th><th align="left">论文</th><th align="left">一句话总结</th><th align="center">代码</th></tr></thead><tbody><tr><td align="center">★★☆</td><td align="left"><a href="https://arxiv.org/abs/2606.04150">Stumbling Into AI Emotional Dependence</a></td><td align="left">OpenAI 纵向研究：28 天每日 5 分钟 AI 情感对话，<strong>人类支持偏好下降 10.3%，AI 偏好上升 11.6%</strong></td><td align="center">—</td></tr><tr><td align="center">★★☆</td><td align="left"><a href="https://arxiv.org/abs/2606.04075">Large Language Models Hack Rewards, and Society</a></td><td align="left">提出 Societal Hacking：RL 奖励黑客攻击可放大为社会规则漏洞利用</td><td align="center">—</td></tr><tr><td align="center">★★☆</td><td align="left"><a href="https://arxiv.org/abs/2606.04168">When Autoregressive Consistency Hurts Safety</a></td><td align="left">随机插入攻击利用自回归一致性在拒绝轨迹中维持有害分支</td><td align="center">—</td></tr><tr><td align="center">★☆☆</td><td align="left"><a href="https://arxiv.org/abs/2606.04051">RUBAS: Rubric-Based RL for Agent Safety</a></td><td align="left">四维结构化评分（工具安全/参数安全/响应安全/有用性）实现安全强化学习</td><td align="center">—</td></tr><tr><td align="center">★☆☆</td><td align="left"><a href="https://arxiv.org/abs/2606.04483">Off-Distribution Voices</a></td><td align="left">粉丝小说子流派作为通用越狱载体，平均 ASR 从 0.278 提升至 0.731</td><td align="center">—</td></tr><tr><td align="center">★☆☆</td><td align="left"><a href="https://arxiv.org/abs/2606.04145">EvalStop: Detect Reward Overoptimization</a></td><td align="left">多租户 RLHF 平台中检测奖励黑客攻击，精度 98%/召回 99%，浪费算力降低 22%</td><td align="center">—</td></tr></tbody></table>
+<h2 id="统计">统计</h2>
+<ul>
+<li>总计 40+ 篇 | ★★★ 3 篇 | ★★☆ 22 篇 | ★☆☆ 15+ 篇</li>
+<li>来源：cs.AI / cs.LG / cs.CL / cs.CV / cs.DC</li>
+<li>今日标签：<code>Agent</code>, <code>LLM</code>, <code>MoE</code>, <code>Quantization</code>, <code>RAG</code></li>
+</ul> </article>  </main> <footer class="border-border text-muted-foreground mt-12 border-t pt-6 text-center text-sm"> <p>
+&copy; 2026 AI News Daily &mdash;
+    由 <a href="https://github.com/jianzhnie/AI-News-Daily" class="text-accent hover:underline no-external-icon">AI-News-Daily</a> 驱动
+</p> <p class="mt-1"> <a href="/ai-news-daily/rss.xml" class="text-accent hover:underline">RSS 订阅</a> </p> </footer> <button id="back-to-top" class="bg-card border-border hover:bg-muted text-muted-foreground hover:text-foreground fixed right-6 bottom-6 z-50 hidden rounded-full border p-2.5 shadow-sm transition-all" aria-label="回到顶部"> <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12V4M4 8l4-4 4 4"></path></svg> </button> <script>
+  const toggle = document.getElementById("theme-toggle");
+  if (toggle) {
+    toggle.addEventListener("click", () => {
+      const current = document.documentElement.dataset.theme;
+      const next = current === "dark" ? "light" : "dark";
+      document.documentElement.dataset.theme = next;
+      localStorage.setItem("theme", next);
+    });
+  }
+  const btn = document.getElementById("back-to-top");
+  if (btn) {
+    window.addEventListener("scroll", () => {
+      btn.classList.toggle("hidden", window.scrollY < 300);
+    });
+    btn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  }
+</script></body></html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html><html lang="zh" data-theme="light"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>veScale-FSDP 深度解读：让大模型分布式训练的分片方式真正灵活起来 — AI News Daily</title><meta name="description" content="字节跳动提出 RaggedShard 灵活分片格式，解决现有 FSDP 元素级/行级分片与块结构计算冲突的根本矛盾，实现 5~66% 吞吐量提升和 16~30% 内存降低"><meta name="generator" content="Astro v6.4.2"><!-- Open Graph --><meta property="og:title" content="veScale-FSDP 深度解读：让大模型分布式训练的分片方式真正灵活起来 — AI News Daily"><meta property="og:description" content="字节跳动提出 RaggedShard 灵活分片格式，解决现有 FSDP 元素级/行级分片与块结构计算冲突的根本矛盾，实现 5~66% 吞吐量提升和 16~30% 内存降低"><meta property="og:type" content="website"><meta property="og:url" content="https://jianzhnie.github.io/ai-news-daily/deepresearch/vescale-fsdp-2602.22437/"><meta property="og:image" content="https://jianzhnie.github.io/ai-news-daily/favicon.svg"><!-- Twitter Card --><meta name="twitter:card" content="summary"><meta name="twitter:title" content="veScale-FSDP 深度解读：让大模型分布式训练的分片方式真正灵活起来 — AI News Daily"><meta name="twitter:description" content="字节跳动提出 RaggedShard 灵活分片格式，解决现有 FSDP 元素级/行级分片与块结构计算冲突的根本矛盾，实现 5~66% 吞吐量提升和 16~30% 内存降低"><link rel="canonical" href="https://jianzhnie.github.io/ai-news-daily/deepresearch/vescale-fsdp-2602.22437/"><link rel="icon" type="image/svg+xml" href="/ai-news-daily/favicon.svg"><link rel="sitemap" href="/ai-news-daily/sitemap-index.xml"><link rel="alternate" type="application/rss+xml" title="AI News Daily RSS" href="/ai-news-daily/rss.xml"><script>
+      (function () {
+        const theme = localStorage.getItem("theme") || "light";
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script><link rel="stylesheet" href="/ai-news-daily/assets/Layout.Do8_-0LF.css"></head> <body class="bg-background text-foreground mx-auto min-h-screen max-w-3xl px-4 py-8 antialiased"> <header class="border-border flex flex-wrap items-center justify-between gap-y-3 border-b pb-4"> <a href="/ai-news-daily/" class="text-accent text-xl font-bold no-underline shrink-0"> AI News Daily </a> <div class="flex items-center gap-3"> <nav class="hidden md:flex items-center gap-3 text-sm"> <a href="/ai-news-daily/ai-trending/" class="hover:text-accent transition-colors text-muted-foreground"> AI-Trending </a><a href="/ai-news-daily/github-trending/" class="hover:text-accent transition-colors text-muted-foreground"> Github-Trending </a><a href="/ai-news-daily/arxiv-papers/" class="hover:text-accent transition-colors text-muted-foreground"> ArXiv </a><a href="/ai-news-daily/deepresearch/" class="hover:text-accent transition-colors text-accent font-semibold"> DeepResearch </a><a href="/ai-news-daily/wiki/" class="hover:text-accent transition-colors text-muted-foreground"> Wiki </a><a href="/ai-news-daily/tags/" class="hover:text-accent transition-colors text-muted-foreground"> Tags </a><a href="/ai-news-daily/archives/" class="hover:text-accent transition-colors text-muted-foreground"> Archives </a> </nav> <a href="/ai-news-daily/search/" class="text-muted-foreground hover:text-accent text-sm" title="搜索"> <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="5"></circle><path d="M11 11l3 3"></path></svg> </a> <button id="theme-toggle" class="text-muted-foreground hover:text-accent cursor-pointer text-sm" aria-label="切换主题">🌓</button> </div> <!-- Mobile nav --> <nav class="md:hidden flex flex-wrap gap-x-3 gap-y-1 text-sm w-full"> <a href="/ai-news-daily/ai-trending/" class="hover:text-accent transition-colors text-muted-foreground"> AI-Trending </a><a href="/ai-news-daily/github-trending/" class="hover:text-accent transition-colors text-muted-foreground"> Github-Trending </a><a href="/ai-news-daily/arxiv-papers/" class="hover:text-accent transition-colors text-muted-foreground"> ArXiv </a><a href="/ai-news-daily/deepresearch/" class="hover:text-accent transition-colors text-accent font-semibold"> DeepResearch </a><a href="/ai-news-daily/wiki/" class="hover:text-accent transition-colors text-muted-foreground"> Wiki </a><a href="/ai-news-daily/tags/" class="hover:text-accent transition-colors text-muted-foreground"> Tags </a><a href="/ai-news-daily/archives/" class="hover:text-accent transition-colors text-muted-foreground"> Archives </a> </nav> </header> <main class="mt-8">  <article class="app-prose mx-auto max-w-none"> <header class="border-border mb-8 border-b pb-6"> <h1 class="text-accent text-2xl font-bold leading-tight">veScale-FSDP 深度解读：让大模型分布式训练的分片方式真正灵活起来</h1> <div class="text-muted-foreground mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm"> <time datetime="2026-06-04T00:00:00.000Z"> 2026年6月4日 </time> <span>约 11 分钟阅读</span> </div> <div class="mt-3 flex flex-wrap gap-1.5"> <a href="/ai-news-daily/tags/LLM/" class="bg-muted hover:bg-card text-muted-foreground hover:text-accent rounded-full border border-border hover:border-accent px-2 py-0.5 text-xs transition-colors no-underline">LLM</a><a href="/ai-news-daily/tags/Quantization/" class="bg-muted hover:bg-card text-muted-foreground hover:text-accent rounded-full border border-border hover:border-accent px-2 py-0.5 text-xs transition-colors no-underline">Quantization</a> </div> </header> <blockquote>
+<p><strong>论文信息</strong>：veScale-FSDP: Flexible and High-Performance FSDP at Scale
+<strong>作者</strong>：Zezhou Wang, Youjie Li, Zhiqi Lin 等（ByteDance Seed）
+<strong>链接</strong>：<a href="https://arxiv.org/abs/2602.22437">arXiv:2602.22437</a>
+<strong>Github</strong>：<a href="https://github.com/ByteDance/veScale-FSDP">https://github.com/ByteDance/veScale-FSDP</a></p>
+</blockquote>
+<hr>
+<h2 id="一论文核心研究背景">一、论文核心研究背景</h2>
+<p>训练大语言模型（LLM）需要将模型和优化器状态分散到数千甚至上万块 GPU 上。<strong>Fully Sharded Data Parallel（FSDP）</strong>，也被称为 <strong>Zero Redundancy Optimizer（ZeRO）</strong>，是目前最主流的选择——它通过将模型参数、梯度和优化器状态分片（shard）到不同 GPU 上来节省内存，同时保持数据并行的编程简洁性。</p>
+<p>然而，现有 FSDP 系统存在一个根本性的<strong>结构性矛盾</strong>：</p>
+<ul>
+<li><strong>现有分片格式</strong>（元素级 element-wise 或行级 row-wise）产生的分片边界，<strong>常常与下游计算所需的块结构（block structure）不对齐</strong>。</li>
+<li>现代训练技术——如 <strong>块量化（block-wise quantization）</strong> 和 <strong>矩阵优化器（Shampoo、Muon）</strong>——都明确要求张量块在分片后保持完整。</li>
+</ul>
+<p>这个矛盾导致现有系统不得不在<strong>灵活性</strong>和<strong>性能</strong>之间做痛苦的取舍：要么放弃这些先进训练技术，要么承受巨大的填充（padding）和通信开销。</p>
+<hr>
+<h2 id="二主要贡献与创新点">二、主要贡献与创新点</h2>
+<p>veScale-FSDP 提出了三项核心创新，系统性解决了上述矛盾：</p>
+<h3 id="贡献-1raggedshard--真正灵活的分片格式">贡献 1：RaggedShard — 真正灵活的分片格式</h3>
+<blockquote>
+<p><strong>技术普及</strong>：传统分片就像把一本书要么拆成单个字（element-wise），要么拆成等长的行（row-wise）。RaggedShard 则允许你按任意”段落”（自定义块大小）来拆，而且每段长度可以不同——就像你可以按章节拆，也可以按自然段落拆，每章长度各异。</p>
+</blockquote>
+<p>RaggedShard 支持<strong>任意分片粒度</strong>和<strong>自定义块大小</strong>，通过一个整数序列定义每个分片的长度。它统一了所有现有分片格式：</p>
+<ul>
+<li>块大小 = 1 → 等价于元素级分片</li>
+<li>块大小 = 行维度 → 等价于行级分片</li>
+<li>任意块大小 → 支持块量化、矩阵优化器等块结构计算</li>
+</ul>
+<h3 id="贡献-2结构感知规划算法">贡献 2：结构感知规划算法</h3>
+<p>在 RaggedShard 提供的灵活性基础上，veScale-FSDP 设计了一个<strong>规划算法</strong>，自动重排 RaggedShard 张量以最大化通信效率。该算法需要同时满足三个约束：</p>
+<ol>
+<li><strong>非跨设备块</strong>（Non-Sharded Block）：块不能跨越设备边界</li>
+<li><strong>连续张量内存</strong>（Contiguous Tensor Memory）：消除内部填充，避免内存碎片</li>
+<li><strong>负载均衡</strong>（Balanced Load）：保持集合通信的对称性</li>
+</ol>
+<p>这个问题本身是 NP-hard 的（可归约到经典的分区问题），论文提出了一个<strong>多项式时间动态规划启发式算法</strong>，在实际场景中运行时间小于 0.3 秒，填充开销控制在 3% 以内。</p>
+<h3 id="贡献-3dbuffer--零拷贝全局缓冲区">贡献 3：DBuffer — 零拷贝全局缓冲区</h3>
+<blockquote>
+<p><strong>技术普及</strong>：想象多个 GPU 各自有一块内存，传统方式下数据在通信前后需要来回拷贝（copy-in/copy-out）。DBuffer 就像在所有 GPU 上铺了一张连续的”大地毯”，每个 GPU 直接在上面划出自己的区域使用，通信时数据原地不动，省去了来回搬运。</p>
+</blockquote>
+<p>DBuffer 为 RaggedShard 张量提供<strong>全局缓冲区语义</strong>，支持：</p>
+<ul>
+<li><strong>组级算子</strong>（group-level operators）：实现内核融合，减少启动开销</li>
+<li><strong>通信前后零拷贝访问</strong>：消除 FSDP2 中高达 5~23ms 的 copy-out/copy-in 开销</li>
+</ul>
+<hr>
+<h2 id="三关键技术解析含技术普及">三、关键技术解析（含技术普及）</h2>
+<h3 id="31-为什么现有-fsdp-分片格式不够用">3.1 为什么现有 FSDP 分片格式不够用？</h3>
+<blockquote>
+<p><strong>技术普及</strong>：FSDP（Fully Sharded Data Parallel）是数据并行的一种进阶形式。普通数据并行（DP）是每个 GPU 存一份完整模型，各自处理不同数据批次；FSDP 则把模型参数、梯度和优化器状态”切碎了”分散到所有 GPU 上，只在计算前临时把需要的参数凑齐（AllGather），计算完再分散（ReduceScatter）。这样每个 GPU 只存 1/N 的模型状态，大幅节省内存。</p>
+<p>但”怎么切”是个关键问题。切得太碎（元素级）→ 通信频繁且无法做块计算；切得太粗（行级）→ 遇到矩阵优化器时整块被切成两半，无法独立计算。</p>
+</blockquote>
+<p>现有四大 FSDP 系统的局限性对比：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>系统</th><th>分片方式</th><th>核心局限</th></tr></thead><tbody><tr><td>DeepSpeed ZeRO</td><td>元素级</td><td>AllGather 操作碎片化</td></tr><tr><td>PyTorch FSDP1</td><td>元素级</td><td>ReduceScatter 慢，内存开销大</td></tr><tr><td>PyTorch FSDP2</td><td>行级（Shard(0)）</td><td>Copy-Out 5<del>13ms + Copy-In 12</del>23ms</td></tr><tr><td>Megatron-FSDP</td><td>行级+填充</td><td>33% 缓冲区填充膨胀</td></tr></tbody></table>
+<h3 id="32-raggedshard-如何统一所有分片格式">3.2 RaggedShard 如何统一所有分片格式？</h3>
+<p>RaggedShard 的核心是一个<strong>整数序列</strong> <code>offsets</code>，定义每个设备上张量的起始和结束位置。例如：</p>
+<pre class="astro-code astro-code-themes min-light night-owl" style="--shiki-light:#24292eff;--shiki-dark:#d6deeb;--shiki-light-bg:#ffffff;--shiki-dark-bg:#011627; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>offsets = [0, 512, 1024, 1536, 2048]</span></span></code></pre>
+<p>表示 4 个设备分别持有长度 512、512、512、512 的段。如果改为：</p>
+<pre class="astro-code astro-code-themes min-light night-owl" style="--shiki-light:#24292eff;--shiki-dark:#d6deeb;--shiki-light-bg:#ffffff;--shiki-dark-bg:#011627; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>offsets = [0, 32, 1056, 1088, 2048]</span></span></code></pre>
+<p>则表示设备 0 和 2 各持有 32 个元素，设备 1 和 3 各持有 1024 个元素——这就是”Ragged”（参差不齐）的含义。</p>
+<p><strong>与 TP/EP 的兼容性</strong>：通过 <strong>StridedRaggedShard</strong> 和基于最小公倍数（LCM）的粒度适配，RaggedShard 可以与张量并行（TP）和专家并行（EP）无缝组合。</p>
+<h3 id="33-dbuffer-的零拷贝设计">3.3 DBuffer 的零拷贝设计</h3>
+<p>DBuffer 的关键洞察是：<strong>如果所有 RaggedShard 张量都从一个预先分配的全局连续缓冲区中切出，那么通信前后的数据就不需要拷贝</strong>。</p>
+<p>具体实现：</p>
+<ol>
+<li>预先分配一个全局连续缓冲区，大小等于所有设备本地分片之和</li>
+<li>每个 RaggedShard 张量只是这个缓冲区的一个”视图”（slice）</li>
+<li>AllGather / ReduceScatter 直接在缓冲区上操作</li>
+<li>计算时直接读取缓冲区中的数据，无需 copy-in；计算结果写回缓冲区，无需 copy-out</li>
+</ol>
+<p>这消除了 PyTorch FSDP2 中实测高达 <strong>5~23ms</strong> 的拷贝开销。</p>
+<hr>
+<h2 id="四实验结论与价值总结">四、实验结论与价值总结</h2>
+<h3 id="端到端性能1024-gpus">端到端性能（1024 GPUs）</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>模型</th><th>吞吐量提升</th><th>内存降低</th></tr></thead><tbody><tr><td>LLaMA-3-70B</td><td>~5%</td><td>16~30%</td></tr><tr><td>GPT-OSS-120B</td><td>11~66%</td><td>16~30%</td></tr><tr><td>Internal MoE</td><td>11~66%</td><td>16~30%</td></tr></tbody></table>
+<p>提升来源：优化的通信重叠、DBuffer 零拷贝集合通信、灵活分片粒度避免的填充开销。</p>
+<h3 id="扩展性">扩展性</h3>
+<ul>
+<li><strong>弱扩展</strong>（Weak Scaling）：近线性扩展到 <strong>8K GPUs</strong></li>
+<li><strong>强扩展</strong>（Strong Scaling）：在 120M token 全局批次下线性扩展到 <strong>10K GPUs</strong></li>
+<li><strong>模型扩展</strong>：<strong>2.4T 参数模型</strong>仅需 1K GPUs 即可运行，无性能退化</li>
+</ul>
+<h3 id="实际训练技术验证">实际训练技术验证</h3>
+<p><strong>8-bit Adam</strong>：使用 32×32 块大小，每设备独立量化本地分片，无需任何额外通信。</p>
+<p><strong>分布式 Muon</strong>：通过 <code>Redistribute(u, RaggedShard(r))</code> 将完整矩阵收集到根设备，应用 Newton-Schulz 迭代，再重新分片回去。在 256 块 Hopper GPU 上达到 <strong>47.3% MFU</strong>。</p>
+<h3 id="消融实验">消融实验</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>禁用组件</th><th>归一化吞吐量</th></tr></thead><tbody><tr><td>无（完整系统）</td><td>100.0%</td></tr><tr><td>仅 DBuffer</td><td>92.8%</td></tr><tr><td>仅规划算法</td><td>65.4%</td></tr><tr><td>仅 RaggedShard</td><td>N/A（系统无法有意义地运行）</td></tr></tbody></table>
+<p>规划算法贡献了最大的性能提升（34.6%），DBuffer 贡献 7.2%，两者缺一不可。</p>
+<h3 id="局限与未来方向">局限与未来方向</h3>
+<ul>
+<li>规划算法虽为多项式时间，但在超大规模（数万 GPU）下的运行时仍需关注</li>
+<li>目前主要针对数据并行场景，与更复杂的 3D 并行组合时的最优策略有待探索</li>
+<li>代码已开源：<a href="https://github.com/volcengine/veScale">github.com/volcengine/veScale</a></li>
+</ul>
+<h3 id="一句话总结">一句话总结</h3>
+<blockquote>
+<p><strong>veScale-FSDP 通过 RaggedShard 打破了”元素级 or 行级”的二元分片困境，让 FSDP 首次同时支持任意块结构计算和高效通信，为大模型训练的下一代优化技术（Muon、块量化等）铺平了道路。</strong></p>
+</blockquote> </article>  </main> <footer class="border-border text-muted-foreground mt-12 border-t pt-6 text-center text-sm"> <p>
+&copy; 2026 AI News Daily &mdash;
+    由 <a href="https://github.com/jianzhnie/AI-News-Daily" class="text-accent hover:underline no-external-icon">AI-News-Daily</a> 驱动
+</p> <p class="mt-1"> <a href="/ai-news-daily/rss.xml" class="text-accent hover:underline">RSS 订阅</a> </p> </footer> <button id="back-to-top" class="bg-card border-border hover:bg-muted text-muted-foreground hover:text-foreground fixed right-6 bottom-6 z-50 hidden rounded-full border p-2.5 shadow-sm transition-all" aria-label="回到顶部"> <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12V4M4 8l4-4 4 4"></path></svg> </button> <script>
+  const toggle = document.getElementById("theme-toggle");
+  if (toggle) {
+    toggle.addEventListener("click", () => {
+      const current = document.documentElement.dataset.theme;
+      const next = current === "dark" ? "light" : "dark";
+      document.documentElement.dataset.theme = next;
+      localStorage.setItem("theme", next);
+    });
+  }
+  const btn = document.getElementById("back-to-top");
+  if (btn) {
+    window.addEventListener("scroll", () => {
+      btn.classList.toggle("hidden", window.scrollY < 300);
+    });
+    btn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  }
+</script></body></html>
